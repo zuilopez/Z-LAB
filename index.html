@@ -28,7 +28,7 @@ main{margin:0 auto;padding:16px 14px 90px;display:grid;grid-template-columns:min
 #right{min-width:0;border-left:1px solid var(--ln);padding-left:24px}
 main.nodiv #right{border-left:0}
 .glass{position:relative;background:var(--reed),color-mix(in srgb,var(--card) calc(var(--op)*var(--gk,1)*100%),transparent);-webkit-backdrop-filter:blur(calc(var(--blur)*var(--gk,1))) saturate(var(--sat));backdrop-filter:blur(calc(var(--blur)*var(--gk,1))) saturate(var(--sat));border:var(--bw,1px) solid var(--bc2,color-mix(in srgb,#fff 28%,transparent));box-shadow:var(--gsh),var(--fsh,0 0 0 0 transparent);border-radius:var(--rad,20px)}
-html.disp .glass{-webkit-backdrop-filter:blur(var(--blur)) saturate(var(--sat)) url(#gd);backdrop-filter:blur(var(--blur)) saturate(var(--sat)) url(#gd)}
+html.disp .glass{-webkit-backdrop-filter:blur(calc(var(--blur)*var(--gk,1))) saturate(var(--sat)) var(--gdf,url(#gd));backdrop-filter:blur(calc(var(--blur)*var(--gk,1))) saturate(var(--sat)) var(--gdf,url(#gd))}
 .block{margin-bottom:var(--bgap,14px);min-height:var(--bh,0px);overflow:hidden;display:flex;flex-direction:column}
 .block header{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:12px 14px;border-bottom:1px solid var(--ln)}
 .block.over{outline:2px dashed var(--ac)}
@@ -140,27 +140,90 @@ details>summary{cursor:pointer;padding:6px 0}
 .rw{position:relative;display:block;padding-bottom:9px}
 .tk{position:absolute;left:0;right:0;bottom:0;height:7px;pointer-events:none}
 .tk i{position:absolute;top:0;width:1px;height:7px;background:var(--tx);opacity:.55}
+/* v9: bố cục, form thêm */
+main[data-lay=full],main[data-lay=stack]{grid-template-columns:minmax(0,1fr)}
+main[data-lay=full] #right,main[data-lay=stack] #right{border-left:0;padding-left:0;border-top:1px solid var(--ln);padding-top:24px;margin-top:24px}
+main.nodiv #right{border-left:0;border-top:0}
+main.nodiv[data-lay=full] #right,main.nodiv[data-lay=stack] #right{padding-top:0}
+main[data-lay=stack] #lists{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--bgap,14px)}
+main[data-lay=stack] .block{margin-bottom:0}
+main[data-lay=stack] #addwrap{margin-top:var(--bgap,14px)}
+@media(min-width:901px){
+ main[data-fill=on]{min-height:100vh}
+ main[data-fill=on][data-lay=full],main[data-fill=on][data-lay=stack]{grid-template-rows:auto 1fr}
+ main[data-fill=on] #right,main[data-fill=on] #dl{display:flex;flex-direction:column}
+ main[data-fill=on] #dl{flex:1}
+ main[data-fill=on] #lists{flex:1;display:flex;flex-direction:column}
+ main[data-fill=on][data-lay=stack] #lists{display:grid;grid-template-rows:1fr}
+ main[data-fill=on] .block{flex:1 1 auto}
+ main[data-fill=on][data-lay=stack] .block{flex:none}
+}
+@media(max-width:900px){main[data-lay=stack] #lists{grid-template-columns:1fr}}
+#f{flex-wrap:wrap;gap:10px}
+.nmbox{flex:1 1 220px}
+.seg{display:flex;flex:none;border:1px solid color-mix(in srgb,#fff 22%,transparent);border-radius:12px;overflow:hidden}
+.seg button{border:0;border-radius:0;background:transparent;padding:10px 12px;font-size:13px}
+.seg button.on{background:var(--ac);color:#06222a;font-weight:600}
+.tmbox{flex:none;display:flex;align-items:center;gap:10px;padding:2px 12px}
+.tmbox input[type=time]{background:transparent;border:0;padding:6px 2px;font:inherit;color:var(--tx)}
+#in_day{flex:none}
+#add{flex:none;padding:10px 22px;border-radius:12px}
+.item,.block header,#hero .e{-webkit-user-select:none;user-select:none}
+#fabi{transition:none}
+.block header{padding:max(12px,calc(var(--rad,20px)*.2)) max(14px,calc(var(--rad,20px)*.5)) 12px}
+.items{padding:2px max(14px,calc(var(--rad,20px)*.5)) max(6px,calc(var(--rad,20px)*.2))}
+#f{padding:12px max(12px,calc(var(--rad,20px)*.5))}
+/* v11 */
+input[type=checkbox]{-webkit-appearance:none;appearance:none;width:34px;height:18px;border-radius:9px;border:1px solid color-mix(in srgb,var(--tx) 40%,transparent);background:color-mix(in srgb,var(--tx) 12%,transparent);position:relative;cursor:pointer;padding:0;flex:none;transition:background .15s}
+input[type=checkbox]::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--tx);opacity:.75;transition:transform .15s,background .15s}
+input[type=checkbox]:checked{background:var(--ac);border-color:var(--ac)}
+input[type=checkbox]:checked::after{transform:translateX(16px);background:#06222a;opacity:1}
+.tk{height:7px}.tk i{width:6px;height:6px;border-radius:50%;top:0;margin-left:-3px;opacity:.7}
+.bg{display:flex;flex-wrap:wrap;gap:6px}.bg button{padding:6px 12px;font-size:13px;border-radius:10px}
+.bg button.on{background:var(--ac);border-color:var(--ac);color:#06222a;font-weight:600}
+.bg button.act:not(.on),.sl.full:not(.on){border-color:var(--ac)}
+.rl{display:grid;grid-template-columns:minmax(84px,32%) 1fr;gap:8px 14px;align-items:center;margin-bottom:16px;font-size:12px}
+.rl>span:first-child{opacity:.85}.sw{display:inline-flex}
+.rl .rw{min-width:0}
+#pclose{position:absolute;top:8px;right:10px;z-index:3;padding:1px 9px;border-radius:50%;line-height:1.5}
+#plang{position:absolute;top:8px;right:52px;z-index:3}#plang button{padding:3px 9px;font-size:12px}
+#pr{padding-top:46px}
+#addwrap{position:relative;background:color-mix(in srgb,var(--card) 9%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--ln);border-radius:var(--rad,20px)}
+/* v12 */
+input[type=range]{height:16px}
+input[type=range]::-webkit-slider-thumb{width:8px;height:16px;margin-top:-7px}
+input[type=range]::-moz-range-thumb{width:7px;height:16px}
+.rw{padding-bottom:4px}.tk{height:3px}.tk i{width:3px;height:3px;margin-left:-1.5px;top:0}
+#pclose{background:none;border:0;padding:2px 6px;font-size:17px;line-height:1;border-radius:0}
+#plang{position:absolute;top:11px;right:46px;z-index:3;display:flex;gap:7px;align-items:center;font-size:12px;font-weight:600}
+.rl>:not(:first-child){justify-self:end}.rl>.rw{justify-self:stretch;width:100%}.rl .bg{justify-content:flex-end}
+#panel[data-rl=justify] .rl>:not(:first-child){justify-self:stretch}#panel[data-rl=justify] .rl .bg{justify-content:space-between}#panel[data-rl=justify] .rl .bg button{flex:1}
+#panel[data-rl=stack] .rl{grid-template-columns:1fr}#panel[data-rl=stack] .rl>:not(:first-child){justify-self:start}#panel[data-rl=stack] .rl .bg{justify-content:flex-start}#panel[data-rl=stack] .rl>.rw{justify-self:stretch}
 </style>
 <style id="dyn"></style>
 </head>
 <body>
 <div id="bg"></div><div id="glow"></div><div id="fx"></div>
-<svg width="0" height="0" style="position:absolute"><defs><filter id="gd" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-<feTurbulence id="gt" type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3" result="n"/>
-<feImage id="gi" href="data:image/gif;base64,R0lGODlhAQABAAAAACw=" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="n2"/>
-<feDisplacementMap id="gdm" in="SourceGraphic" in2="n" scale="30" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg>
+<svg id="gsvg" width="0" height="0" style="position:absolute"><defs id="gdefs"></defs></svg>
 
-<main id="main">
+<main id="main" data-lay="split" data-fill="on">
 <div id="hero" class="glass"></div>
 <div id="right">
  <div id="dl"><div id="lists"></div>
- <section id="addwrap" class="glass"><form id="f"><div class="fld nmbox"><input id="in_name" placeholder="Tên deadline" autocomplete="off"><button id="add" class="p">Thêm</button></div><input id="in_date" class="fld" type="datetime-local" title="Ngày giờ deadline"></form></section></div>
+ <section id="addwrap"><form id="f" autocomplete="off">
+<div class="fld nmbox"><input id="in_name" placeholder="Tên deadline" autocomplete="off"></div>
+<div id="qk" class="seg"><button type="button" data-q="today" class="on">Today</button><button type="button" data-q="tom">Tomorrow</button><button type="button" data-q="custom">Custom</button></div>
+<input id="in_day" class="fld" type="date" hidden title="Chọn ngày">
+<div class="fld tmbox"><input id="in_time" type="time" value="08:00" title="Giờ (mặc định 8:00 AM)"><label class="tg" style="margin:0"><span><input type="checkbox" id="in_all">All day</span></label></div>
+<button id="add" class="p">Thêm</button>
+</form></section></div>
 </div>
 </main>
 
 <button id="fab" title="Tuỳ chỉnh giao diện (kéo để đổi vị trí)"><span id="fabi">🎨</span></button>
-<div id="panel"><nav id="pl"></nav>
+<div id="panel"><div id="plang"><span>VI</span><input type="checkbox" id="plg" title="VI / EN"><span>EN</span></div><button id="pclose" type="button" title="Đóng">✕</button><nav id="pl"></nav>
 <div id="pr">
+ <div id="stabs" class="bg" hidden style="margin-bottom:16px"></div>
  <section id="p_text" class="set">
   <h4 id="ed_t">Chữ</h4>
   <details id="fd" open><summary>Font: <b id="fcur">Mặc định</b></summary>
@@ -188,10 +251,23 @@ details>summary{cursor:pointer;padding:6px 0}
    <label>Echo: angle<input id="e_ea" type="range" min="0" max="360"></label>
    <label>Echo: fade<input id="e_ef" type="range" min="0" max="100"></label>
    <label>Glow<input id="e_gl" type="range" min="0" max="60"></label>
-   <label>Hologram<input id="e_ho" type="range" min="0" max="100"></label>
+   <label>Glow color<input id="e_glc" type="color"></label>
+   <input id="e_glm" type="hidden"><label>Glow style<div class="bg pk" data-h="e_glm"><button type="button" data-v="solid">Solid</button><button type="button" data-v="grad">Gradient</button></div></label>
+   <label>Glow color 2<input id="e_glc2" type="color"></label>
+   <label>Gradient angle<input id="e_gan" type="range" min="0" max="360"></label>
+   <label>Holo effect<input id="e_ho" type="range" min="0" max="100"></label>
    <label>Holo glow opacity<input id="e_hg" type="range" min="0" max="100"></label>
   </div>
   
+ </section>
+
+ <section id="p_lay" class="set" hidden>
+  <h4>Bố cục</h4>
+  <input id="s_lay" type="hidden">
+  <div class="rl"><span>Kiểu bố cục</span><div class="bg pk" data-h="s_lay"><button type="button" data-v="split">Chia đôi</button><button type="button" data-v="full">Main trên · Deadlines dọc</button><button type="button" data-v="stack">Main trên · 3 cột</button></div></div>
+  <div class="rl"><span>Tràn full chiều cao màn hình</span><span class="sw"><input type="checkbox" id="s_fill"></span></div>
+  <div class="rl"><span>Bo góc khung Deadlines</span><input id="lay_radd" type="range" min="0" max="40"></div>
+  <small style="opacity:.6">Rê chuột vào nút để xem thử, bấm để chọn. Chiều cao Main chỉnh ở mục Bảng chính. Ô Thêm deadline nằm dưới cùng, rộng bằng 3 khối. Trên điện thoại luôn xếp 1 cột.</small>
  </section>
 
  <section id="p_frame" class="set" hidden>
@@ -199,7 +275,7 @@ details>summary{cursor:pointer;padding:6px 0}
   <div class="mainonly">
    <div class="g2">
     <label>Width (%)<input id="s_colw" type="range" min="25" max="75"></label>
-    <label>Height<select id="s_hmode"><option value="match">Bằng cột Deadlines</option><option value="screen">Cao bằng màn hình</option><option value="fixed">Cố định (px)</option></select></label>
+    <label>Height<select id="s_hmode"><option value="match">Tự động (chia đôi: bằng cột Deadlines · xếp dọc: nửa màn)</option><option value="screen">Full màn</option><option value="fixed">Cố định (px)</option></select></label>
     <label>Height (px) — kéo là tự chuyển sang cố định<input id="s_hpx" type="range" min="0" max="1400"></label>
     <label>Content position<select id="s_hj"><option value="space-between">Tên trên, countdown dưới</option><option value="flex-start">Dồn lên trên</option><option value="center">Giữa</option><option value="flex-end">Dồn xuống dưới</option></select></label>
    </div>
@@ -213,14 +289,14 @@ details>summary{cursor:pointer;padding:6px 0}
    <label>Align<select id="fr_al"><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option><option value="justify">Justify</option></select></label>
    <label class="mainonly">Glass amount (0 = trong suốt)<input id="fr_gk" type="range" min="0" max="100"></label>
    <label class="mainonly">Padding (px)<input id="fr_pad" type="range" min="0" max="80"></label>
-   <label>Hologram<input id="fr_ho" type="range" min="0" max="100"></label>
+   <label>Holo effect<input id="fr_ho" type="range" min="0" max="100"></label>
    <label>Edge feather (px)<input id="fr_fe" type="range" min="0" max="60"></label>
    <label>Blend với nền<select id="fr_bm"><option value="normal">Normal</option><option value="overlay">Overlay</option><option value="soft-light">Soft light</option><option value="screen">Screen</option><option value="multiply">Multiply</option><option value="plus-lighter">Plus lighter</option></select></label>
   </div>
   <h4>Shape &amp; stroke</h4>
   <div class="g2">
-   <label>Corner radius (px)<input id="fr_rad" type="range" min="0" max="80"></label>
-   <label>Stroke width (px)<input id="fr_bw" type="range" min="0" max="12"></label>
+   <label class="dlonly">Bo góc (0 = vuông · 40 = tối đa)<input id="fr_rad" type="range" min="0" max="40"></label>
+   <label>Stroke width (px)<input id="fr_bw" type="range" min="0" max="20"></label>
    <label>Stroke color<input id="fr_bc" type="color"></label>
    <label>Stroke opacity<input id="fr_ba" type="range" min="0" max="100"></label>
    <label>Stroke blur (px)<input id="fr_bb" type="range" min="0" max="40"></label>
@@ -233,8 +309,29 @@ details>summary{cursor:pointer;padding:6px 0}
    <label>Opacity<input id="fr_sop" type="range" min="0" max="100"></label>
    <label>Fade<input id="fr_sf" type="range" min="0" max="100"></label>
   </div>
-  <h4>Holo glow</h4>
-  <div class="g2"><label>Holo glow opacity<input id="fr_hg" type="range" min="0" max="100"></label></div>
+  <h4>Shadow</h4>
+  <div class="g2">
+   <label>Shadow color<input id="fr_shc" type="color"></label>
+   <label>Shadow opacity<input id="fr_sha" type="range" min="0" max="100"></label>
+   <label>Blur (px)<input id="fr_shb" type="range" min="0" max="120"></label>
+   <label>Offset X<input id="fr_shx" type="range" min="-60" max="60"></label>
+   <label>Offset Y<input id="fr_shy" type="range" min="-60" max="60"></label>
+  </div>
+  <h4>Glow</h4>
+  <div class="g2">
+   <label>Glow color<input id="fr_glc" type="color"></label>
+   <label>Glow opacity<input id="fr_gla" type="range" min="0" max="100"></label>
+   <label>Glow size (px)<input id="fr_gls" type="range" min="0" max="120"></label>
+   <input id="fr_gm" type="hidden"><label>Glow style<div class="bg pk" data-h="fr_gm"><button type="button" data-v="solid">Solid</button><button type="button" data-v="grad">Gradient</button></div></label>
+   <label>Glow color 2<input id="fr_glc2" type="color"></label>
+   <label>Gradient angle<input id="fr_gan" type="range" min="0" max="360"></label>
+   <label>Holo glow<input id="fr_hg" type="range" min="0" max="100"></label>
+  </div>
+  <div class="dlonly"><h4>Tên 3 khối (hoặc double-click vào tiêu đề khối)</h4>
+   <div class="g2"><label>Khối 1 · tên<input id="bn_short" class="fld"></label><label>Khối 1 · chú thích<input id="bc_short" class="fld"></label></div>
+   <div class="g2" style="margin-top:12px"><label>Khối 2 · tên<input id="bn_mid" class="fld"></label><label>Khối 2 · chú thích<input id="bc_mid" class="fld"></label></div>
+   <div class="g2" style="margin-top:12px"><label>Khối 3 · tên<input id="bn_long" class="fld"></label><label>Khối 3 · chú thích<input id="bc_long" class="fld"></label></div>
+  </div>
   <small style="opacity:.6">Glass dùng chung màu/blur/kính ở mục Hiệu ứng. Feather sẽ cắt phần echo/glow ngoài khung.</small>
  </section>
 
@@ -253,18 +350,23 @@ details>summary{cursor:pointer;padding:6px 0}
    <label class="tg"><span><input type="checkbox" id="s_rdOn">Reeded (kính gân)</span></label>
    <div class="pb" id="pb_rd" hidden>
     <label>Độ rộng gân<input id="s_gw" type="range" min="4" max="60"></label>
-    <label>Độ mạnh gân<input id="s_gs" type="range" min="0" max="100"></label></div>
-   <label class="tg"><span><input type="checkbox" id="s_frOn">Frost (kính mờ nhám)</span></label>
-   <div class="pb" id="pb_fr" hidden>
-    <label>Độ phủ mờ<input id="s_fa" type="range" min="0" max="100"></label>
-    <label>Độ hạt<input id="s_fg" type="range" min="0" max="100"></label></div>
+    <label>Độ mạnh gân<input id="s_gs" type="range" min="0" max="100"></label>
+    <label class="tg"><span><input type="checkbox" id="s_rdd">Distort (gây méo theo gân)</span></label>
+    <label>Distort strength<input id="s_rds" type="range" min="0" max="80"></label></div>
+   <label class="tg"><span><input type="checkbox" id="s_opOn">Optical (biến dạng quang học)</span></label>
+   <div class="pb" id="pb_op" hidden>
+    <input id="s_opm" type="hidden">
+    <div class="rl"><span>Vùng áp dụng</span><div class="bg pk" data-h="s_opm"><button type="button" data-v="edge">Quanh viền</button><button type="button" data-v="all">Toàn khung</button></div></div>
+    <label>Độ toả (px, từ viền vào trong)<input id="s_opw" type="range" min="8" max="200"></label>
+    <label>Refraction (khúc xạ)<input id="s_opr" type="range" min="0" max="80"></label>
+    <label>Chromatic aberration (px)<input id="s_opc" type="range" min="0" max="14"></label></div>
    <label class="tg"><span><input type="checkbox" id="s_dfOn">Deform (làm méo nền trong khung)</span></label>
    <div class="pb" id="pb_df" hidden>
     <label>Distort amount<input id="s_dd" type="range" min="0" max="80"></label>
     <label>Noise scale<input id="s_dn" type="range" min="0" max="100"></label>
     <label>Noise source<select id="s_dsrc"><option value="noise">Generated noise</option><option value="map">Custom map</option></select></label>
-    <label>Map<span class="pr"><button type="button" id="s_mapb">Chọn map</button><button type="button" id="s_maprm">Xoá map</button><input id="s_mapf" type="file" accept="image/*" hidden></span></label>
-    <small style="opacity:.6;display:block;margin-bottom:10px">Làm méo phần nền nhìn xuyên qua kính, nên khung phải có glass &gt; 0. Chỉ chạy trên Chrome/Edge.</small></div>
+    <label>Map<span class="pr"><button type="button" id="s_mapb">Chọn map</button><button type="button" id="s_maprm">Xoá map</button><input id="s_mapf" type="file" accept="image/*" hidden></span></label></div>
+   <small style="opacity:.6;display:block;margin-bottom:10px">Distort, Optical và Deform làm méo phần nền nhìn xuyên qua kính, nên khung phải có glass &gt; 0. Chỉ chạy trên Chrome/Edge.</small>
    <label class="tg"><span><input type="checkbox" id="s_ecOn">Echo lớp kính</span></label>
    <div class="pb" id="pb_ec" hidden>
     <label>Echo: distance<input id="s_ge" type="range" min="0" max="30"></label>
@@ -273,40 +375,79 @@ details>summary{cursor:pointer;padding:6px 0}
     <label>Echo: angle<input id="s_ga" type="range" min="0" max="360"></label>
     <label>Echo: fade<input id="s_gf" type="range" min="0" max="100"></label></div>
    <label class="tg"><span><input type="checkbox" id="s_glOn">Glow lớp kính</span></label>
-   <div class="pb" id="pb_gl" hidden><label>Glow<input id="s_gg" type="range" min="0" max="60"></label></div>
+   <div class="pb" id="pb_gl" hidden>
+    <label>Glow size<input id="s_gg" type="range" min="0" max="60"></label>
+    <label>Glow color<input id="s_ggc" type="color"></label>
+    <input id="s_ggm" type="hidden"><label>Glow style<div class="bg pk" data-h="s_ggm"><button type="button" data-v="solid">Solid</button><button type="button" data-v="grad">Gradient</button></div></label>
+    <label>Glow color 2<input id="s_ggc2" type="color"></label>
+    <label>Gradient angle<input id="s_gga" type="range" min="0" max="360"></label>
+    <label>Holo glow<input id="s_ggh" type="range" min="0" max="100"></label></div>
   </div>
   <div class="sec"><h4>Filter</h4><div id="flui"></div></div>
  </div></section>
 
  <section id="p_ico" class="set" hidden>
   <h4>Icon</h4>
-  <div class="g2">
-   <label>Shape<select id="i_shape"><option value="circle">Circle</option><option value="square">Rounded square</option><option value="triangle">Triangle</option><option value="star">Star (4-point)</option><option value="diamond">Diamond</option><option value="hex">Hexagon</option></select></label>
-   <label>Size<input id="i_size" type="range" min="32" max="96"></label>
-   <label>Position<select id="i_mode"><option value="fixed">Fixed (kéo thả)</option><option value="float">Float (trôi như bong bóng, 35% phía dưới)</option><option value="random">Random mỗi lần mở trang</option></select></label>
-   <label>Float speed<input id="i_speed" type="range" min="1" max="10"></label>
+  <input id="i_shape" type="hidden"><input id="i_mode" type="hidden">
+  <div class="rl"><span>Shape</span><div class="bg pk" data-h="i_shape"><button type="button" data-v="circle" title="Circle">●</button><button type="button" data-v="square" title="Rounded square">■</button><button type="button" data-v="triangle" title="Triangle">▲</button><button type="button" data-v="star" title="Star">✦</button><button type="button" data-v="diamond" title="Diamond">◆</button><button type="button" data-v="hex" title="Hexagon">⬢</button></div></div>
+  <div class="rl"><span>Size</span><input id="i_size" type="range" min="32" max="96"></div>
+  <h4>Icon animation presets</h4>
+  <div class="bg pk" data-h="i_mode"><button type="button" data-v="wander">Trôi ngẫu nhiên</button><button type="button" data-v="dvd">DVD</button><button type="button" data-v="balloon">Bóng bay</button><button type="button" data-v="float">Bồng bềnh</button><button type="button" data-v="fixed">Cố định</button></div>
+  <div class="rl" style="margin-top:14px"><span>Speed</span><input id="i_speed" type="range" min="1" max="10"></div>
+  <div id="balopts" hidden>
+   <div class="rl"><span>Va chạm với các khung</span><span class="sw"><input type="checkbox" id="i_col"></span></div>
+   <div class="rl"><span>Quán tính</span><input id="i_inr" type="range" min="0" max="100"></div>
+   <div class="rl"><span>Giới hạn tốc độ</span><input id="i_vmax" type="range" min="100" max="1600"></div>
+   <div class="rl"><span>Bắt dính khi chuột chạm</span><span class="sw"><input type="checkbox" id="i_stick"></span></div>
   </div>
   <div class="pr"><button type="button" id="i_img">Ảnh / logo / avatar</button><button type="button" id="i_imgrm">Xoá ảnh</button><button type="button" id="i_rand">Random vị trí ngay</button><input id="i_imgf" type="file" accept="image/*" hidden></div>
  </section>
 
+ <section id="p_layers" class="set" hidden><div id="lyui"></div></section>
+
+ <section id="p_pnl" class="set" hidden>
+  <h4>Bảng tuỳ chỉnh</h4>
+  <div class="g2">
+   <label>Blur<input id="pn_bl" type="range" min="0" max="60"></label>
+   <label>Độ đặc (opacity)<input id="pn_op" type="range" min="20" max="100"></label>
+   <label>Bo góc<input id="pn_rad" type="range" min="0" max="40"></label>
+   <label>Glow<input id="pn_gl" type="range" min="0" max="60"></label>
+   <label>Màu nền<input id="pn_c" type="color"></label>
+   <label>Màu glow<input id="pn_glc" type="color"></label>
+   <label>Màu chữ bảng<input id="pn_tc" type="color"></label>
+  </div>
+  <div class="rl"><span>Tự đổi chữ sang đen khi nền sáng</span><span class="sw"><input type="checkbox" id="pn_auto"></span></div>
+  <input id="pn_rl" type="hidden">
+  <div class="rl"><span>Căn lề các tuỳ chọn</span><div class="bg pk" data-h="pn_rl" data-nh="1"><button type="button" data-v="right">Căn phải</button><button type="button" data-v="justify">Căn đều</button><button type="button" data-v="stack">Xếp chồng</button></div></div>
+ </section>
+
  <section id="p_data" class="set" hidden>
+  <h4>Preset của bạn</h4>
+  <div id="slots" class="bg"></div>
+  <div class="pr" style="margin-top:8px"><button type="button" id="sl_save">Lưu đè vào ô đã chọn</button><button type="button" id="sl_ren">Đổi tên</button><button type="button" id="sl_del">Xoá ô</button></div>
+  <small style="opacity:.7;display:block;margin-top:6px">Rê chuột vào ô để xem thử, bấm để chọn. Ô trống: bấm để lưu thiết lập hiện tại.</small>
   <h4>Dữ liệu</h4>
-  <button id="exp">Export JSON</button><button id="imp">Import JSON</button>
+  <small style="opacity:.7;display:block;margin-bottom:10px">Preset gồm deadline, ảnh nền, font, hiệu ứng, icon. Thiết lập luôn tự lưu trên trình duyệt này.</small>
+  <div class="pr"><button id="exp">Tải preset (.json)</button><button id="expc">Copy preset</button><button id="imp">Nạp preset</button></div>
+  <button id="shr" class="p" style="margin-top:12px">Tải bản chia sẻ (.html)</button>
+  <small style="opacity:.7;display:block;margin-top:6px">Bản chia sẻ kèm sẵn mọi thiết lập: ai mở file/website đó đều thấy giao diện của bạn.</small>
   <h4>Giao diện</h4><button id="s_reset">Reset toàn bộ giao diện</button>
  </section>
 </div></div>
 
 <div id="dlg" hidden><div class="dbox"><h4 id="dlg_t"></h4><div id="dlg_b"></div><div class="pr" style="justify-content:flex-end"><button id="dlg_no" type="button">Đóng</button><button id="dlg_ok" type="button" class="p">OK</button></div></div></div>
 <div id="toast" hidden></div>
+<script id="preset" type="application/json"></script>
 <script>
 const K='countdowns_v1',SK='countdown_style_v3',BK='countdown_bg_v1',FK='countdown_fonts_v1',LK='countdown_fl_v1',MK='countdown_map_v1',DAY=864e5;
 const $=id=>document.getElementById(id);
+let lang='vi';var PG=[];
 const pad=n=>String(n).padStart(2,'0');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const byDate=(a,b)=>new Date(a.date)-new Date(b.date);
 const auto=d=>{const x=(new Date(d)-Date.now())/DAY;return x<7?'short':x<30?'mid':'long'};
 const grp=i=>i.mg||auto(i.date);
-const fdate=d=>new Date(d).toLocaleDateString('vi-VN');
+const fdate=d=>new Date(d).toLocaleDateString(lang==='en'?'en-GB':'vi-VN');
 function fmt(ms){const o=ms<0;ms=Math.abs(ms);const d=Math.floor(ms/DAY),h=Math.floor(ms%DAY/36e5),m=Math.floor(ms%36e5/6e4),s=Math.floor(ms%6e4/1e3);return(o?'-':'')+d+'d '+pad(h)+':'+pad(m)+':'+pad(s)}
 const GR=[{k:'short',t:'Ngắn hạn',s:'dưới 1 tuần'},{k:'mid',t:'Trung hạn',s:'dưới 1 tháng'},{k:'long',t:'Dài hạn',s:'dưới 6 tháng'}];
 const SV=p=>`<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
@@ -322,14 +463,16 @@ const item=i=>`<div class="item${i.done?' done':''}" data-id="${i.id}">
 <div class="b"><button class="chk${i.done?' on':''}" data-a="done" title="Đánh dấu xong">${i.done?'✓':''}</button></div>
 <div class="c"><div><span class="e e-tc"${i.done?'':` data-t="${i.date}"`}>${i.done?'Hoàn thành':''}</span></div><div><span class="e e-td">${fdate(i.date)}</span></div></div></div>`;
 const blk=g=>{const l=items.filter(i=>grp(i)===g.k).sort(byDate);
- return `<section class="glass block" data-g="${g.k}"><header><span class="e e-bt">${g.t}</span><span class="e e-td">${g.s}</span></header><div class="items">${l.length?l.map(item).join(''):'<div class="empty">Trống</div>'}</div></section>`};
+ return `<section class="glass block" data-g="${g.k}"><header><span class="e e-bt">${esc(S.bn[g.k]??g.t)}</span><span class="e e-td">${esc(S.bc[g.k]??g.s)}</span></header><div class="items">${l.length?l.map(item).join(''):'<div class="empty">Trống</div>'}</div></section>`};
 
 function render(){
  const f=items.find(i=>i.pin)||items.filter(i=>!i.done&&new Date(i.date)>Date.now()).sort(byDate)[0];
  $('hero').innerHTML=f?`<div><span class="e e-ht">${esc(f.name)}</span></div>
  <div class="hb"><div><span id="hc" class="e e-hc"${f.done?'':` data-t="${f.date}"`}>${f.done?'Hoàn thành ✓':''}</span></div><div><span class="e e-hd">${fdate(f.date)}</span></div></div>`
  :'<div><span class="e e-ht">Chưa có deadline</span></div><div></div>';
+ $('hero').dataset.id=f?f.id:'';
  $('lists').innerHTML=GR.map(blk).join('');tick();
+ if(typeof buildGlass==='function'){if(S.opOn&&S.opm==='edge'){gcache='';buildGlass()}updClips()}
 }
 function tick(){const n=Date.now();document.querySelectorAll('[data-t]').forEach(e=>e.textContent=fmt(new Date(e.dataset.t)-n));fit()}
 function fit(){const t=$('hc');if(!t)return;t.style.fontSize='';const W=$('hero').clientWidth-2*(parseFloat(getComputedStyle($('hero')).paddingLeft)||0),w=t.scrollWidth,jus=$('hero').dataset.al==='justify'||S.t.hc.al==='justify';
@@ -339,15 +482,24 @@ $('lists').onclick=e=>{const b=e.target.closest('[data-a]');if(!b)return;
  const i=items.find(x=>x.id===b.closest('.item').dataset.id),a=b.dataset.a;
  if(a==='pin'){const w=i.pin;items.forEach(x=>x.pin=false);i.pin=!w}
  else if(a==='done')i.done=!i.done;
- else if(a==='del'){const idx=items.indexOf(i);items=items.filter(x=>x!==i);save();render();toast('Đã xoá "'+i.name+'"',()=>{items.splice(Math.min(idx,items.length),0,i);save();render()});return}
+ else if(a==='del'){const idx=items.indexOf(i);items=items.filter(x=>x!==i);save();render();toast((lang==='en'?'Deleted "':'Đã xoá "')+i.name+'"',()=>{items.splice(Math.min(idx,items.length),0,i);save();render()});return}
  else{editItem(i);return}
  save();render()};
 
-// thêm deadline
-const nm=$('in_name'),dt=$('in_date');
+// thêm deadline: Today / Tomorrow / Custom, 8:00 mặc định, All day
+const nm=$('in_name');let qk='today';
+const ymd=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+$('qk').onclick=e=>{const b=e.target.closest('[data-q]');if(!b)return;qk=b.dataset.q;
+ document.querySelectorAll('#qk button').forEach(x=>x.classList.toggle('on',x===b));$('in_day').hidden=qk!=='custom';
+ if(qk==='custom'){$('in_day').focus();try{$('in_day').showPicker()}catch(_){}}};
+$('in_all').onchange=()=>{$('in_time').hidden=$('in_all').checked};
 $('f').onsubmit=e=>{e.preventDefault();const n=nm.value.trim();if(!n)return nm.focus();
- if(!dt.value){dt.focus();try{dt.showPicker()}catch(x){}toast('Chọn ngày giờ cho deadline');return}
- items.push({id:'i'+Date.now(),name:n,date:dt.value});save();e.target.reset();render()};
+ let day;const d=new Date();
+ if(qk==='today')day=ymd(d);else if(qk==='tom'){d.setDate(d.getDate()+1);day=ymd(d)}
+ else{day=$('in_day').value;if(!day){toast('Chọn ngày cho deadline');$('in_day').focus();return}}
+ const all=$('in_all').checked,tm=all?'23:59':($('in_time').value||'08:00');
+ if(!all&&new Date(day+'T'+tm)<new Date())toast('Giờ này đã qua, deadline sẽ hiển thị quá hạn');
+ items.push({id:'i'+Date.now(),name:n,date:day+'T'+tm,allday:all});save();nm.value='';render();nm.focus()};
 
 // kéo thả
 let drag=null;
@@ -367,9 +519,9 @@ addEventListener('pointercancel',()=>{if(drag){drag.g.remove();drag=null;endDrag
 
 // ===== Giao diện =====
 const light=matchMedia('(prefers-color-scheme: light)').matches,TX=light?'#111111':'#f2f2f4',GY=light?'#666666':'#9a9aa8';
-const T0=(s,w,c,o)=>Object.assign({f:'',s,w,i:0,u:0,up:0,ls:0,m:'solid',c1:c,c2:'#a855f7',eo:0,en:0,ef:50,eop:70,ea:45,gl:0,ho:0,hg:0,al:'auto'},o||{});
+const T0=(s,w,c,o)=>Object.assign({f:'Inter',s,w,i:0,u:0,up:0,ls:0,m:'solid',c1:c,c2:'#a855f7',eo:0,en:0,ef:50,eop:70,ea:45,gl:0,glc:null,glm:'solid',glc2:'#e879f9',gan:45,ho:0,hg:0,al:'auto'},o||{});
 const EL=[{k:'ht',n:'Title'},{k:'hc',n:'Countdown'},{k:'hd',n:'Deadline'},{k:'bt',n:'Tên khối'},{k:'tn',n:'Tên task'},{k:'tc',n:'Countdown'},{k:'td',n:'Ngày / chú thích'}];
-const SKEYS=['ac','g1','g2','ang','card','op','blur','sat','dim','rdOn','gw','gs','frOn','fa','fg','dfOn','dd','dn','dsrc','ecOn','ge','gn','gf','glOn','gg','gop','ga','colw','hmode','hpx','hj','dv'];
+const SKEYS=['ac','g1','g2','ang','card','op','blur','sat','dim','rdOn','gw','gs','rdd','rds','opOn','opr','opc','dfOn','dd','dn','dsrc','ecOn','ge','gn','gf','glOn','gg','ggc','ggh','gop','ga','colw','hmode','hpx','hj','dv','lay','fill','opm','opw','ggm','ggc2','gga'];
 const FS=[
 {id:'scan',n:'Scan (lưới, scanline, glow, vệt quét)',p:[['int','Lưới + scanline',0,100,60],['glow','Ánh sáng glow',0,100,50],['sw','Vệt quét chạy','b',1],['speed','Tốc độ vệt quét (giây/vòng)',2,40,9],['thick','Độ dày vệt quét',10,500,160]]},
 {id:'retro',n:'Retro (CRT / VHS)',p:[['scan','Scanline',0,100,50],['tint','Ám màu sepia',0,100,40],['vig','Vignette',0,100,50],['noise','Nhiễu hạt',0,100,30]]},
@@ -383,14 +535,16 @@ const FS=[
 {id:'rain',n:'Mưa droplet',p:[['den','Mật độ hạt nhỏ',0,100,40],['refr','Refraction',0,100,60],['cnt','Số lượng giọt lớn',0,200,40],['size','Kích thước giọt',6,40,16],['flow','Tốc độ chảy vệt',0,10,3],['streak','Độ dài vệt',0,100,50]]}
 ];
 const mk=()=>({ac:'#22d3ee',g1:light?'#e8ecf6':'#0b1020',g2:light?'#cfd8ee':'#1b1040',ang:160,card:'#ffffff',op:light?50:8,blur:20,sat:140,dim:light?0:25,
- rdOn:false,gw:14,gs:40,frOn:false,fa:40,fg:50,dfOn:false,dd:0,dn:40,dsrc:'noise',ecOn:false,glOn:false,ge:0,gn:0,gf:50,gg:0,gop:22,ga:45,colw:50,hmode:'match',hpx:600,hj:'space-between',dv:true,
- fr:{main:{al:'left',ho:0,gk:0,pad:0,fe:0,bm:'normal',gap:24,sc:100,rad:20,bw:1,bc:'#ffffff',ba:0,bb:0,bo:60,se:0,sn:0,sop:60,sf:50,hg:0},dl:{al:'justify',ho:0,fe:0,bm:'normal',gap:14,bh:0,sc:100,rad:20,bw:1,bc:'#ffffff',ba:28,bb:0,bo:60,se:0,sn:0,sop:60,sf:50,hg:0}},ico:{shape:'circle',size:48,mode:'fixed',speed:4},fl:Object.fromEntries(FS.map(f=>[f.id,Object.assign({on:f.id==='scan',ly:'bottom',op:100},Object.fromEntries(f.p.map(p=>[p[0],(p[2]==='b'||p[2]==='c')?p[3]:p[4]])))])),
+ rdOn:false,gw:14,gs:40,rdd:false,rds:30,opOn:false,opr:20,opc:3,opm:'edge',opw:40,dfOn:false,dd:0,dn:40,dsrc:'noise',ecOn:false,glOn:false,ge:0,gn:0,gf:50,gg:0,ggc:'#22d3ee',ggh:0,ggm:'solid',ggc2:'#e879f9',gga:45,gop:22,ga:45,colw:50,hmode:'match',hpx:600,hj:'space-between',dv:true,lay:'split',fill:true,ver:10,lang:'vi',pn:{bl:24,op:88,rad:18,gl:0,c:light?'#ffffff':'#10101a',glc:'#22d3ee',tc:TX,auto:true,rl:'right'},bn:{short:'Ngắn hạn',mid:'Trung hạn',long:'Dài hạn'},bc:{short:'dưới 1 tuần',mid:'dưới 1 tháng',long:'dưới 6 tháng'},
+ fr:{main:{al:'left',ho:0,gk:0,pad:0,fe:0,bm:'normal',gap:24,sc:100,rad:0,bw:1,bc:'#ffffff',ba:0,bb:0,bo:60,se:0,sn:0,sop:60,sf:50,hg:0,shc:'#000000',shb:32,shx:0,shy:8,sha:20,glc:'#22d3ee',gls:0,gla:60,gm:'solid',glc2:'#e879f9',gan:45},dl:{al:'justify',ho:0,fe:0,bm:'normal',gap:14,bh:0,sc:100,rad:20,bw:1,bc:'#ffffff',ba:28,bb:0,bo:60,se:0,sn:0,sop:60,sf:50,hg:0,shc:'#000000',shb:32,shx:0,shy:8,sha:20,glc:'#22d3ee',gls:0,gla:60,gm:'solid',glc2:'#e879f9',gan:45}},ico:{shape:'circle',size:48,mode:'wander',speed:4,col:false,inr:60,vmax:900,stick:false},fl:Object.fromEntries(FS.map(f=>[f.id,Object.assign({on:f.id==='scan',ly:'bottom',op:100,sc:'page'},Object.fromEntries(f.p.map(p=>[p[0],(p[2]==='b'||p[2]==='c')?p[3]:p[4]])))])),
  t:{ht:T0(34,700,TX),hc:T0(76,700,TX,{ls:1}),hd:T0(16,400,GY),bt:T0(12,700,TX,{up:1,ls:2}),tn:T0(16,700,TX),tc:T0(16,700,TX),td:T0(12,400,GY)}});
-function merge(o){const d=mk(),{t,fr,ico,fl,...r}=o||{};Object.assign(d,r);if(ico)Object.assign(d.ico,ico);if(d.gm==='disp'||d.gm==='map'){d.dsrc=d.gm==='map'?'map':'noise';d.dd=Math.round((d.gs||40)*.6);d.gm='plain'}
+function merge(o){const d=mk(),{t,fr,ico,fl,pn,...r}=o||{};Object.assign(d,r);if(ico)Object.assign(d.ico,ico);if(pn)Object.assign(d.pn,pn);if(!(r.ver>=9)||d.ico.mode==='random')d.ico.mode='wander';if(d.gm==='disp'||d.gm==='map'){d.dsrc=d.gm==='map'?'map':'noise';d.dd=Math.round((d.gs||40)*.6);d.gm='plain'}
  if(!('rdOn' in r)){d.rdOn=d.gm==='reeded';d.ecOn=d.ge>0&&d.gn>0;d.glOn=d.gg>0;d.dfOn=d.dd>0}
  if(fl)for(const k in fl)if(d.fl[k])Object.assign(d.fl[k],fl[k]);
  if(!fl&&'fx' in r){Object.assign(d.fl.scan,{int:r.fx,glow:r.gl,sw:r.sw,speed:r.sws,thick:r.swh})}
- for(const k of ['fx','gl','sw','sws','swh','gm'])delete d[k];if(t)for(const k in t)if(d.t[k])Object.assign(d.t[k],t[k]);if(fr)for(const k in fr)if(d.fr[k])Object.assign(d.fr[k],fr[k]);return d}
+ for(const k of ['fx','gl','sw','sws','swh','gm'])delete d[k];if(t)for(const k in t)if(d.t[k])Object.assign(d.t[k],t[k]);if(fr)for(const k in fr)if(d.fr[k])Object.assign(d.fr[k],fr[k]);
+ if(!(r.ver>=10)){for(const k in d.t)if(!d.t[k].f)d.t[k].f='Inter';d.ver=10}
+ d.fr.main.rad=0;d.fr.dl.rad=Math.min(40,d.fr.dl.rad);return d}
 const FL0=['Inter','Poppins','Orbitron','Rajdhani','Audiowide','Share Tech Mono','Exo 2','Bebas Neue','Oswald','Space Grotesk','Be Vietnam Pro','Playfair Display'];
 const CATRAW='Inter|100-900;Roboto|100,300,400,500,700,900;Open Sans|300-800;Lato|100,300,400,700,900;Montserrat|100-900;Poppins|100-900;Oswald|200-700;Raleway|100-900;Nunito|200-900;Playfair Display|400-900;Merriweather|300,400,700,900;Ubuntu|300,400,500,700;Rubik|300-900;Work Sans|100-900;Quicksand|300-700;Fira Sans|100-900;Barlow|100-900;Mulish|200-900;DM Sans|100-900;Manrope|200-800;Space Grotesk|300-700;Sora|100-800;Outfit|100-900;Urbanist|100-900;Lexend|100-900;Josefin Sans|100-700;Cabin|400-700;Karla|200-800;Bebas Neue|400;Anton|400;Archivo|100-900;Teko|300-700;Rajdhani|300-700;Orbitron|400-900;Audiowide|400;Exo 2|100-900;Syncopate|400,700;Share Tech Mono|400;Roboto Mono|100-700;JetBrains Mono|100-800;Fira Code|300-700;Space Mono|400,700;IBM Plex Mono|100-700;IBM Plex Sans|100-700;Source Code Pro|200-900;VT323|400;Press Start 2P|400;Major Mono Display|400;Michroma|400;Oxanium|200-800;Chakra Petch|300-700;Saira|100-900;Electrolize|400;Zen Dots|400;Bungee|400;Righteous|400;Russo One|400;Black Ops One|400;Monoton|400;Pacifico|400;Lobster|400;Dancing Script|400-700;Caveat|400-700;Satisfy|400;Great Vibes|400;Abril Fatface|400;Cinzel|400-900;Cormorant Garamond|300-700;Lora|400-700;Libre Baskerville|400,700;DM Serif Display|400;Bitter|100-900;Crimson Text|400,600,700;EB Garamond|400-800;Be Vietnam Pro|100-900;Noto Sans|100-900;Noto Serif|100-900;Plus Jakarta Sans|200-800;Bricolage Grotesque|200-800;Unbounded|200-900;Syne|400-800;Big Shoulders Display|100-900;Staatliches|400;Squada One|400;Tilt Neon|400;Tourney|100-900';
 const CAT=[],WM={};
@@ -398,10 +552,14 @@ CATRAW.split(';').forEach(x=>{const[n,w]=x.split('|');CAT.push(n);
  if(w.includes('-')){const[a,b]=w.split('-').map(Number),r=[];for(let v=a;v<=b;v+=100)r.push(v);WM[n]=r}else WM[n]=w.split(',').map(Number)});
 const WN={100:'Thin',200:'ExtraLight',300:'Light',400:'Regular',500:'Medium',600:'SemiBold',700:'Bold',800:'ExtraBold',900:'Black'};
 let S=mk(),img=null,LF=[],FL=FL0.slice(),gmap='',fp=null,fimg='';
-const PK='countdown_fab_v1',FIK='countdown_fabimg_v1';
+const PK='countdown_fab_v1',FIK='countdown_fabimg_v1',PTS='countdown_pts',SLK='countdown_slots_v1';
+const st=(k,v)=>{try{v==null||v===''?localStorage.removeItem(k):localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v))}catch(e){}};
+try{const P=JSON.parse($('preset').textContent||'null');
+ if(P&&P.ts>+(localStorage.getItem(PTS)||0)){st(K,P.items);st(SK,P.style);st(BK,P.img);st(FK,P.fonts);st(LK,P.fl);st(MK,P.gmap);st(FIK,P.fimg);st(PK,P.fp);st(SLK,P.slots);st(PTS,String(P.ts))}}catch(e){}
 try{S=merge(JSON.parse(localStorage.getItem(SK)||'{}'));
  img=localStorage.getItem(BK);LF=JSON.parse(localStorage.getItem(FK)||'[]');gmap=localStorage.getItem(MK)||'';fimg=localStorage.getItem(FIK)||'';
  const l=JSON.parse(localStorage.getItem(LK));if(Array.isArray(l))FL=l;fp=JSON.parse(localStorage.getItem(PK))}catch(e){}
+lang=S.lang||'vi';
 const wl=f=>{const a=(!f||LF.some(x=>x.name===f))?[]:(WM[f]||[]);return a.length>=3?a:[300,400,700]};
 async function reg(n,d){try{const ff=new FontFace(n,`url(${d})`);await ff.load();document.fonts.add(ff);dyn();fit()}catch(e){}}
 LF.forEach(f=>reg(f.name,f.data));
@@ -416,7 +574,7 @@ function dyn(){
   let col=t.m==='gradient'?`background:linear-gradient(90deg,${t.c1},${t.c2});${clip}`:t.m==='stripes'?`background:repeating-linear-gradient(45deg,${t.c1} 0 6px,${t.c2} 6px 12px);${clip}`:`color:${t.c1};`;
   const fl=[],an=t.ea*Math.PI/180,dx=(Math.cos(an)*t.eo).toFixed(1),dy=(Math.sin(an)*t.eo).toFixed(1);let anim='';
   if(t.en>0&&t.eo>0)for(let k=1;k<=t.en;k++){const a=t.eop*(1-(t.ef/100)*(k-1)/t.en);fl.push(`drop-shadow(${dx}px ${dy}px 0 color-mix(in srgb,${t.c1} ${a.toFixed(0)}%,transparent))`)}
-  if(t.gl>0)fl.push(`drop-shadow(0 0 ${t.gl}px ${t.c1})`);
+  if(t.gl>0){if(t.glm==='grad'){const a=t.gan*Math.PI/180,o=(t.gl*.35).toFixed(1),dx=(Math.cos(a)*o).toFixed(1),dy=(Math.sin(a)*o).toFixed(1);fl.push(`drop-shadow(${dx}px ${dy}px ${t.gl}px ${t.glc||t.c1})`,`drop-shadow(${-dx}px ${-dy}px ${t.gl}px ${t.glc2})`)}else fl.push(`drop-shadow(0 0 ${t.gl}px ${t.glc||t.c1})`)}
   if(t.hg>0){const a=t.hg/100;fl.push(`drop-shadow(0 0 6px rgba(34,211,238,${a.toFixed(2)}))`,`drop-shadow(0 0 14px rgba(232,121,249,${(a*.8).toFixed(2)}))`,`drop-shadow(0 0 26px rgba(253,224,71,${(a*.5).toFixed(2)}))`)}
   if(t.ho>0){const h=t.ho/100;col=`background:linear-gradient(100deg,${t.c1} 0%,#22d3ee 22%,#e879f9 44%,#fde047 66%,${t.c1} 88%);background-size:300% 100%;${clip}`;anim='animation:holo 6s linear infinite,flick 5s steps(1) infinite;';
    fl.push(`drop-shadow(${(h*3).toFixed(1)}px 0 0 rgba(255,0,110,${(.55*h).toFixed(2)}))`,`drop-shadow(${(-h*3).toFixed(1)}px 0 0 rgba(0,229,255,${(.55*h).toFixed(2)}))`)}
@@ -432,15 +590,15 @@ function commit(){
  R.setProperty('--ln',light?'rgba(0,0,0,.15)':'rgba(255,255,255,.18)');R.setProperty('--pbg',light?'rgba(255,255,255,.9)':'rgba(16,16,26,.88)');
  syncBlocks();applyFilters();
  R.setProperty('--lf',S.colw+'fr');R.setProperty('--rf',(100-S.colw)+'fr');R.setProperty('--hj',S.hj);
- R.setProperty('--hmin',S.hmode==='screen'?'calc(100vh - 60px)':S.hmode==='fixed'?S.hpx+'px':'0px');
+ R.setProperty('--hmin',S.hmode==='screen'?'calc(100vh - 60px)':S.hmode==='fixed'?S.hpx+'px':(S.lay==='split'?'0px':'50vh'));$('main').dataset.lay=S.lay;$('main').dataset.fill=S.fill?'on':'off';
  $('main').classList.toggle('nodiv',!S.dv);
  const m=S.fr.main,d=S.fr.dl,h=$('hero'),L=$('lists'),D=$('dl'),gk=m.gk/100;
- const sty=(el,f)=>{el.style.setProperty('--rad',f.rad+'px');el.style.setProperty('--bw',f.bw+'px');el.style.setProperty('--bc2',`color-mix(in srgb,${f.bc} ${f.ba}%,transparent)`);el.style.setProperty('--fsh',fsh(f)||'0 0 0 0 transparent')};
- sty(h,m);sty(D,d);
+ const sty=(el,f,k)=>{el.style.setProperty('--rad',f.rad+'px');el.style.setProperty('--bw',f.bw+'px');el.style.setProperty('--bc2',`color-mix(in srgb,${f.bc} ${f.ba}%,transparent)`);el.style.setProperty('--fsh',fsh(f,k)||'0 0 0 0 transparent')};
+ sty(h,m,gk);sty(D,d,1);
  h.dataset.al=m.al;h.classList.toggle('holo',m.ho>0);h.style.setProperty('--hoo',m.ho/100);
  h.style.setProperty('--gk',gk);h.style.setProperty('--hpad',m.pad+'px');h.classList.toggle('fe',m.fe>0);h.style.setProperty('--fe',m.fe+'px');h.style.setProperty('--bm',m.bm);
  if(gk>0){h.style.background=h.style.boxShadow=h.style.backdropFilter=h.style.webkitBackdropFilter=''}
- else{h.style.background='none';h.style.boxShadow=fsh(m)||'none';h.style.backdropFilter='none';h.style.webkitBackdropFilter='none'}
+ else{h.style.background='none';h.style.boxShadow=fsh(m,gk)||'none';h.style.backdropFilter='none';h.style.webkitBackdropFilter='none'}
  L.dataset.al=d.al;D.classList.toggle('holo',d.ho>0);D.style.setProperty('--hoo',d.ho/100);
  D.classList.toggle('fe',d.fe>0);D.style.setProperty('--fe',d.fe+'px');D.style.setProperty('--bm',d.bm);
  D.style.setProperty('--bgap',(d.gap??14)+'px');D.style.setProperty('--bh',(d.bh||0)+'px');h.style.gap=(m.gap??24)+'px';
@@ -449,19 +607,22 @@ function commit(){
  const a=(S.gs/100*.35).toFixed(3),w=S.gw;
  const lay=[];
  if(S.rdOn)lay.push(`repeating-linear-gradient(90deg,rgba(255,255,255,${a}) 0,rgba(255,255,255,0) ${w*.45}px,rgba(0,0,0,${(a*.7).toFixed(3)}) ${w}px)`);
- if(S.frOn){const f=S.fa/100;lay.push(NOISE((.35+S.fg/100*.9).toFixed(2),(f*1.2).toFixed(2)),`linear-gradient(rgba(255,255,255,${(f*.2).toFixed(2)}),rgba(255,255,255,${(f*.2).toFixed(2)}))`)}
- R.setProperty('--reed',lay.length?lay.join(','):'none');
- document.documentElement.classList.toggle('disp',S.dfOn&&S.dd>0);
- $('gt').setAttribute('baseFrequency',(.004+S.dn/100*.12).toFixed(4));$('gdm').setAttribute('scale',S.dd);
- $('gdm').setAttribute('in2',S.dsrc==='map'&&gmap?'n2':'n');$('gi').setAttribute('href',gmap||'data:image/gif;base64,R0lGODlhAQABAAAAACw=');
- const sh=['0 8px 32px rgba(0,0,0,.2)','inset 0 1px 0 rgba(255,255,255,.35)'],ga=S.ga*Math.PI/180;
+  R.setProperty('--reed',lay.length?lay.join(','):'none');
+ buildGlass();
+ const sh=['inset 0 1px 0 rgba(255,255,255,.35)'],ga=S.ga*Math.PI/180;
  if(S.ecOn&&S.gn>0&&S.ge>0)for(let k=1;k<=S.gn;k++)sh.push(`${(Math.cos(ga)*k*S.ge).toFixed(1)}px ${(Math.sin(ga)*k*S.ge).toFixed(1)}px 0 0 rgba(255,255,255,${(S.gop/100*(1-(S.gf/100)*(k-1)/S.gn)).toFixed(3)})`);
- if(S.glOn&&S.gg>0)sh.push(`0 0 ${S.gg}px color-mix(in srgb,var(--ac) 60%,transparent)`);
+ if(S.glOn&&S.gg>0){if(S.ggm==='grad'){const a=S.gga*Math.PI/180,o=S.gg*.35,dx=(Math.cos(a)*o).toFixed(1),dy=(Math.sin(a)*o).toFixed(1);sh.push(`${dx}px ${dy}px ${S.gg}px color-mix(in srgb,${S.ggc} 60%,transparent)`,`${-dx}px ${-dy}px ${S.gg}px color-mix(in srgb,${S.ggc2} 60%,transparent)`)}else sh.push(`0 0 ${S.gg}px color-mix(in srgb,${S.ggc} 60%,transparent)`);if(S.ggh>0){const a=S.ggh/100;sh.push(`0 0 ${S.gg}px rgba(34,211,238,${a.toFixed(2)})`,`0 0 ${S.gg*2}px rgba(232,121,249,${(a*.8).toFixed(2)})`,`0 0 ${S.gg*3}px rgba(253,224,71,${(a*.5).toFixed(2)})`)}}
  R.setProperty('--gsh',sh.join(','));
+ {const pn=S.pn,pa=$('panel');pa.style.background=`color-mix(in srgb,${pn.c} ${pn.op}%,transparent)`;pa.style.backdropFilter=pa.style.webkitBackdropFilter=`blur(${pn.bl}px)`;pa.style.borderRadius=pn.rad+'px';
+  pa.style.boxShadow='0 18px 60px rgba(0,0,0,.45)'+(pn.gl>0?`,0 0 ${pn.gl}px ${pn.glc}`:'');const lm=(()=>{const n=parseInt(pn.c.slice(1),16);return(.299*(n>>16&255)+.587*(n>>8&255)+.114*(n&255))/255})(),lt=pn.auto&&lm>.6;pa.style.setProperty('--tx',lt?'#111111':pn.tc);pa.style.setProperty('--ln',lt?'rgba(0,0,0,.15)':'');pa.dataset.rl=pn.rl;
+  PNK.forEach(k=>{const e=$('pn_'+k);if(e&&document.activeElement!==e){e.type==='checkbox'?e.checked=!!pn[k]:e.value=pn[k]}});pkMark();
+  $('lay_radd').value=S.fr.dl.rad;if(document.activeElement!==$('fr_rad'))$('fr_rad').value=S.fr[curFr].rad}
  $('fcur').textContent=S.t[cur].f||'Mặc định';
  dyn();paintBg();fit();try{localStorage.setItem(SK,JSON.stringify(S))}catch(e){}}
 
-function bindS(){SKEYS.forEach(k=>{const el=$('s_'+k);el.type==='checkbox'?el.checked=S[k]:el.value=S[k]});['shape','size','mode','speed'].forEach(k=>$('i_'+k).value=S.ico[k])}
+const PNK=['bl','op','rad','gl','c','glc','tc','auto','rl'];
+const IK=['shape','size','mode','speed','col','inr','vmax','stick'];
+function bindS(){SKEYS.forEach(k=>{const el=$('s_'+k);el.type==='checkbox'?el.checked=S[k]:el.value=S[k]});IK.forEach(k=>{const el=$('i_'+k);el.type==='checkbox'?el.checked=!!S.ico[k]:el.value=S.ico[k]});pkMark()}
 SKEYS.forEach(k=>{const el=$('s_'+k);
  el.addEventListener('input',()=>{S[k]=el.type==='checkbox'?el.checked:el.type==='range'?+el.value:el.value;commit()})});
 let rst=0;$('s_reset').onclick=()=>{const b=$('s_reset');if(!rst){rst=setTimeout(()=>{rst=0;b.textContent='Reset toàn bộ giao diện'},3000);b.textContent='Bấm lần nữa để xác nhận';return}clearTimeout(rst);rst=0;b.textContent='Reset toàn bộ giao diện';S=mk();bindS();buildFl();fillEd();fillFr();commit()};
@@ -476,34 +637,70 @@ $('s_maprm').onclick=()=>{gmap='';try{localStorage.removeItem(MK)}catch(e){}S.ds
 $('s_mapf').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
  r.onload=()=>{gmap=r.result;try{localStorage.setItem(MK,gmap)}catch(x){toast('Map quá lớn để lưu lâu dài')}S.dsrc='map';$('s_dsrc').value='map';commit()};r.readAsDataURL(f)};
 
-// ===== Icon nổi (hình dạng, ảnh, bay lơ lửng) =====
-const fab=$('fab'),fabi=$('fabi');let fd=null,rndp=null,raf=0;
+// ===== Icon nổi: wander (mặc định) / dvd / balloon / float / fixed =====
+const fab=$('fab'),fabi=$('fabi');let fd=null,raf=0;
 const fs=()=>S.ico.size,isOpen=()=>$('panel').classList.contains('open');
+const ROAM=['float','dvd','wander','balloon'],still=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mv={x:0,y:0,vx:0,vy:0,th:0,w:0,t:0,sx:0,sy:0,wx:0,wy:0,ready:false,px:0,py:0,pv:0,pvx:0,pvy:0,pt:0};
+const spd=()=>40+S.ico.speed*24,bnd=()=>({W:Math.max(0,innerWidth-fs()),H:Math.max(0,innerHeight-fs())});
 function applyIcon(){const c=S.ico;fab.dataset.shape=c.shape;R.setProperty('--fs',c.size+'px');
- fabi.style.backgroundImage=fimg?`url("${fimg}")`:'';fabi.textContent=fimg?'':(isOpen()?'✕':'🎨')}
+ fabi.style.backgroundImage=fimg?`url("${fimg}")`:'';fabi.textContent=fimg?'':(isOpen()?'✕':'🎨');$('balopts').hidden=c.mode!=='balloon'}
 function placePanel(){const p=$('panel');if(!isOpen())return;const vw=innerWidth,vh=innerHeight,r=fab.getBoundingClientRect(),pw=p.offsetWidth,ph=p.offsetHeight;
  let top=r.top-ph-12;if(top<8)top=r.bottom+12;top=Math.max(8,Math.min(top,vh-ph-8));
  p.style.left=Math.max(8,Math.min(r.right-pw,vw-pw-8))+'px';p.style.top=top+'px'}
-function floatLoop(t){raf=0;if(S.ico.mode!=='float')return;raf=requestAnimationFrame(floatLoop);
- if(fd||isOpen()||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
- const vw=innerWidth,vh=innerHeight,s=fs(),k=S.ico.speed/4;
- const px=.5+.5*(.8*Math.sin(t*k/11000+1.3)+.2*Math.sin(t*k/3300)),py=.5+.5*(.8*Math.sin(t*k/7000)+.2*Math.sin(t*k/2100+2));
- fab.style.left=px*(vw-s)+'px';fab.style.top=(vh*.65+py*Math.max(0,vh*.35-s-8))+'px'}
-function placeFab(){const vw=innerWidth,vh=innerHeight,s=fs();
- if(S.ico.mode==='float'){if(!raf)raf=requestAnimationFrame(floatLoop);return}
- let l,t;
- if(S.ico.mode==='random'){if(!rndp)rndp={x:Math.random(),y:Math.random()};l=rndp.x*(vw-s);t=rndp.y*(vh-s)}
- else if(fp){l=fp.x*(vw-s);t=fp.y*(vh-s)}else{l=vw-s-vw*.05;t=Math.min(vh*.8,vh-s-8)}
- fab.style.left=Math.max(0,l)+'px';fab.style.top=Math.max(0,t)+'px';placePanel()}
+function seedMotion(){const a=Math.random()*6.283,v=spd();mv.th=a;mv.vx=Math.cos(a)*v;mv.vy=Math.sin(a)*v;mv.w=0;mv.sx=mv.sy=0}
+function collide(e){const s=fs(),r=s/2;let cx=mv.x+r,cy=mv.y+r;
+ document.querySelectorAll('#hero,.block,#addwrap').forEach(el=>{if(el.id==='hero'&&S.fr.main.gk===0)return;const b=el.getBoundingClientRect();if(!b.width)return;
+  const qx=Math.max(b.left,Math.min(cx,b.right)),qy=Math.max(b.top,Math.min(cy,b.bottom));let dx=cx-qx,dy=cy-qy,d=Math.hypot(dx,dy),nx,ny,pen;
+  if(d>0){if(d>=r)return;nx=dx/d;ny=dy/d;pen=r-d}
+  else{const l=cx-b.left,rt=b.right-cx,t=cy-b.top,bt=b.bottom-cy,m=Math.min(l,rt,t,bt);nx=m===l?-1:m===rt?1:0;ny=m===t?-1:m===bt?1:0;if(!nx&&!ny)ny=-1;pen=m+r}
+  cx+=nx*pen;cy+=ny*pen;const vn=mv.vx*nx+mv.vy*ny;if(vn<0){mv.vx-=(1+e)*vn*nx;mv.vy-=(1+e)*vn*ny;const a=Math.min(.25,-vn/700);mv.sx=nx?-a:a*.6;mv.sy=ny?-a:a*.6}});
+ mv.x=cx-r;mv.y=cy-r}
+function roam(t){raf=0;const m=S.ico.mode;if(!ROAM.includes(m))return;raf=requestAnimationFrame(roam);
+ const dt=Math.min(.05,mv.t?(t-mv.t)/1000:0);mv.t=t;
+ if(fd||(S.ico.stick&&m==='balloon'&&mv.hov)||isOpen()||still()||!dt)return;
+ const{W,H}=bnd(),v0=spd()*(m==='float'?.35:1),y0=Math.min(H,m==='float'?Math.round(innerHeight*.62):0);
+ if(m==='dvd'){const s=Math.hypot(mv.vx,mv.vy)||1;mv.vx*=v0/s;mv.vy*=v0/s}
+ else if(m==='wander'||m==='float'){mv.w+=(Math.random()-.5)*dt*6;mv.w*=1-dt*.8;mv.th+=mv.w*dt;mv.vx=Math.cos(mv.th)*v0;mv.vy=Math.sin(mv.th)*v0}
+ else{const k=S.ico.inr/100,vmax=S.ico.vmax;
+  mv.wx+=(Math.random()-.5)*dt*500;mv.wy+=(Math.random()-.5)*dt*500;mv.wx*=1-dt*1.2;mv.wy*=1-dt*1.2;
+  mv.vx+=mv.wx*dt;mv.vy+=(mv.wy-20)*dt;
+  const dm=Math.exp(-dt*(1.4*(1-k)+.03));mv.vx*=dm;mv.vy*=dm;
+  const r=fs()/2,dx=mv.x+r-mv.px,dy=mv.y+r-mv.py;
+  if(mv.pv>400&&t-mv.pt<120&&Math.hypot(dx,dy)<r+14){mv.vx+=mv.pvx*.5;mv.vy+=mv.pvy*.5;mv.pv=0}
+  let sp=Math.hypot(mv.vx,mv.vy);const lo=v0*.5;
+  if(sp<lo){if(sp<1){const a=Math.random()*6.283;mv.vx=Math.cos(a)*lo;mv.vy=Math.sin(a)*lo}else{mv.vx*=lo/sp;mv.vy*=lo/sp}sp=lo}
+  if(sp>vmax){mv.vx*=vmax/sp;mv.vy*=vmax/sp}}
+ mv.x+=mv.vx*dt;mv.y+=mv.vy*dt;
+ const e=m==='balloon'?.92:1;let hx=0,hy=0;
+ if(mv.x<0){mv.x=0;mv.vx=Math.abs(mv.vx)*e;hx=1}else if(mv.x>W){mv.x=W;mv.vx=-Math.abs(mv.vx)*e;hx=1}
+ if(mv.y<y0){mv.y=y0;mv.vy=Math.abs(mv.vy)*e;hy=1}else if(mv.y>H){mv.y=H;mv.vy=-Math.abs(mv.vy)*e;hy=1}
+ if((hx||hy)&&(m==='wander'||m==='float')){mv.th=Math.atan2(mv.vy,mv.vx)+(Math.random()-.5)*.9;mv.w=0}
+ if(m==='balloon'){if(hx||hy){const a=Math.min(.25,Math.hypot(mv.vx,mv.vy)/700);if(hx){mv.sx=-a;mv.sy=a*.6}if(hy){mv.sy=-a;mv.sx=a*.6}}
+  if(S.ico.col)collide(e);mv.x=Math.max(0,Math.min(W,mv.x));mv.y=Math.max(0,Math.min(H,mv.y))}
+ mv.sx*=Math.exp(-dt*9);mv.sy*=Math.exp(-dt*9);
+ fab.style.left=mv.x+'px';fab.style.top=mv.y+'px';fab.style.transform=(Math.abs(mv.sx)+Math.abs(mv.sy)>.004)?`scale(${(1+mv.sx).toFixed(3)},${(1+mv.sy).toFixed(3)})`:''}
+function placeFab(){const vw=innerWidth,vh=innerHeight,s=fs(),{W,H}=bnd(),m=S.ico.mode;
+ if(m==='fixed'||!mv.ready){let l,t;if(fp){l=fp.x*W;t=fp.y*H}else{l=vw-s-vw*.05;t=Math.min(vh*.8,vh-s-8)}
+  mv.x=Math.max(0,Math.min(W,l));mv.y=Math.max(0,Math.min(H,t));if(!mv.ready){mv.ready=true;seedMotion()}}
+ else{mv.x=Math.max(0,Math.min(W,mv.x));mv.y=Math.max(0,Math.min(H,mv.y))}
+ fab.style.left=mv.x+'px';fab.style.top=mv.y+'px';fab.style.transform='';
+ if(ROAM.includes(m)&&!raf)raf=requestAnimationFrame(roam);placePanel()}
 function toggle(){$('panel').classList.toggle('open');applyIcon();placePanel()}
-fab.addEventListener('pointerdown',e=>{fd={x:e.clientX,y:e.clientY,l:fab.offsetLeft,t:fab.offsetTop,m:false};fab.setPointerCapture(e.pointerId)});
+addEventListener('pointermove',e=>{const n=e.timeStamp,dt=(n-mv.pt)/1000;if(dt>0&&dt<.2){mv.pvx=(e.clientX-mv.px)/dt;mv.pvy=(e.clientY-mv.py)/dt;mv.pv=Math.hypot(mv.pvx,mv.pvy)}mv.px=e.clientX;mv.py=e.clientY;mv.pt=e.timeStamp});
+fab.addEventListener('pointerenter',()=>{mv.hov=true});fab.addEventListener('pointerleave',()=>{mv.hov=false});
+fab.addEventListener('pointerdown',e=>{fd={x:e.clientX,y:e.clientY,l:mv.x,t:mv.y,m:false,h:[]};fab.setPointerCapture(e.pointerId)});
 fab.addEventListener('pointermove',e=>{if(!fd)return;const dx=e.clientX-fd.x,dy=e.clientY-fd.y;if(!fd.m&&Math.hypot(dx,dy)>6)fd.m=true;
- if(fd.m){fab.style.left=Math.max(0,Math.min(innerWidth-fs(),fd.l+dx))+'px';fab.style.top=Math.max(0,Math.min(innerHeight-fs(),fd.t+dy))+'px';placePanel()}});
-fab.addEventListener('pointerup',()=>{if(!fd)return;const m=fd.m;fd=null;
- if(m){fp={x:fab.offsetLeft/Math.max(1,innerWidth-fs()),y:fab.offsetTop/Math.max(1,innerHeight-fs())};try{localStorage.setItem(PK,JSON.stringify(fp))}catch(x){}
-  if(S.ico.mode!=='fixed'){S.ico.mode='fixed';$('i_mode').value='fixed';commit()}}else toggle()});
-['shape','size','mode','speed'].forEach(k=>{const el=$('i_'+k);el.value=S.ico[k];
- el.addEventListener('input',()=>{S.ico[k]=el.type==='range'?+el.value:el.value;commit();placeFab()})});
+ if(fd.m){const{W,H}=bnd();mv.x=Math.max(0,Math.min(W,fd.l+dx));mv.y=Math.max(0,Math.min(H,fd.t+dy));fab.style.left=mv.x+'px';fab.style.top=mv.y+'px';
+  fd.h.push([e.timeStamp,mv.x,mv.y]);fd.h=fd.h.filter(q=>e.timeStamp-q[0]<100);placePanel()}});
+fab.addEventListener('pointerup',()=>{if(!fd)return;const f=fd;fd=null;
+ if(!f.m){toggle();return}
+ const m=S.ico.mode;
+ if(ROAM.includes(m)){const h=f.h;if(h.length>1){const a=h[0],b=h[h.length-1],q=(b[0]-a[0])/1000;if(q>0){const vx=(b[1]-a[1])/q,vy=(b[2]-a[2])/q;if(Math.hypot(vx,vy)>40){mv.vx=vx;mv.vy=vy;mv.th=Math.atan2(vy,vx)}}}mv.t=0}
+ else{const{W,H}=bnd();fp={x:mv.x/Math.max(1,W),y:mv.y/Math.max(1,H)};try{localStorage.setItem(PK,JSON.stringify(fp))}catch(x){}
+  if(m!=='fixed'){S.ico.mode='fixed';$('i_mode').value='fixed';commit()}}});
+IK.forEach(k=>{const el=$('i_'+k);el.type==='checkbox'?el.checked=!!S.ico[k]:el.value=S.ico[k];
+ el.addEventListener('input',()=>{S.ico[k]=el.type==='checkbox'?el.checked:el.type==='range'?+el.value:el.value;if(k==='mode')seedMotion();commit();placeFab()})});
 const readImg=(e,cb)=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(f)};
 $('i_img').onclick=()=>$('i_imgf').click();
 $('i_imgf').onchange=e=>readImg(e,d=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),n=160,k=Math.max(n/im.width,n/im.height);c.width=c.height=n;
@@ -511,32 +708,33 @@ $('i_imgf').onchange=e=>readImg(e,d=>{const im=new Image();im.onload=()=>{const 
 $('i_imgrm').onclick=()=>{fimg='';try{localStorage.removeItem(FIK)}catch(e){}applyIcon()};
 $('i_rand').onclick=()=>{S.ico.mode='fixed';$('i_mode').value='fixed';fp={x:Math.random(),y:Math.random()};try{localStorage.setItem(PK,JSON.stringify(fp))}catch(e){}commit();placeFab()};
 
-const TG=[{k:'main',n:'Bảng chính',h:1},{k:'ht',n:'Title',s:1},{k:'hc',n:'Countdown',s:1},{k:'hd',n:'Deadline',s:1},'-',
- {k:'dl',n:'Deadlines',h:1},{k:'bt',n:'Tên khối',s:1},{k:'tn',n:'Tên task',s:1},{k:'tc',n:'Countdown',s:1},{k:'td',n:'Ngày / chú thích',s:1},'-',
- {k:'fx',n:'Hiệu ứng',h:1},{k:'ico',n:'Icon',h:1},{k:'data',n:'Dữ liệu',h:1}];
+const TG=[{k:'lay',n:'Bố cục',h:1},{k:'main',n:'Main',h:1},{k:'dl',n:'Deadlines',h:1},{k:'fx',n:'Hiệu ứng',h:1},{k:'layers',n:'Layer',h:1},{k:'ico',n:'Icon',h:1},{k:'pnl',n:'Bảng tuỳ chỉnh',h:1},{k:'data',n:'Preset & dữ liệu',h:1}];
 $('pl').innerHTML=TG.map(e=>e==='-'?'<hr>':`<button type="button" data-k="${e.k}" class="${e.s?'sub':'head'}">${e.n}</button>`).join('');
 $('pl').onclick=e=>{const b=e.target.closest('[data-k]');if(b)selTab(b.dataset.k)};
 let cur='ht',curFr='main',tmp=null;
+const GRP={main:['main','ht','hc','hd'],dl:['dl','bt','tn','tc','td']},SUBN={main:'Khung',dl:'Khung',ht:'Title',hc:'Countdown',hd:'Deadline',bt:'Tên khối',tn:'Tên task',tc:'Countdown',td:'Ngày / chú thích'};
+$('stabs').onclick=e=>{const b=e.target.closest('[data-k]');if(b)selTab(b.dataset.k)};
 function selTab(k){const isT=EL.some(e=>e.k===k),isF=k==='main'||k==='dl';
  if(isT){cur=k;tmp=null;fillEd()}if(isF){curFr=k;fillFr()}
- const show=isT?'text':isF?'frame':k;['text','frame','fx','ico','data'].forEach(p=>$('p_'+p).hidden=p!==show);
- document.querySelectorAll('#pl button').forEach(b=>b.classList.toggle('on',b.dataset.k===k))}
+ const show=isT?'text':isF?'frame':k;['text','frame','fx','ico','data','lay','layers','pnl'].forEach(p=>$('p_'+p).hidden=p!==show);
+ const g=GRP.main.includes(k)?'main':GRP.dl.includes(k)?'dl':null;$('stabs').hidden=!g;if(g)$('stabs').innerHTML=GRP[g].map(x=>`<button type="button" data-k="${x}" class="${x===k?'on':''}">${SUBN[x]}</button>`).join('');
+ document.querySelectorAll('#pl button').forEach(b=>b.classList.toggle('on',b.dataset.k===(g||k)));if(k==='layers')buildLy()}
 
 // chữ
-const ED={e_f:'f',e_s:'s',e_w:'w',e_ls:'ls',e_m:'m',e_c1:'c1',e_c2:'c2',e_i:'i',e_u:'u',e_up:'up',e_eo:'eo',e_en:'en',e_eop:'eop',e_ea:'ea',e_ef:'ef',e_gl:'gl',e_ho:'ho',e_hg:'hg',e_al:'al'};
+const ED={e_f:'f',e_s:'s',e_w:'w',e_ls:'ls',e_m:'m',e_c1:'c1',e_c2:'c2',e_i:'i',e_u:'u',e_up:'up',e_eo:'eo',e_en:'en',e_eop:'eop',e_ea:'ea',e_ef:'ef',e_gl:'gl',e_ho:'ho',e_hg:'hg',e_glc:'glc',e_al:'al',e_glm:'glm',e_glc2:'glc2',e_gan:'gan'};
 function fillW(){const t=S.t[cur],a=wl(t.f);if(!a.includes(t.w))t.w=a.reduce((p,c)=>Math.abs(c-t.w)<Math.abs(p-t.w)?c:p);
  $('e_w').innerHTML=a.map(w=>`<option value="${w}">${WN[w]||w} · ${w}</option>`).join('');$('e_w').value=t.w}
-function fillEd(){const t=S.t[cur];fillW();for(const id in ED){const el=$(id),v=t[ED[id]];el.type==='checkbox'?el.checked=!!v:el.value=v}
+function fillEd(){const t=S.t[cur];fillW();for(const id in ED){const el=$(id),v=ED[id]==='glc'?(t.glc||t.c1):t[ED[id]];el.type==='checkbox'?el.checked=!!v:el.value=v}
  $('fcur').textContent=t.f||'Mặc định';
- $('ed_t').textContent='Chữ: '+(['ht','hc','hd'].includes(cur)?'Bảng chính · ':'Deadlines · ')+EL.find(x=>x.k===cur).n}
+ pkMark();$('ed_t').textContent='Chữ: '+(['ht','hc','hd'].includes(cur)?'Bảng chính · ':'Deadlines · ')+EL.find(x=>x.k===cur).n}
 for(const id in ED){$(id).addEventListener(id==='e_f'?'change':'input',()=>{const el=$(id);
  S.t[cur][ED[id]]=el.type==='checkbox'?el.checked:(el.type==='range'||id==='e_w')?+el.value:el.value;if(id==='e_f')fillW();commit()})}
 
 // khung
-const FD={fr_al:'al',fr_ho:'ho',fr_fe:'fe',fr_bm:'bm',fr_gk:'gk',fr_pad:'pad',fr_gap:'gap',fr_bh:'bh',fr_sc:'sc',fr_rad:'rad',fr_bw:'bw',fr_bc:'bc',fr_ba:'ba',fr_bb:'bb',fr_bo:'bo',fr_se:'se',fr_sn:'sn',fr_sop:'sop',fr_sf:'sf',fr_hg:'hg'};
+const FD={fr_al:'al',fr_ho:'ho',fr_fe:'fe',fr_bm:'bm',fr_gk:'gk',fr_pad:'pad',fr_gap:'gap',fr_bh:'bh',fr_sc:'sc',fr_rad:'rad',fr_bw:'bw',fr_bc:'bc',fr_ba:'ba',fr_bb:'bb',fr_bo:'bo',fr_se:'se',fr_sn:'sn',fr_sop:'sop',fr_sf:'sf',fr_hg:'hg',fr_shc:'shc',fr_sha:'sha',fr_shb:'shb',fr_shx:'shx',fr_shy:'shy',fr_glc:'glc',fr_gla:'gla',fr_gls:'gls',fr_gm:'gm',fr_glc2:'glc2',fr_gan:'gan'};
 function fillFr(){const f=S.fr[curFr];for(const id in FD){const v=f[FD[id]];$(id).value=v===undefined?(id==='fr_bm'?'normal':0):v}
  document.querySelectorAll('.mainonly').forEach(e=>e.hidden=curFr!=='main');document.querySelectorAll('.dlonly').forEach(e=>e.hidden=curFr!=='dl');
- $('fr_gap_l').textContent=curFr==='main'?'Spacing (giữa các dòng)':'Spacing (giữa các ô Deadline)';$('fr_t').textContent='Khung: '+(curFr==='main'?'Bảng chính':'Deadlines')}
+ $('fr_gap_l').textContent=curFr==='main'?'Spacing (giữa các dòng)':'Spacing (giữa các ô Deadline)';pkMark();$('fr_t').textContent='Khung: '+(curFr==='main'?'Bảng chính':'Deadlines')}
 for(const id in FD){$(id).addEventListener('input',()=>{const el=$(id);S.fr[curFr][FD[id]]=el.type==='range'?+el.value:el.value;commit()})}
 $('s_hpx').addEventListener('input',()=>{S.hmode='fixed';$('s_hmode').value='fixed';commit()});
 
@@ -566,38 +764,102 @@ $('e_file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new File
   S.t[cur].f=n;$('e_f').value=n;fillW();buildFonts();commit()};r.readAsDataURL(f)};
 
 // thanh kéo kiểu fader: 6 vạch (5 khoảng), vạch đầu trắng, vạch cuối đỏ
-const tv=(el,i)=>Math.round(+el.min+(+el.max-+el.min)*i/5);
+const tv=(el,i)=>Math.round(+el.min+(+el.max-+el.min)*i/2);
 function enh(el){if(el.parentNode.classList.contains('rw'))return;const w=document.createElement('span');w.className='rw';el.before(w);w.appendChild(el);
- let h='';for(let i=0;i<=5;i++)h+=`<i style="left:calc(6px + (100% - 12px)*${(i/5).toFixed(4)})"></i>`;
+ let h='';for(let i=0;i<=2;i++)h+=`<i style="left:calc(4px + (100% - 8px)*${(i/2).toFixed(4)})"></i>`;
  const t=document.createElement('span');t.className='tk';t.innerHTML=h;w.appendChild(t)}
 let dragR=false;addEventListener('pointerdown',e=>{dragR=e.target.type==='range'});addEventListener('pointerup',()=>{dragR=false});
 $('panel').addEventListener('input',e=>{const el=e.target;if(!dragR||el.type!=='range')return;
- const sp=+el.max-+el.min,v=+el.value;for(let i=0;i<=5;i++){const t=tv(el,i);if(Math.abs(v-t)<=sp*.03){el.value=t;break}}},true);
+ const sp=+el.max-+el.min,v=+el.value;for(let i=0;i<=2;i++){const t=tv(el,i);if(Math.abs(v-t)<=sp*.04){el.value=t;break}}},true);
 
 // hộp thoại + thông báo trong trang (hộp thoại gốc của trình duyệt bị chặn trong khung artifact)
 function modal(t,body,ok,fn){$('dlg_t').textContent=t;$('dlg_b').innerHTML=body;$('dlg_ok').textContent=ok||'OK';$('dlg').hidden=false;
  $('dlg_ok').onclick=()=>{if(fn&&fn()===false)return;$('dlg').hidden=true};$('dlg_no').onclick=()=>{$('dlg').hidden=true};
  const f=$('dlg_b').querySelector('input,textarea');if(f)f.focus()}
 let tt=0;
-function toast(m,undo){const e=$('toast');e.innerHTML='';const s=document.createElement('span');s.textContent=m;e.appendChild(s);
- if(undo){const b=document.createElement('button');b.textContent='Hoàn tác';b.onclick=()=>{undo();e.hidden=true};e.appendChild(b)}
+function toast(m,undo,lab){const e=$('toast');e.innerHTML='';const s=document.createElement('span');s.textContent=m;e.appendChild(s);
+ if(undo){const b=document.createElement('button');b.textContent=lab||'Hoàn tác';b.onclick=()=>{undo();e.hidden=true};e.appendChild(b)}
  e.hidden=false;clearTimeout(tt);tt=setTimeout(()=>{e.hidden=true},6000)}
-function editItem(i){modal('Sửa deadline',`<input id="ed_n" class="fld" value="${esc(i.name)}"><input id="ed_d" class="fld" type="datetime-local" value="${i.date}">`,'Lưu',()=>{
- const n=$('ed_n').value.trim(),d=$('ed_d').value;if(!n||!d||isNaN(new Date(d))){toast('Cần nhập tên và ngày hợp lệ');return false}
- i.name=n;i.date=d;delete i.mg;save();render()})}
-$('exp').onclick=()=>{modal('Export JSON','<textarea id="io" class="fld" rows="8" readonly></textarea>','Copy',()=>{const t=$('io');t.select();
- try{navigator.clipboard.writeText(t.value).then(()=>toast('Đã copy'),()=>toast('Hãy bôi đen và copy thủ công'))}catch(e){toast('Hãy bôi đen và copy thủ công')}return false});$('io').value=JSON.stringify({items,style:S})};
-$('imp').onclick=()=>modal('Import JSON','<textarea id="io" class="fld" rows="8" placeholder="Dán JSON đã export"></textarea>','Import',()=>{
- try{const a=JSON.parse($('io').value),arr=Array.isArray(a)?a:a.items;if(!Array.isArray(arr))throw 0;items=arr;
-  if(a.style){S=merge(a.style);bindS();buildFl();fillEd();fillFr()}save();commit();render();toast('Đã import')}catch(e){toast('JSON lỗi');return false}});
+function editItem(i,focus){const dp=(i.date||'').split('T'),all=!!i.allday;
+ modal('Sửa deadline',`<input id="ed_n" class="fld" value="${esc(i.name)}"><div class="pr" style="margin-bottom:12px"><input id="ed_d" class="fld" type="date" value="${dp[0]||''}" style="flex:1;width:auto;margin:0"><input id="ed_t" class="fld" type="time" value="${all?'08:00':(dp[1]||'08:00').slice(0,5)}" style="width:auto;margin:0"${all?' hidden':''}><label class="tg" style="margin:0"><span><input type="checkbox" id="ed_a"${all?' checked':''}>All day</span></label></div>`,'Lưu',()=>{
+  const n=$('ed_n').value.trim(),d=$('ed_d').value,a=$('ed_a').checked,t=a?'23:59':($('ed_t').value||'08:00');
+  if(!n||!d){toast('Cần nhập tên và ngày');return false}
+  const nd=d+'T'+t;if(nd!==i.date)delete i.mg;i.name=n;i.date=nd;i.allday=a;save();render()});
+ $('ed_a').onchange=()=>{$('ed_t').hidden=$('ed_a').checked};
+ $(focus==='date'?'ed_d':'ed_n').focus()}
+function editBlock(k){const g=GR.find(x=>x.k===k);
+ modal('Đổi tên khối',`<input id="eb_n" class="fld" value="${esc(S.bn[k]??g.t)}" placeholder="Tên khối"><input id="eb_c" class="fld" value="${esc(S.bc[k]??g.s)}" placeholder="Chú thích">`,'Lưu',()=>{
+  S.bn[k]=$('eb_n').value.trim()||g.t;S.bc[k]=$('eb_c').value.trim();syncBn();commit();render()})}
+function syncBn(){GR.forEach(g=>{$('bn_'+g.k).value=S.bn[g.k]??g.t;$('bc_'+g.k).value=S.bc[g.k]??g.s})}
+GR.forEach(g=>{$('bn_'+g.k).addEventListener('input',()=>{S.bn[g.k]=$('bn_'+g.k).value;commit();render()});
+ $('bc_'+g.k).addEventListener('input',()=>{S.bc[g.k]=$('bc_'+g.k).value;commit();render()})});
+$('lists').addEventListener('dblclick',e=>{
+ const hd=e.target.closest('.block header');if(hd){editBlock(hd.parentNode.dataset.g);return}
+ const it=e.target.closest('.item');if(!it||e.target.closest('button,.grip'))return;
+ const i=items.find(x=>x.id===it.dataset.id);if(i)editItem(i,e.target.closest('.e-td,.e-tc')?'date':'name')});
+$('hero').addEventListener('dblclick',e=>{const i=items.find(x=>x.id===$('hero').dataset.id);if(i)editItem(i,e.target.closest('.e-hd,.e-hc')?'date':'name')});
+function modalTA(t){modal('Copy thủ công','<textarea id="io" class="fld" rows="8" readonly></textarea>','Đóng',()=>{});$('io').value=t;$('io').select()}
+const copyT=t=>{try{navigator.clipboard.writeText(t).then(()=>toast('Đã copy'),()=>modalTA(t))}catch(e){modalTA(t)}};
+function saveFile(n,t,mime){try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:mime||'application/json'}));a.download=n;document.body.appendChild(a);a.click();a.remove()}catch(e){}
+ toast((lang==='en'?'Created ':'Đã tạo ')+n+(lang==='en'?' (no download? press Copy)':' (không thấy file tải về? bấm Copy)'),()=>copyT(t),'Copy')}
+const snap=()=>({ts:Date.now(),items,style:S,img,fonts:LF,fl:FL,gmap,fimg,fp,slots:SL});
+function applySnap(P){if(P.items)items=P.items;S=merge(P.style);img=P.img||null;LF=P.fonts||[];FL=P.fl||FL;gmap=P.gmap||'';fimg=P.fimg||'';fp=P.fp||null;
+ st(BK,img);st(FK,LF);st(LK,FL);st(MK,gmap);st(FIK,fimg);st(PK,fp);if(P.slots){SL=P.slots;svS();buildSlots()}save();LF.forEach(f=>reg(f.name,f.data));
+ bindS();buildFl();buildFonts();syncBn();fillEd();fillFr();applyIcon();commit();render();placeFab()}
+$('exp').onclick=()=>saveFile('countdown-preset.json',JSON.stringify(snap()));
+$('expc').onclick=()=>copyT(JSON.stringify(snap()));
+$('imp').onclick=()=>modal('Nạp preset','<input type="file" id="io_f" accept=".json" class="fld"><textarea id="io" class="fld" rows="6" placeholder="hoặc dán JSON"></textarea>','Nạp',()=>{
+ const go=t=>{try{let a=JSON.parse(t);if(Array.isArray(a))a={items:a};if(!a.items&&!a.style)throw 0;applySnap(a);toast('Đã nạp')}catch(e){toast('File/JSON lỗi')}},f=$('io_f').files[0];
+ f?f.text().then(go):go($('io').value)});
+$('shr').onclick=()=>{const c=document.documentElement.cloneNode(true);
+ c.querySelectorAll('.flt,.ghost,link[id^=gf_]').forEach(n=>n.remove());
+ c.querySelector('#hero').innerHTML='';c.querySelector('#lists').innerHTML='';c.querySelector('#dyn').textContent='';
+ c.querySelector('#preset').textContent=JSON.stringify(snap()).replace(/</g,'\\u003c');
+ c.querySelector('#panel').classList.remove('open');c.querySelector('#dlg').hidden=true;c.querySelector('#toast').hidden=true;
+ saveFile('index.html','<!DOCTYPE html>\n'+c.outerHTML,'text/html')};
 
 // ===== khung: stroke blur / echo / holo glow =====
-function fsh(f){const sh=[],bc=f.bc||'#ffffff';
+function fsh(f,k=1){const sh=[],bc=f.bc||'#ffffff';
+ if(f.sha>0&&k>0)sh.push(`${f.shx||0}px ${f.shy||0}px ${f.shb||0}px color-mix(in srgb,${f.shc||'#000000'} ${Math.round(f.sha*k)}%,transparent)`);
+ if(f.gla>0&&f.gls>0){if(f.gm==='grad'){const a=(f.gan||0)*Math.PI/180,o=f.gls*.35,dx=(Math.cos(a)*o).toFixed(1),dy=(Math.sin(a)*o).toFixed(1);sh.push(`${dx}px ${dy}px ${f.gls}px color-mix(in srgb,${f.glc||'#22d3ee'} ${f.gla}%,transparent)`,`${-dx}px ${-dy}px ${f.gls}px color-mix(in srgb,${f.glc2||'#e879f9'} ${f.gla}%,transparent)`)}else sh.push(`0 0 ${f.gls}px color-mix(in srgb,${f.glc||'#22d3ee'} ${f.gla}%,transparent)`)}
  if(f.bb>0&&f.bo>0)sh.push(`inset 0 0 ${f.bb}px ${Math.max(1,f.bw)}px color-mix(in srgb,${bc} ${f.bo}%,transparent)`,`0 0 ${f.bb}px color-mix(in srgb,${bc} ${Math.round(f.bo*.6)}%,transparent)`);
  if(f.sn>0&&f.se>0)for(let k=1;k<=f.sn;k++)sh.push(`0 0 0 ${k*f.se}px color-mix(in srgb,${bc} ${Math.round(f.sop*(1-(f.sf/100)*(k-1)/f.sn))}%,transparent)`);
  if(f.hg>0){const a=f.hg/100;sh.push(`0 0 16px rgba(34,211,238,${a.toFixed(2)})`,`0 0 34px rgba(232,121,249,${(a*.8).toFixed(2)})`,`0 0 56px rgba(253,224,71,${(a*.5).toFixed(2)})`)}
  return sh.join(',')}
-function syncBlocks(){[['rdOn','pb_rd'],['frOn','pb_fr'],['dfOn','pb_df'],['ecOn','pb_ec'],['glOn','pb_gl']].forEach(([k,b])=>{$(b).hidden=!S[k]})}
+function syncBlocks(){$('s_opw').closest('label').hidden=S.opm!=='edge';[['rdOn','pb_rd'],['opOn','pb_op'],['dfOn','pb_df'],['ecOn','pb_ec'],['glOn','pb_gl']].forEach(([k,b])=>{$(b).hidden=!S[k]})}
+// kính: SVG filter gồm Distort theo gân, Optical (khúc xạ + sắc sai), Deform (noise/map)
+let gcache='',gn=0;
+function ribMap(w){const sv=`<svg xmlns='http://www.w3.org/2000/svg' width='2000' height='2000'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='0'><stop offset='0' stop-color='rgb(0,128,0)'/><stop offset='1' stop-color='rgb(255,128,0)'/></linearGradient><pattern id='p' width='${w}' height='8' patternUnits='userSpaceOnUse'><rect width='${w}' height='8' fill='url(#g)'/></pattern></defs><rect width='2000' height='2000' fill='url(#p)'/></svg>`;return 'data:image/svg+xml,'+encodeURIComponent(sv)}
+// bản đồ khúc xạ quanh viền theo kích thước khung (ax: x|y)
+function edgeMap(w,h,ax){const L=ax==='x'?w:h,t=Math.max(4,Math.min(S.opw,L/2-1)),st=[],col=v=>ax==='x'?`rgb(${v},128,0)`:`rgb(128,${v},0)`;
+ for(let k=0;k<=6;k++){const p=k/6;st.push(`<stop offset='${(p*t/L).toFixed(4)}' stop-color='${col(Math.round(128+127*(1-p)*(1-p)))}'/>`)}
+ for(let k=6;k>=0;k--){const p=k/6;st.push(`<stop offset='${(1-p*t/L).toFixed(4)}' stop-color='${col(Math.round(128-128*(1-p)*(1-p)))}'/>`)}
+ return 'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}'><defs><linearGradient id='g' x1='0' y1='0' x2='${ax==='x'?1:0}' y2='${ax==='x'?0:1}'>${st.join('')}</linearGradient></defs><rect width='${w}' height='${h}' fill='url(#g)'/></svg>`)}
+function chain(dd,rd,rf,ca,w,h){let x='',cur='SourceGraphic';const dm=(i2,sc,res)=>{x+=`<feDisplacementMap in="${cur}" in2="${i2}" scale="${sc}" xChannelSelector="R" yChannelSelector="G" result="${res}"/>`;cur=res};
+ if(dd>0){x+=`<feTurbulence type="fractalNoise" baseFrequency="${(.004+S.dn/100*.12).toFixed(4)}" numOctaves="2" seed="3" result="n1"/>`;
+  if(S.dsrc==='map'&&gmap)x+=`<feImage href="${gmap}" x="0" y="0" width="2000" height="2000" preserveAspectRatio="xMidYMid slice" result="n1"/>`;dm('n1',dd,'d1')}
+ if(rd>0){x+=`<feImage href="${ribMap(S.gw)}" x="0" y="0" width="2000" height="2000" preserveAspectRatio="none" result="rm"/>`;dm('rm',rd,'d2')}
+ if(w&&rf>0){x+=`<feImage href="${edgeMap(w,h,'x')}" x="0" y="0" width="${w}" height="${h}" preserveAspectRatio="none" result="mx"/>`;dm('mx',rf*1.4,'e1');
+  x+=`<feImage href="${edgeMap(w,h,'y')}" x="0" y="0" width="${w}" height="${h}" preserveAspectRatio="none" result="my"/>`;dm('my',rf*1.4,'e2')}
+ else if(rf>0){x+=`<feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves="1" seed="11" result="ln"/>`;dm('ln',rf,'d3')}
+ if(ca>0){x+=`<feColorMatrix in="${cur}" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="cr"/><feOffset in="cr" dx="${ca}" dy="0" result="cr2"/>`+
+  `<feColorMatrix in="${cur}" type="matrix" values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0" result="cg"/>`+
+  `<feColorMatrix in="${cur}" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0" result="cb"/><feOffset in="cb" dx="${-ca}" dy="0" result="cb2"/>`+
+  `<feBlend in="cr2" in2="cg" mode="screen" result="rg"/><feBlend in="rg" in2="cb2" mode="screen"/>`}
+ return x}
+function buildGlass(){
+ const dd=S.dfOn?S.dd:0,rd=(S.rdOn&&S.rdd)?S.rds:0,rf=S.opOn?S.opr:0,ca=S.opOn?S.opc:0,edge=S.opOn&&S.opm==='edge'&&rf>0,need=dd>0||rd>0||rf>0||ca>0;
+ document.documentElement.classList.toggle('disp',need);
+ const els=[$('hero'),...document.querySelectorAll('#lists .block')];
+ if(!need||!edge)els.forEach(e=>e.style.removeProperty('--gdf'));
+ if(!need)return;
+ if(!edge){const key=['g',dd,S.dn,S.dsrc,gmap.length,rd,S.gw,rf,ca].join('|');if(key===gcache)return;gcache=key;
+  gn++;$('gdefs').innerHTML=`<filter id="gd${gn}" x="0" y="0" width="100%" height="100%" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">${chain(dd,rd,rf,ca)}</filter>`;
+  R.setProperty('--gdf',`url(#gd${gn})`);return}
+ const sz=els.map(e=>[Math.round(e.offsetWidth),Math.round(e.offsetHeight)]),key=['e',dd,S.dn,S.dsrc,gmap.length,rd,S.gw,rf,ca,S.opw,sz.join(';')].join('|');
+ if(key===gcache&&els.every(e=>e.style.getPropertyValue('--gdf')))return;gcache=key;gn++;
+ let h='';els.forEach((e,i)=>{const[w,hh]=sz[i];if(w<10||hh<10)return;h+=`<filter id="gd${gn}_${i}" x="0" y="0" width="100%" height="100%" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">${chain(dd,rd,rf,ca,w,hh)}</filter>`;e.style.setProperty('--gdf',`url(#gd${gn}_${i})`)});
+ $('gdefs').innerHTML=h}
 function NOISE(fq,a){return `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='${fq}' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 ${a} 0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>`)}")`}
 
 // ===== Filter (lớp phủ: dưới cùng đè nền / trên cùng đè mọi layer) =====
@@ -674,27 +936,98 @@ function applyFilters(){
   if(ST[f.id])ST[f.id](n,P);
   const c=CV[f.id];if(c){const st=fst[f.id]=fst[f.id]||{},sig=JSON.stringify(P)+'|'+[innerWidth,innerHeight,S.g1,S.g2,S.ang,S.dim,imgEl?1:0].join();
    if(st.sig!==sig){st.sig=sig;cvSize(n);c.init(n,P,st);if(c.anim)c.step(n,P,st)}}});
- startLoop()}
+  updClips(true);startLoop()}
 let loopOn=false,lastT=0;
 function loop(t){if(!loopOn)return;requestAnimationFrame(loop);if(t-lastT<33)return;lastT=t;
  FS.forEach(f=>{const P=S.fl[f.id],c=CV[f.id],n=fnodes[f.id];if(!c||!c.anim||!P.on||!n)return;if(cvSize(n)){c.init(n,P,fst[f.id])}c.step(n,P,fst[f.id])})}
 function startLoop(){const need=FS.some(f=>CV[f.id]&&CV[f.id].anim&&S.fl[f.id].on);
  if(need&&!loopOn&&!matchMedia('(prefers-reduced-motion: reduce)').matches){loopOn=true;requestAnimationFrame(loop)}else if(!need)loopOn=false}
-function buildFl(){$('flui').innerHTML=FS.map(f=>{const P=S.fl[f.id];return `<div class="fi"><label class="tg"><span><input type="checkbox" data-f="${f.id}" data-k="on"${P.on?' checked':''}>${f.n}</span></label>
- <div class="fpb"${P.on?'':' hidden'}><label>Layer<select data-f="${f.id}" data-k="ly"><option value="bottom"${P.ly==='bottom'?' selected':''}>Dưới cùng (đè lên nền)</option><option value="top"${P.ly==='top'?' selected':''}>Trên cùng (đè lên mọi layer)</option></select></label>
- <label>Opacity<input type="range" min="0" max="100" value="${P.op}" data-f="${f.id}" data-k="op"></label>
- ${f.p.map(p=>p[2]==='b'?`<label class="tg"><span><input type="checkbox" data-f="${f.id}" data-k="${p[0]}"${P[p[0]]?' checked':''}>${p[1]}</span></label>`:p[2]==='c'?`<label>${p[1]}<input type="color" value="${P[p[0]]}" data-f="${f.id}" data-k="${p[0]}"></label>`:`<label>${p[1]}<input type="range" min="${p[2]}" max="${p[3]}" value="${P[p[0]]}" data-f="${f.id}" data-k="${p[0]}"></label>`).join('')}</div></div>`}).join('');
- $('flui').querySelectorAll('input[type=range]').forEach(enh)}
-$('flui').addEventListener('input',e=>{const el=e.target,f=el.dataset.f;if(!f)return;const k=el.dataset.k;
- S.fl[f][k]=el.type==='checkbox'?el.checked:el.type==='range'?+el.value:el.value;
- if(k==='on')el.closest('.fi').querySelector('.fpb').hidden=!el.checked;commit()});
+let fo=null;const fsn=f=>f.n.split(' (')[0];
+function buildFl(){
+ let h=`<div class="bg" id="fbtn">${FS.map(f=>`<button type="button" data-fo="${f.id}" class="${f.id===fo?'on':''}${S.fl[f.id].on?' act':''}">${fsn(f)}</button>`).join('')}</div>`;
+ if(fo){const f=FS.find(x=>x.id===fo),P=S.fl[fo],rl=(l,c)=>`<div class="rl"><span>${l}</span>${c}</div>`,
+  bg=(k,a)=>`<div class="bg">${a.map(([v,n])=>`<button type="button" data-f="${fo}" data-k="${k}" data-v="${v}" class="${P[k]===v?'on':''}">${n}</button>`).join('')}</div>`;
+  h+=`<div class="fi" style="margin-top:14px">${rl('Bật',`<span class="sw"><input type="checkbox" data-f="${fo}" data-k="on"${P.on?' checked':''}></span>`)}${rl('Phạm vi',bg('sc',[['page','Toàn trang'],['main','Main'],['dl','Deadlines']]))}${rl('Layer',bg('ly',[['bottom','Dưới (sau kính)'],['top','Trên cùng']]))}${rl('Opacity',`<input type="range" min="0" max="100" value="${P.op}" data-f="${fo}" data-k="op">`)}
+ ${f.p.map(p=>rl(p[1],p[2]==='b'?`<span class="sw"><input type="checkbox" data-f="${fo}" data-k="${p[0]}"${P[p[0]]?' checked':''}></span>`:p[2]==='c'?`<input type="color" value="${P[p[0]]}" data-f="${fo}" data-k="${p[0]}">`:`<input type="range" min="${p[2]}" max="${p[3]}" value="${P[p[0]]}" data-f="${fo}" data-k="${p[0]}">`)).join('')}</div>`}
+ $('flui').innerHTML=h;$('flui').querySelectorAll('input[type=range]').forEach(enh)}
+$('flui').addEventListener('click',e=>{const o=e.target.closest('[data-fo]');if(o){fo=fo===o.dataset.fo?null:o.dataset.fo;buildFl();return}
+ const b=e.target.closest('button[data-v]');if(!b)return;S.fl[b.dataset.f][b.dataset.k]=b.dataset.v;commit();buildFl();buildLy()});
+$('flui').addEventListener('input',e=>{const el=e.target,f=el.dataset.f;if(!f||!el.dataset.k)return;const k=el.dataset.k;
+ S.fl[f][k]=el.type==='checkbox'?el.checked:el.type==='range'?+el.value:el.value;commit();if(k==='on'){buildFl();buildLy()}});
+// bảng layer: toàn trang / trong khung Main / trong khung Deadlines
+const SCN=[['page','Toàn trang'],['main','Trong khung Main'],['dl','Trong khung Deadlines']];
+function buildLy(){$('lyui').innerHTML=SCN.map(([v,n])=>{const act=FS.filter(f=>S.fl[f.id].on&&S.fl[f.id].sc===v);
+ return `<h4>${n}</h4><div class="bg">${FS.map(f=>`<button type="button" data-ly="${f.id}" data-sc="${v}" class="${act.includes(f)?'on':''}">${fsn(f)}</button>`).join('')}</div>`+
+ (act.length?act.map(f=>`<div class="rl" style="margin:10px 0 0"><span>${fsn(f)}</span><div class="bg"><button type="button" data-lp="${f.id}" data-v="bottom" class="${S.fl[f.id].ly==='bottom'?'on':''}">Dưới</button><button type="button" data-lp="${f.id}" data-v="top" class="${S.fl[f.id].ly==='top'?'on':''}">Trên</button><button type="button" data-ed="${f.id}">Chỉnh</button></div></div>`).join(''):'<small style="opacity:.6;display:block;margin-top:8px">Chưa có layer</small>')}).join('')}
+$('lyui').addEventListener('click',e=>{const c=e.target.closest('[data-ly]'),l=e.target.closest('[data-lp]'),d=e.target.closest('[data-ed]');
+ if(c){const P=S.fl[c.dataset.ly];if(P.on&&P.sc===c.dataset.sc)P.on=false;else{P.on=true;P.sc=c.dataset.sc}}
+ else if(l)S.fl[l.dataset.lp].ly=l.dataset.v;
+ else if(d){fo=d.dataset.ed;buildFl();selTab('fx');return}
+ else return;commit();buildFl();buildLy()});
+// phạm vi layer: cắt theo khung
+function rrPath(b,r){r=Math.min(r,b.width/2,b.height/2);const x=b.left,y=b.top,w=b.width,h=b.height;
+ return `M${x+r} ${y}H${x+w-r}A${r} ${r} 0 0 1 ${x+w} ${y+r}V${y+h-r}A${r} ${r} 0 0 1 ${x+w-r} ${y+h}H${x+r}A${r} ${r} 0 0 1 ${x} ${y+h-r}V${y+r}A${r} ${r} 0 0 1 ${x+r} ${y}Z`}
+function clipOf(sc){if(sc==='page')return 'none';const els=sc==='main'?[$('hero')]:[...document.querySelectorAll('#lists .block')];
+ const p=els.map(e=>e.getBoundingClientRect()).filter(b=>b.width).map(b=>rrPath(b,S.fr[sc].rad)).join('');return p?`path('${p}')`:'inset(50%)'}
+function updClips(force){const sc=FS.some(f=>S.fl[f.id].on&&S.fl[f.id].sc!=='page');if(!sc&&!force)return;const c={};
+ FS.forEach(f=>{const P=S.fl[f.id];if(!P.on)return;const k=P.sc||'page',cl=c[k]??(c[k]=clipOf(k));
+  (f.id==='scan'?[$('fx'),$('glow')]:[fnodes[f.id]]).forEach(n=>{if(n){n.style.clipPath=cl;n.style.webkitClipPath=cl}})})}
+let sq=0;addEventListener('scroll',()=>{if(!sq){sq=1;requestAnimationFrame(()=>{sq=0;updClips()})}},{passive:true});
 
-bindS();buildFonts();buildFl();selTab('ht');commit();render();
+// nhóm nút chọn: rê chuột để xem thử, bấm để chọn
+function pkInit(){document.querySelectorAll('.pk').forEach(box=>{const hid=$(box.dataset.h);let orig=null;
+ const mark=()=>box.querySelectorAll('[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===hid.value));
+ const set=v=>{if(hid.value!==v){hid.value=v;hid.dispatchEvent(new Event('input',{bubbles:true}))}mark()};
+ box.addEventListener('mouseover',e=>{const b=e.target.closest('[data-v]');if(!b||box.dataset.nh)return;if(orig===null)orig=hid.value;set(b.dataset.v)});
+ box.addEventListener('mouseleave',()=>{if(orig!==null){const o=orig;orig=null;set(o)}});
+ box.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;orig=null;set(b.dataset.v)});
+ PG.push(mark)})}
+const pkMark=()=>PG.forEach(f=>f());
+$('lay_radd').addEventListener('input',()=>{S.fr.dl.rad=+$('lay_radd').value;commit()});
+PNK.forEach(k=>$('pn_'+k).addEventListener('input',()=>{const e=$('pn_'+k);S.pn[k]=e.type==='range'?+e.value:e.type==='checkbox'?e.checked:e.value;commit()}));
+$('pclose').onclick=()=>toggle();
+
+// preset đặt tên (ô 1,2,3…): rê chuột để xem thử
+let SL;try{SL=JSON.parse(localStorage.getItem(SLK)||'null')}catch(e){}
+if(!Array.isArray(SL)||!SL.length)SL=[{},{},{}];
+let cs=-1,sprev=null;
+const cstate=()=>({s:JSON.stringify(S),img,gmap,fimg});
+function sset(o){S=merge(JSON.parse(o.s));img=o.img||null;gmap=o.gmap||'';fimg=o.fimg||'';bindS();buildFl();buildLy();syncBn();fillEd();fillFr();commit();render();placeFab()}
+const svS=()=>{try{localStorage.setItem(SLK,JSON.stringify(SL))}catch(e){toast('Hết dung lượng lưu trữ: preset chỉ giữ trong phiên này')}};
+function buildSlots(){$('slots').innerHTML=SL.map((s,i)=>`<button type="button" class="sl${s.s?' full':''}${i===cs?' on':''}" data-i="${i}">${esc(s.n||i+1)}</button>`).join('')+'<button type="button" data-add="1" title="Thêm ô">+</button>'}
+$('slots').addEventListener('mouseover',e=>{const b=e.target.closest('[data-i]');if(!b)return;const s=SL[b.dataset.i];if(!s||!s.s)return;if(!sprev)sprev=cstate();sset(s)});
+$('slots').addEventListener('mouseleave',()=>{if(sprev){const p=sprev;sprev=null;sset(p)}});
+$('slots').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.add){SL.push({});svS();buildSlots();return}
+ const i=+b.dataset.i,s=SL[i];sprev=null;cs=i;
+ if(s.s){sset(s);st(BK,img);st(MK,gmap);st(FIK,fimg)}else{SL[i]=Object.assign({n:s.n},cstate());svS();toast(lang==='en'?'Saved to slot':'Đã lưu vào ô')}
+ buildSlots()});
+$('sl_save').onclick=()=>{if(cs<0)return toast('Chọn một ô trước');SL[cs]=Object.assign({n:SL[cs].n},cstate());svS();buildSlots();toast(lang==='en'?'Saved to slot':'Đã lưu vào ô')};
+$('sl_ren').onclick=()=>{if(cs<0)return toast('Chọn một ô trước');modal('Đổi tên preset',`<input id="sl_n" class="fld" value="${esc(SL[cs].n||'')}" placeholder="${cs+1}">`,'Lưu',()=>{SL[cs].n=$('sl_n').value.trim();svS();buildSlots()})};
+$('sl_del').onclick=()=>{if(cs<0)return toast('Chọn một ô trước');SL.splice(cs,1);if(!SL.length)SL.push({});cs=-1;svS();buildSlots()};
+
+// ngôn ngữ Việt / English
+const EN={"Ngắn hạn": "Short term", "dưới 1 tuần": "under 1 week", "Trống": "Empty", "Trung hạn": "Mid term", "dưới 1 tháng": "under 1 month", "Dài hạn": "Long term", "dưới 6 tháng": "under 6 months", "Kéo để chuyển ô": "Drag to move", "Ghim": "Pin", "Sửa": "Edit", "Xoá": "Delete", "Đánh dấu xong": "Mark done", "Tên deadline": "Deadline name", "Chọn ngày": "Pick date", "Giờ (mặc định 8:00 AM)": "Time (default 8:00 AM)", "Thêm": "Add", "Tuỳ chỉnh giao diện (kéo để đổi vị trí)": "Customize (drag to move)", "Đóng": "Close", "Bố cục": "Layout", "Bảng chính": "Main panel", "Tên khối": "Block name", "Tên task": "Task name", "Ngày / chú thích": "Date / note", "Hiệu ứng": "Effects", "Bảng tuỳ chỉnh": "Settings panel", "Preset & dữ liệu": "Presets & data", "Mặc định": "Default", "Tên Google Font bất kỳ": "Any Google Font name", "Mặc định (hệ thống)": "Default (system)", "+ Font từ máy": "+ Local font", "Font của bạn (rê chuột để xem thử, × để xoá)": "Your fonts (hover to preview, × to remove)", "Xoá font khỏi danh sách": "Remove font from list", "Thư viện Google Fonts": "Google Fonts library", "Tìm font...": "Search fonts...", "Auto (theo khung)": "Auto (follow frame)", "Kiểu bố cục": "Layout style", "Chia đôi": "Split", "Main trên · Deadlines dọc": "Main on top · Deadlines stacked", "Main trên · 3 cột": "Main on top · 3 columns", "Tràn full chiều cao màn hình": "Fill full screen height", "Bo góc khung Main": "Main corner radius", "Bo góc khung Deadlines": "Deadlines corner radius", "Rê chuột vào nút để xem thử, bấm để chọn. Chiều cao Main chỉnh ở mục Bảng chính. Ô Thêm deadline nằm dưới cùng, rộng bằng 3 khối. Trên điện thoại luôn xếp 1 cột.": "Hover a button to preview, click to select. Main height is set in the Main panel tab. The add box sits at the bottom, as wide as the 3 blocks. On phones everything stacks in 1 column.", "Khung": "Frame", "Tự động (chia đôi: bằng cột Deadlines · xếp dọc: nửa màn)": "Auto (split: match Deadlines column · stacked: half screen)", "Full màn": "Full screen", "Cố định (px)": "Fixed (px)", "Height (px) — kéo là tự chuyển sang cố định": "Height (px) — dragging switches to fixed", "Tên trên, countdown dưới": "Name top, countdown bottom", "Dồn lên trên": "Pack to top", "Giữa": "Center", "Dồn xuống dưới": "Pack to bottom", "Divider line giữa 2 cột": "Divider between columns", "Glass amount (0 = trong suốt)": "Glass amount (0 = transparent)", "Blend với nền": "Blend with background", "Corner radius (0 = vuông · 200 = tròn)": "Corner radius (0 = square · 200 = round)", "Blur blend với nền": "Blur blend with background", "Tên 3 khối (hoặc double-click vào tiêu đề khối)": "Rename the 3 blocks (or double-click a block title)", "Khối 1 · tên": "Block 1 · name", "Khối 1 · chú thích": "Block 1 · note", "Khối 2 · tên": "Block 2 · name", "Khối 2 · chú thích": "Block 2 · note", "Khối 3 · tên": "Block 3 · name", "Khối 3 · chú thích": "Block 3 · note", "Glass dùng chung màu/blur/kính ở mục Hiệu ứng. Feather sẽ cắt phần echo/glow ngoài khung.": "Glass shares color/blur/glass from the Effects tab. Feather clips echo/glow outside the frame.", "Nền": "Background", "Ảnh nền": "Background image", "Chọn ảnh": "Choose image", "Xoá ảnh": "Remove image", "Độ tối ảnh": "Image dimming", "Gradient (khi không có ảnh)": "Gradient (no image)", "Góc gradient": "Gradient angle", "Màu kính / màu nhấn": "Glass / accent color", "Độ trong suốt": "Transparency", "Độ đậm màu sau kính": "Saturation behind glass", "Reeded (kính gân)": "Reeded glass", "Độ rộng gân": "Rib width", "Độ mạnh gân": "Rib strength", "Distort (gây méo theo gân)": "Distort (warp along ribs)", "Optical (biến dạng quang học)": "Optical (refraction)", "Vùng áp dụng": "Apply to", "Quanh viền": "Edge only", "Toàn khung": "Whole frame", "Độ toả (px, từ viền vào trong)": "Reach (px, from edge inward)", "Refraction (khúc xạ)": "Refraction", "Deform (làm méo nền trong khung)": "Deform (warp the backdrop)", "Chọn map": "Choose map", "Xoá map": "Remove map", "Distort, Optical và Deform làm méo phần nền nhìn xuyên qua kính, nên khung phải có glass > 0. Chỉ chạy trên Chrome/Edge.": "Distort, Optical and Deform warp the backdrop seen through the glass, so the frame needs glass > 0. Chrome/Edge only.", "Echo lớp kính": "Glass echo", "Glow lớp kính": "Glass glow", "Mưa droplet": "Rain droplets", "Bật": "On", "Phạm vi": "Scope", "Toàn trang": "Whole page", "Dưới (sau kính)": "Bottom (behind glass)", "Trên cùng": "Top", "Mật độ hạt nhỏ": "Small drop density", "Số lượng giọt lớn": "Large drop count", "Kích thước giọt": "Drop size", "Tốc độ chảy vệt": "Streak speed", "Độ dài vệt": "Streak length", "Lưới + scanline": "Grid + scanline", "Ánh sáng glow": "Glow light", "Vệt quét chạy": "Moving sweep", "Tốc độ vệt quét (giây/vòng)": "Sweep speed (s/cycle)", "Độ dày vệt quét": "Sweep thickness", "Ám màu sepia": "Sepia tint", "Nhiễu hạt": "Noise grain", "Độ bạc": "Silver", "Ố viền / vignette": "Aged edge / vignette", "Hạt": "Grain", "Tương phản": "Contrast", "Mờ viền": "Edge blur", "Sắc sai (chromatic)": "Chromatic aberration", "Ám màu kính": "Glass tint", "Mật độ cột": "Column density", "Tốc độ": "Speed", "Cỡ chữ": "Font size", "Màu": "Color", "Cỡ ô": "Cell size", "Một màu": "Single color", "Số múi": "Segments", "Tốc độ xoay": "Rotation speed", "Chiều cao phản chiếu (%)": "Reflection height (%)", "Gợn sóng": "Ripple", "Mờ dần": "Fade out", "Trôi ngẫu nhiên": "Random drift", "Bóng bay": "Balloon", "Bồng bềnh": "Floating", "Cố định": "Fixed", "Va chạm với các khung": "Collide with frames", "Quán tính": "Inertia", "Giới hạn tốc độ": "Speed limit", "Bắt dính khi chuột chạm": "Stick when mouse touches", "Ảnh / logo / avatar": "Image / logo / avatar", "Random vị trí ngay": "Randomize position now", "Dưới": "Bottom", "Trên": "Top", "Chỉnh": "Edit", "Trong khung Main": "Inside Main frame", "Trong khung Deadlines": "Inside Deadlines frame", "Chưa có layer": "No layers yet", "Độ đặc (opacity)": "Opacity", "Bo góc": "Corner radius", "Màu nền": "Background color", "Màu glow": "Glow color", "Preset của bạn": "Your presets", "Thêm ô": "Add slot", "Lưu đè vào ô đã chọn": "Overwrite selected slot", "Đổi tên": "Rename", "Xoá ô": "Delete slot", "Rê chuột vào ô để xem thử, bấm để chọn. Ô trống: bấm để lưu thiết lập hiện tại.": "Hover a slot to preview, click to select. Empty slot: click to save the current setup.", "Dữ liệu": "Data", "Preset gồm deadline, ảnh nền, font, hiệu ứng, icon. Thiết lập luôn tự lưu trên trình duyệt này.": "A preset includes deadlines, background, fonts, effects and icon. Settings always autosave in this browser.", "Tải preset (.json)": "Download preset (.json)", "Nạp preset": "Load preset", "Tải bản chia sẻ (.html)": "Download shareable page (.html)", "Bản chia sẻ kèm sẵn mọi thiết lập: ai mở file/website đó đều thấy giao diện của bạn.": "The shareable page has all your settings baked in: anyone opening it sees your design.", "Giao diện": "Appearance", "Reset toàn bộ giao diện": "Reset all appearance", "Hoàn tác": "Undo", "Hoàn thành": "Done", "Hoàn thành ✓": "Done ✓", "Chưa có deadline": "No deadline yet", "Đã copy": "Copied", "Đã nạp": "Loaded", "File/JSON lỗi": "Invalid file/JSON", "Copy thủ công": "Manual copy", "Lưu": "Save", "Nạp": "Load", "hoặc dán JSON": "or paste JSON", "Sửa deadline": "Edit deadline", "Cần nhập tên và ngày": "Name and date required", "Đổi tên khối": "Rename block", "Chú thích": "Note", "Chọn ngày cho deadline": "Pick a date for the deadline", "Giờ này đã qua, deadline sẽ hiển thị quá hạn": "That time has passed; the deadline will show as overdue", "Chọn một ô trước": "Select a slot first", "Đổi tên preset": "Rename preset", "Hết dung lượng lưu trữ: preset chỉ giữ trong phiên này": "Storage full: preset kept for this session only", "Bấm lần nữa để xác nhận": "Click again to confirm", "Ảnh quá lớn để lưu lâu dài, chỉ dùng tạm trong phiên này": "Image too large to keep; used for this session only", "Map quá lớn để lưu lâu dài": "Map too large to keep", "Font quá lớn để lưu lâu dài, chỉ dùng tạm trong phiên này": "Font too large to keep; used for this session only", "Spacing (giữa các dòng)": "Spacing (between lines)", "Spacing (giữa các ô Deadline)": "Spacing (between deadline boxes)", "Khung: Bảng chính": "Frame: Main panel", "Khung: Deadlines": "Frame: Deadlines", "Chữ: Bảng chính · Title": "Text: Main panel · Title", "Chữ: Bảng chính · Countdown": "Text: Main panel · Countdown", "Chữ: Bảng chính · Deadline": "Text: Main panel · Deadline", "Chữ: Deadlines · Tên khối": "Text: Deadlines · Block name", "Chữ: Deadlines · Tên task": "Text: Deadlines · Task name", "Chữ: Deadlines · Countdown": "Text: Deadlines · Countdown", "Chữ: Deadlines · Ngày / chú thích": "Text: Deadlines · Date / note", "Căn lề các tuỳ chọn": "Option alignment", "Căn phải": "Right", "Căn đều": "Justified", "Xếp chồng": "Stacked", "Màu chữ bảng": "Panel text color", "Tự đổi chữ sang đen khi nền sáng": "Auto dark text on light background", "Bo góc (0 = vuông · 40 = tối đa)": "Corner radius (0 = square · 40 = max)"};
+const _tv=new WeakMap();
+function trText(n){const raw=n.nodeValue,t=raw.trim();if(!t)return;const e=EN[t];if(e===undefined)return;const v=raw.replace(t,e);_tv.set(n,[raw,v]);n.nodeValue=v}
+function trAttr(el){['placeholder','title'].forEach(a=>{const v=el.getAttribute&&el.getAttribute(a);if(v&&EN[v]!==undefined){(el._a=el._a||{})[a]=[v,EN[v]];el.setAttribute(a,EN[v])}})}
+function trNode(n){if(n.nodeType===3){trText(n);return}if(n.nodeType!==1||/^(SCRIPT|STYLE|TEXTAREA)$/.test(n.tagName))return;trAttr(n);
+ const w=document.createTreeWalker(n,NodeFilter.SHOW_ELEMENT|NodeFilter.SHOW_TEXT);let c;while(c=w.nextNode()){c.nodeType===3?trText(c):/^(SCRIPT|STYLE|TEXTAREA)$/.test(c.tagName)||trAttr(c)}}
+function unTr(){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_ELEMENT|NodeFilter.SHOW_TEXT);let c;while(c=w.nextNode()){
+ if(c.nodeType===3){const o=_tv.get(c);if(o&&c.nodeValue===o[1])c.nodeValue=o[0];_tv.delete(c)}
+ else if(c._a){for(const a in c._a){if(c.getAttribute(a)===c._a[a][1])c.setAttribute(a,c._a[a][0])}c._a=null}}}
+new MutationObserver(ms=>{if(lang!=='en')return;ms.forEach(m=>{if(m.type==='characterData')trText(m.target);else m.addedNodes.forEach(trNode)})}).observe(document.body,{childList:true,subtree:true,characterData:true});
+function setLang(l){lang=l;S.lang=l;document.documentElement.lang=l;unTr();if(l==='en')trNode(document.body);
+ $('plg').checked=l==='en';render();try{localStorage.setItem(SK,JSON.stringify(S))}catch(e){}}
+$('plg').onchange=()=>setLang($('plg').checked?'en':'vi');
+
+pkInit();bindS();buildFonts();buildFl();buildLy();buildSlots();syncBn();selTab('ht');commit();render();
 document.querySelectorAll('#pr input[type=range]').forEach(enh);
-placeFab();
+placeFab();setLang(lang);
 setInterval(tick,1000);
 setInterval(()=>{if(!drag)render()},60000);
-let rz=0;addEventListener('resize',()=>{fit();placeFab();clearTimeout(rz);rz=setTimeout(applyFilters,150)});
+let rz=0;addEventListener('resize',()=>{fit();placeFab();clearTimeout(rz);rz=setTimeout(()=>{applyFilters();if(S.opOn&&S.opm==='edge'){gcache='';buildGlass()}},150)});
+new ResizeObserver(()=>{if(S.opOn&&S.opm==='edge'){clearTimeout(rz2);rz2=setTimeout(()=>{buildGlass();updClips()},120)}}).observe($('lists'));var rz2=0;
 </script>
 </body>
 </html>

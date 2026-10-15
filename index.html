@@ -755,6 +755,37 @@ canvas.vizc{position:absolute;left:0;bottom:0;width:100%;pointer-events:none;z-i
 #gls_box .mcol>label:has(>input[type=color]){display:flex!important;flex-direction:row!important;align-items:center;justify-content:space-between;gap:12px}#gls_box .mcol>label>input[type=color]{margin:0!important;flex:none}
 /* v50d */#hero .hb>div:last-child{margin-top:-9px;padding:0 3px}.item .c>div+div{margin-top:-3px;padding:0 1px}
 .lyhi{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;margin-bottom:6px}.lyhi span{border:1px solid var(--ln);border-radius:var(--br,8px);padding:2px 8px}.lyhi i{font-style:normal;opacity:.5}.lyrules{background:var(--pbg,#10101a)!important;padding:8px 14px 10px!important}.lyrules ul{margin:0}
+
+/* v51 */
+.lyic{display:flex;gap:6px;margin:6px 0 12px}.lyic button{width:60px;height:42px;display:flex!important;align-items:center;justify-content:center;padding:0!important}
+@media(min-width:901px){
+ main[data-fill=on][data-lay=full],main[data-fill=on][data-lay=stack]{grid-template-rows:minmax(120px,1fr) auto}
+ main[data-fill=on][data-lay=quad]{grid-template-rows:minmax(120px,1fr) auto}}
+main[data-lay=quad]{grid-template-columns:minmax(0,var(--lf)) minmax(0,var(--rf));grid-template-areas:"hero hero" "lists side";gap:0 24px;align-items:start}
+main[data-lay=quad][data-qsw=on]{grid-template-columns:minmax(0,var(--rf)) minmax(0,var(--lf));grid-template-areas:"hero hero" "side lists"}
+main[data-lay=quad] #right,main[data-lay=quad] #dl{display:contents!important}
+main[data-lay=quad] #hero{grid-area:hero;flex-direction:row!important;justify-content:space-between!important;align-self:stretch;margin-bottom:var(--bgap,14px);gap:24px}
+main[data-qsw=on] #hero{flex-direction:row-reverse!important}
+main[data-lay=quad] #hero>div:first-child{flex:1;align-self:flex-end;min-width:0}
+main[data-lay=quad] #hero .hb{flex:1;min-width:0;align-self:var(--hqa,flex-end)}
+main[data-lay=quad]:not(.nodiv) #hero .hb{border-left:1px solid var(--ln);padding-left:24px}
+main[data-lay=quad][data-qsw=on]:not(.nodiv) #hero .hb{border-left:0;border-right:1px solid var(--ln);padding:0 24px 0 0}
+main[data-lay=quad] #lists{grid-area:lists;display:flex;flex-direction:column}
+#qside{display:none}main[data-lay=quad] #qside{display:flex;flex-direction:column;gap:var(--bgap,14px);grid-area:side;align-self:start;min-width:0}
+main[data-lay=quad] #qside #addwrap{width:auto!important;min-width:0;margin:0!important}main[data-lay=quad] #qside #arch{margin:0}
+@media(max-width:900px){main[data-lay=quad]{grid-template-columns:1fr;grid-template-areas:"hero" "lists" "side"!important}}
+#sitefoot[data-c="1"] #ft_l{left:50vw!important;transform:translateX(-50%)}
+#ft_clk{font-size:1.275em!important}#ft_v{font-size:1.2em!important}
+#pl #pbt button.tgl{width:27px!important;height:15px!important;border-radius:8px!important}
+#pl #pbt button.tgl::before{top:2px!important;left:2px!important;width:9px!important;height:9px!important}
+#pl #pbt button.tgl.on::before{transform:translateX(12px)!important}
+.tgw span{font-size:12px!important}
+#pl #pbt[data-o=h]{flex-direction:row!important;align-items:flex-end;gap:16px}
+#ft_logo[data-o="1"]{height:20px;align-items:flex-end;overflow:visible;position:relative;z-index:6}
+.lgm{display:block;background:var(--tx)}#ft_logo[data-c="1"] .lgm{background:var(--thg2,var(--thc,var(--tx)))}.lgm img{opacity:0;height:var(--lgh,18px);width:auto;display:block}
+.lgm{-webkit-mask:var(--lgu) center/contain no-repeat;mask:var(--lgu) center/contain no-repeat}
+#botbar{overflow:visible!important}
+.hisb{display:flex;gap:6px;margin-bottom:10px}.hisb button:disabled{opacity:.35}
 </style>
 <style id="dyn"></style>
 </head>
@@ -776,6 +807,7 @@ canvas.vizc{position:absolute;left:0;bottom:0;width:100%;pointer-events:none;z-i
  <section id="arch"><button id="arch_b" type="button"><span>Archive</span><b id="arch_n">0</b><i>▾</i></button>
   <div id="arch_p" class="hvb"><div class="hvi"><div class="arch_in"><div class="arch_s"><table id="arch_t"></table></div><div class="arch_bar"><button type="button" id="arch_x">Xuất Excel (.csv)</button></div></div></div></div></section>
 </div>
+<div id="qside"></div>
 </main>
 
 <button id="fab" title="Tuỳ chỉnh giao diện (kéo để đổi vị trí)"><span id="fabi">🎨</span></button>
@@ -820,20 +852,16 @@ canvas.vizc{position:absolute;left:0;bottom:0;width:100%;pointer-events:none;z-i
  <section id="p_lay" class="set" hidden>
   <h4>Bố cục</h4>
   <input id="s_lay" type="hidden">
-  <div class="rl"><span>Kiểu bố cục</span><div class="bg pk" data-h="s_lay"><button type="button" data-v="split">Chia đôi</button><button type="button" data-v="full">Main trên · Deadlines dọc</button><button type="button" data-v="stack">Main trên · 3 cột</button></div></div>
+  <div class="bg pk lyic" data-h="s_lay" data-nh="1"><button type="button" data-v="split" title="Chia đôi"><svg viewBox="0 0 24 24" width="30" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M12 4v16"/></svg></button><button type="button" data-v="full" title="Main trên · Deadlines xếp ngang (chia 3 hàng)"><svg viewBox="0 0 24 24" width="30" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.3h18M3 14.7h18"/></svg></button><button type="button" data-v="stack" title="Main trên · 3 cột"><svg viewBox="0 0 24 24" width="30" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M9 4v16M15 4v16"/></svg></button><button type="button" data-v="quad" title="Chia 4"><svg viewBox="0 0 24 24" width="30" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M12 4v16M3 12h18"/></svg></button></div>
+  <details class="hv"><summary>Tuỳ chọn bố cục</summary><div>
   <div class="rl"><span>Tràn full chiều cao màn hình</span><span class="sw"><input type="checkbox" id="s_fill"></span></div>
   <input id="s_ap3" type="hidden"><input id="s_ap2" type="hidden">
   <div class="rl" id="ap3r"><span>Vị trí ô thêm deadline</span><div class="bg pk" data-h="s_ap3"><button type="button" data-v="left">Trái</button><button type="button" data-v="center">Giữa</button><button type="button" data-v="right">Phải</button></div></div>
   <div class="rl" id="ap2r"><span>Vị trí ô thêm deadline</span><div class="bg pk" data-h="s_ap2"><button type="button" data-v="top">Trên 3 ô</button><button type="button" data-v="bottom">Dưới 3 ô</button></div></div>
-  <div class="rl"><span>Corner radius (overall)</span><input id="lay_radd" type="range" min="0" max="40"></div>
+  <div class="rl" id="qr"><span>Đảo bên (Chia 4)</span><span class="sw"><input type="checkbox" id="s_qsw"></span></div>
+  </div></details>
+  <div hidden><input id="lay_radd" type="range" min="0" max="40"></div>
   <details class="hv"><summary>Echo — Custom panel</summary><div class="g2"><label>Layers<input id="s_fen" type="range" min="0" max="8"></label><label>Distance<input id="s_feo" type="range" min="0" max="30"></label><label>Fade<input id="s_fef" type="range" min="0" max="100"></label><label>Opacity<input id="s_feop" type="range" min="0" max="100"></label><label>Color<input id="s_fec" type="color"></label></div></details>
-  <small style="opacity:.6">Rê chuột vào nút để xem thử, bấm để chọn. Chiều cao Main chỉnh ở mục Bảng chính. Ô Thêm deadline nằm dưới cùng, rộng bằng 3 khối. Trên điện thoại luôn xếp 1 cột.</small>
-  <h4>Logo footer (góc dưới phải)</h4>
-  <div class="rl"><span>Custom logo icon</span><span class="lgb"><button type="button" id="lg_up">Tải ảnh</button><button type="button" id="lg_rm">Mặc định</button><input type="file" id="lg_f" accept="image/*" hidden></span></div>
-  <div class="rl"><span>Kích thước logo</span><input id="s_lgs" type="range" min="10" max="48"></div>
-  <h4>Theme</h4>
-  <div class="crow"><input id="s_thm" type="hidden"><div class="bg pk" data-h="s_thm"><button type="button" data-v="default">Mặc định</button><button type="button" data-v="custom">Solid</button><button type="button" data-v="gradient">Gradient</button><button type="button" data-v="bg">Theo nền</button><button type="button" data-v="holo">Holographic</button></div>
-   <div class="gbw" id="gb_th" data-thm="custom gradient" data-mode="s_thm" data-on="gradient"><span class="gl">Màu</span><div class="gb"><input id="s_th1" type="color"><div class="gtr" id="gtr_th"></div><input id="s_th2" type="color" class="g2s"></div></div></div>
  </section>
 
  <section id="p_frame" class="set" hidden>
@@ -971,7 +999,8 @@ canvas.vizc{position:absolute;left:0;bottom:0;width:100%;pointer-events:none;z-i
   <h4>Icon</h4>
   <input id="i_shape" type="hidden"><input id="i_mode" type="hidden">
   <div class="rl"><span>Shape · Symbol</span><span class="pr" style="flex-wrap:nowrap;align-items:center;gap:8px"><input id="i_sym" class="fld" maxlength="4" placeholder="🎨 ✦ ★ ☺" style="width:104px;flex:none" title="Symbol tuỳ chọn"></span></div>
-  <div class="rl"><span>Bo góc (vuông → tròn)</span><input id="i_rad" type="range" min="0" max="50"></div>
+  <div class="rl"><span>Import symbol (SVG / PNG)</span><span class="lgb"><button type="button" id="i_symb">Import</button><button type="button" id="i_symx">Xoá</button><input type="file" id="i_symf" accept="image/*" hidden></span></div>
+  <div class="rl" style="display:none"><span>Bo góc (vuông → tròn)</span><input id="i_rad" type="range" min="0" max="50"></div>
   <div class="rl"><span>Size</span><input id="i_size" type="range" min="32" max="166"></div>
   <div class="rl"><span>Viền</span><input id="i_bd" type="range" min="0" max="8"></div>
   <h4>Icon animation presets</h4>
@@ -996,25 +1025,39 @@ canvas.vizc{position:absolute;left:0;bottom:0;width:100%;pointer-events:none;z-i
   <div class="g2">
    <label>Blur<input id="pn_bl" type="range" min="0" max="60"></label>
    <label>Độ đặc (opacity)<input id="pn_op" type="range" min="20" max="100"></label>
-   <label>Bo góc<input id="pn_rad" type="range" min="0" max="40"></label>
-   <label>Độ cong nút chọn<input id="pn_br" type="range" min="0" max="24"></label>
+   <label>Corner radius (overall)<input id="pn_rad" type="range" min="0" max="40"></label>
+   <label style="display:none">Độ cong nút chọn<input id="pn_br" type="range" min="0" max="24"></label>
    <label style="display:none"><input id="pn_sc" type="range" min="60" max="140"></label>
    <label>Màu nền<input id="pn_c" type="color"></label>
    <div class="glrow"><label>Glow<input id="pn_gl" type="range" min="0" max="60"></label><label>Màu glow<input id="pn_glc" type="color"></label></div>
   </div>
   <div class="rl"><span>Tự đổi chữ sang đen khi nền sáng</span><span class="sw"><input type="checkbox" id="pn_auto"></span></div>
   
+  <details class="hv"><summary>Màu theme</summary><div>
+  <div class="crow"><input id="s_thm" type="hidden"><div class="bg pk" data-h="s_thm"><button type="button" data-v="default">Mặc định</button><button type="button" data-v="custom">Solid</button><button type="button" data-v="gradient">Gradient</button><button type="button" data-v="bg">Theo nền</button><button type="button" data-v="holo">Holographic</button></div>
+   <div class="gbw" id="gb_th" data-thm="custom gradient" data-mode="s_thm" data-on="gradient"><span class="gl">Màu</span><div class="gb"><input id="s_th1" type="color"><div class="gtr" id="gtr_th"></div><input id="s_th2" type="color" class="g2s"></div></div></div>
+  </div></details>
+  <details class="hv"><summary>Logo footer (góc dưới phải)</summary><div>
+  <div class="rl"><span>Custom logo icon</span><span class="lgb"><button type="button" id="lg_up">Tải ảnh</button><button type="button" id="lg_rm">Mặc định</button><input type="file" id="lg_f" accept="image/*" hidden></span></div>
+  <div class="rl"><span>Kích thước logo</span><input id="s_lgs" type="range" min="10" max="96"></div>
+  <div class="rl"><span>Scale over line (vượt lên trên đường kẻ)</span><span class="sw"><input type="checkbox" id="s_lgo"></span></div>
+  <div class="rl"><span>Override theme color</span><span class="sw"><input type="checkbox" id="s_lgc"></span></div>
+  </div></details>
+  <details class="hv"><summary>Nút FPS / Dark mode</summary><div>
+  <div class="rl"><span>Bố cục nút</span><input id="s_tgo" type="hidden"><div class="bg pk" data-h="s_tgo"><button type="button" data-v="v">Dọc</button><button type="button" data-v="h">Ngang</button></div></div>
+  </div></details>
   <h4>Cột trái</h4>
   <input id="pn_lm" type="hidden"><div class="rl"><span>Màu cột trái</span><span class="pr" style="flex-wrap:nowrap;align-items:center;gap:8px"><div class="bg pk" data-h="pn_lm"><button type="button" data-v="theme">Theo theme</button><button type="button" data-v="custom">Tuỳ chỉnh</button></div><input id="pn_lc" type="color" style="width:46px;flex:none"></span></div>
   <div class="g2"><label style="display:none">Độ đặc màu theme<input id="pn_lo" type="range" min="0" max="100"></label><label>Độ đặc nền cột trái<input id="pn_lov" type="range" min="0" max="100"></label><label>Bo góc cột trái<input id="pn_lr" type="range" min="0" max="40"></label></div>
   <input id="pn_rl" type="hidden"><input id="pn_cols" type="hidden">
 
-  <details id="pntd"><summary>Font cột trái (font, màu, weight…)</summary>
+  <details class="hv" id="pntd"><summary>Font</summary>
   <div hidden class="g2"><label>Cỡ chữ<input id="pn_lsz" type="range" min="11" max="24"></label><label>Weight<input id="pn_lwt" type="range" min="300" max="900" step="100"></label><label>Letter spacing<input id="pn_lls" type="range" min="0" max="6" step=".5"></label><label class="tg"><span><input type="checkbox" id="pn_lup">Uppercase</span></label></div>
   <div id="pntbox"></div></details>
  </section>
 
  <section id="p_data" class="set" hidden>
+  <div class="hisb"><button type="button" id="his_u" title="Undo">↶ Undo</button><button type="button" id="his_r" title="Redo">↷ Redo</button></div>
   <div id="slots" class="cards"></div>
   <div id="sl_info"></div>
   <div class="prb2"><button type="button" id="sl_apply" class="p">Apply</button><button type="button" id="sl_ren">Rename</button><button type="button" id="sl_save">Overwrite</button><button type="button" id="sl_del">Delete</button><button type="button" id="s_reset">Reset</button></div>
@@ -1025,7 +1068,7 @@ canvas.vizc{position:absolute;left:0;bottom:0;width:100%;pointer-events:none;z-i
 </div></div>
 
 <div id="dlg" hidden><div class="dbox"><h4 id="dlg_t"></h4><div id="dlg_b"></div><div class="pr" style="justify-content:flex-end"><button id="dlg_no" type="button">Đóng</button><button id="dlg_ok" type="button" class="p">OK</button></div></div></div>
-<footer id="sitefoot"><span id="ft_clk"></span><span id="ft_l">Deadlines</span><span id="ft_v">v0.50</span></footer><div id="botbar"><span id="ft_fps"></span><span id="ft_logo"></span></div>
+<footer id="sitefoot"><span id="ft_clk"></span><span id="ft_l">Deadlines</span><span id="ft_v">v0.51</span></footer><div id="botbar"><span id="ft_fps"></span><span id="ft_logo"></span></div>
 <div id="toast" hidden></div>
 <script id="preset" type="application/json"></script>
 <script>
@@ -1064,7 +1107,7 @@ $('arch_t').onclick=e=>{const b=e.target.closest('[data-ar]');if(!b)return;const
 $('arch_x').onclick=()=>{const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"',d=items.filter(i=>i.done).sort((a,b)=>(b.doneAt||0)-(a.doneAt||0));
  const rows=[['Task','Nhóm','Deadline','Hoàn thành lúc'],...d.map(i=>[i.name,gname(i.dg||grp(i)),fdate(i.date),dtm(i.doneAt)])];
  saveFile('archive-deadlines.csv','\ufeff'+rows.map(r=>r.map(q).join(',')).join('\r\n'),'text/csv;charset=utf-8')};
-function ftPos(){const e=document.querySelector('#lists .e-bt'),l=(e||$('lists')).getBoundingClientRect().left;$('sitefoot').style.setProperty('--ftl',Math.round(l)+'px')}
+function ftPos(){const e=document.querySelector('#lists .e-bt'),l=(e||$('lists')).getBoundingClientRect().left;$('sitefoot').style.setProperty('--ftl',Math.max(Math.round(l),Math.round($('ft_clk').getBoundingClientRect().right+28))+'px')}
 function feMasks(){const pr=[[$('hero'),S.fr.main],...[...document.querySelectorAll('#lists .block')].map(e=>[e,S.fr.dl])];
  pr.forEach(([el,f])=>{const fe=+f.fe||0,w=el.offsetWidth,h=el.offsetHeight;if(!fe||w<4){el.style.webkitMaskImage=el.style.maskImage='';return}
   const i=Math.max(1,Math.min(fe,w/2-1,h/2-1)),rx=Math.max(0,Math.min((+f.rad||0)+i*.6,(w-2*i)/2,(h-2*i)/2));
@@ -1128,7 +1171,7 @@ const sysLight=matchMedia('(prefers-color-scheme: light)').matches;let light=sys
 function adaptC(c){if(typeof c!=='string'||!/^#[0-9a-f]{6}$/i.test(c))return c;const n=parseInt(c.slice(1),16),r=n>>16&255,g=n>>8&255,b=n&255;if(Math.max(r,g,b)-Math.min(r,g,b)>28)return c;const l=(r+g+b)/3;if((!light&&l<110)||(light&&l>170))return '#'+[255-r,255-g,255-b].map(v=>v.toString(16).padStart(2,'0')).join('');return c}
 const T0=(s,w,c,o)=>Object.assign({f:'Inter',s,w,i:0,u:0,up:0,ls:0,m:'solid',c1:c,c2:'#a855f7',eo:0,en:0,ef:50,eop:70,ea:45,gl:0,glc:null,glm:'solid',glc2:'#e879f9',gan:45,nz:0,nzs:3,ho:0,hg:0,pe:0,ir:0,ta:'',al:'auto'},o||{});
 const EL=[{k:'ht',n:'Title'},{k:'hc',n:'Countdown'},{k:'hd',n:'Deadline'},{k:'bt',n:'Tên khối'},{k:'tn',n:'Tên task'},{k:'tc',n:'Countdown'},{k:'td',n:'Ngày / chú thích'},{k:'pl',n:'Cột trái'}];
-const SKEYS=['ac','g1','g2','ang','card','op','blur','sat','dim','rdOn','gw','gs','rdd','rds','opOn','opr','opc','dfOn','dd','dn','dsrc','mOn','bgm','dsp','dsr','bga','bgn','bgr','bgs','lgs','feo','fen','feop','fef','fec','ecOn','ge','gn','gf','glOn','gg','ggc','ggh','gop','ga','colw','hmode','hpx','hj','dv','lay','fill','opm','opw','ggm','ggc2','gga','ops','gr','thm','th1','th2','ap3','ap2'];
+const SKEYS=['ac','g1','g2','ang','card','op','blur','sat','dim','rdOn','gw','gs','rdd','rds','opOn','opr','opc','dfOn','dd','dn','dsrc','mOn','bgm','dsp','dsr','bga','bgn','bgr','bgs','lgs','qsw','lgo','lgc','tgo','feo','fen','feop','fef','fec','ecOn','ge','gn','gf','glOn','gg','ggc','ggh','gop','ga','colw','hmode','hpx','hj','dv','lay','fill','opm','opw','ggm','ggc2','gga','ops','gr','thm','th1','th2','ap3','ap2'];
 const EXP=[];
 const xpOn=id=>!!(S.xp&&S.xp[id]),lqOn=()=>!!(S.xp&&S.xp.lq&&S.lqv&&S.lqv.on),lqP=()=>lqOn(),lqF=()=>lqOn()&&S.lqv.tg==='both',vis=f=>!EXP.includes(f.id)||xpOn(f.id);
 const FS=[
@@ -1137,10 +1180,10 @@ const FS=[
 {id:'heat',n:'Heatwave (ảo ảnh nhiệt)',p:[['amt','Cường độ méo',0,60,14],['scale','Tần số sóng',0,100,40],['speed','Chu kỳ (giây)',1,12,4]]},
 {id:'viz',n:'Audio visualizer (sóng nhạc)',p:[['h','Chiều cao (px)',10,200,60],['n','Số cột (biên độ)',8,120,48],['spd','Tốc độ',1,100,40],['int','Cường độ',0,100,70],['nz','Noise (hình dạng ngẫu nhiên)',0,100,50],['mode','Màu','s',[['s','Theme'],['h','Holographic']],'s'],['fade','Độ mờ gradient (trên mờ → dưới nét)',0,100,70]]},
 ];
-const mk=()=>({ac:'#22d3ee',lgs:18,bgs:240,g1:light?'#e8ecf6':'#0b1020',g2:light?'#cfd8ee':'#1b1040',ang:160,card:'#ffffff',op:light?50:8,blur:20,sat:140,dim:light?0:25,
+const mk=()=>({ac:'#22d3ee',lgs:18,bgs:240,qsw:false,lgo:false,lgc:false,tgo:'v',g1:light?'#e8ecf6':'#0b1020',g2:light?'#cfd8ee':'#1b1040',ang:160,card:'#ffffff',op:light?50:8,blur:20,sat:140,dim:light?0:25,
  rdOn:false,gw:14,gs:40,rdd:false,rds:30,opOn:false,opr:20,opc:3,opm:'edge',opw:40,ops:40,gr:0,thm:'default',th1:'#22d3ee',th2:'#a855f7',dfOn:false,dd:0,dn:40,dsrc:'noise',mOn:true,bgm:'',dsp:50,dsr:false,bga:0,bgn:'#ffffff',bgr:0,feo:0,fen:0,feop:60,fef:50,fec:'#22d3ee',ecOn:false,glOn:false,ge:0,gn:0,gf:50,gg:0,ggc:'#22d3ee',ggh:0,ggm:'solid',ggc2:'#e879f9',gga:45,gop:22,ga:45,colw:50,hmode:'match',hpx:600,hj:'space-between',dv:true,lay:'split',fill:true,ver:10,lang:'vi',pn:{bl:24,op:55,rad:18,gl:0,c:sysLight?'#ffffff':'#10101a',glc:'#22d3ee',auto:true,rl:'justify',lf:16,lo:32,lov:35,lb:0,lsz:15,lwt:600,lls:0,lup:false,lr:0,br:10,sc:100,w:1000,dk:!sysLight,dtx:false,cols:'0',lm:'theme',lc:'#22d3ee'},bn:{short:'Ngắn hạn',mid:'Trung hạn',long:'Dài hạn'},bc:{short:'dưới 1 tuần',mid:'dưới 1 tháng',long:'dưới 6 tháng'},
  xp:{lq:true,gls:true,scan:true},ap3:'left',ap2:'bottom',lqv:{w:36,r:46,bl:5,sat:210,hl:80,o:0,dim:0,ior:150,disp:25,sph:0,amt:100,on:false,tg:'panel'},
- fr:{main:{al:'left',ho:0,gk:0,pad:0,fe:0,bm:'normal',gap:24,sc:100,rad:0,bw:1,bc:'#ffffff',ba:0,bb:0,bo:60,se:0,sn:0,sop:60,sf:50,hg:0,shc:'#000000',shb:32,shx:0,shy:8,sha:20,glc:'#22d3ee',gls:0,gla:60,gm:'solid',glc2:'#e879f9',gan:45,hod:'h',hoa:115,hon:4},dl:{al:'justify',ho:0,fe:0,bm:'normal',gap:14,bh:0,sc:100,rad:20,bw:1,bc:'#ffffff',ba:28,bb:0,bo:60,se:0,sn:0,sop:60,sf:50,hg:0,shc:'#000000',shb:32,shx:0,shy:8,sha:20,glc:'#22d3ee',gls:0,gla:60,gm:'solid',glc2:'#e879f9',gan:45,hod:'h',hoa:115,hon:4}},ico:{shape:'square',rad:18,size:48,mode:'dvd',speed:4,hyper:'1',col:false,inr:60,vmax:900,stick:false,sym:'🎨',bd:0},fl:Object.fromEntries(FS.map(f=>[f.id,Object.assign({on:f.id==='scan',ly:'bottom',op:100,sc:'main+dl+pn'},Object.fromEntries(f.p.filter(p=>p[2]!=='a').map(p=>[p[0],['b','c','t'].includes(p[2])?p[3]:p[4]])))])),
+ fr:{main:{al:'left',ho:0,gk:0,pad:0,fe:0,bm:'normal',gap:24,sc:100,rad:0,bw:1,bc:'#ffffff',ba:0,bb:0,bo:60,se:0,sn:0,sop:60,sf:50,hg:0,shc:'#000000',shb:32,shx:0,shy:8,sha:20,glc:'#22d3ee',gls:0,gla:60,gm:'solid',glc2:'#e879f9',gan:45,hod:'h',hoa:115,hon:4},dl:{al:'justify',ho:0,fe:0,bm:'normal',gap:14,bh:0,sc:100,rad:14,bw:1,bc:'#ffffff',ba:28,bb:0,bo:60,se:0,sn:0,sop:60,sf:50,hg:0,shc:'#000000',shb:32,shx:0,shy:8,sha:20,glc:'#22d3ee',gls:0,gla:60,gm:'solid',glc2:'#e879f9',gan:45,hod:'h',hoa:115,hon:4}},ico:{shape:'square',rad:18,size:48,mode:'dvd',speed:4,hyper:'1',col:false,inr:60,vmax:900,stick:false,sym:'🎨',bd:0},fl:Object.fromEntries(FS.map(f=>[f.id,Object.assign({on:f.id==='scan',ly:'bottom',op:100,sc:'main+dl+pn'},Object.fromEntries(f.p.filter(p=>p[2]!=='a').map(p=>[p[0],['b','c','t'].includes(p[2])?p[3]:p[4]])))])),
  t:{ht:T0(34,700,TX),hc:T0(76,700,TX,{ls:1}),hd:T0(16,100,'#22d3ee',{f:'Poppins',cap:1}),bt:T0(12,700,TX,{up:1,ls:2}),tn:T0(16,700,TX),tc:T0(16,700,'#22d3ee'),td:T0(12,400,'#22d3ee'),pn:T0(13,400,TX),pl:T0(15,600,TX,{f:'Rajdhani'})}});
 function merge(o){const d=mk(),{t,fr,ico,fl,pn,...r}=o||{};Object.assign(d,r);if(ico)Object.assign(d.ico,ico);d.ico.shape='square';if(d.ico.rad===undefined)d.ico.rad=18;if(pn)Object.assign(d.pn,pn);if(!(r.ver>=9)||d.ico.mode==='random')d.ico.mode='dvd';if(d.gm==='disp'||d.gm==='map'){d.dsrc=d.gm==='map'?'map':'noise';d.dd=Math.round((d.gs||40)*.6);d.gm='plain'}if(!['noise','water','frost','heat'].includes(d.dsrc))d.dsrc='noise';d.pn.dtx=false;d.fr.main.gk=100;if(d.fr.main.fo===undefined)d.fr.main.fo=100;d.pn.rad=d.fr.dl.rad;if(typeof d.bga==='string')d.bga=d.bga!=='none'?60:0;else if(typeof d.bga==='boolean')d.bga=d.bga?60:0;d.fr.main.ho=0;d.fr.dl.ho=0;if(d.pn.rl==='center')d.pn.rl='left';
  if(!('rdOn' in r)){d.rdOn=d.gm==='reeded';d.ecOn=d.ge>0&&d.gn>0;d.glOn=d.gg>0;d.dfOn=d.dd>0}
@@ -1211,6 +1254,11 @@ var bgaK='';function paintAnim(){const on=(+S.bga||0)>0&&!matchMedia('(prefers-r
 function paintBg(){paintAnim();document.documentElement.style.setProperty('--ftbg',light?'rgba(255,255,255,.5)':'rgba(8,10,20,.5)');const d=S.dim/100,bm=S.bgm||(img?'image':'gradient');$('bg').style.background=bm==='solid'?S.g1:(bm==='image'&&img)?`linear-gradient(rgba(0,0,0,${d}),rgba(0,0,0,${d})),url("${img}") center/cover no-repeat`:`linear-gradient(${S.ang}deg,${S.g1},${S.g2})`;
  if(img!==imgPrev){imgPrev=img;imgEl=null;if(img){const e=new Image();e.onload=()=>{imgEl=e;bgk='';try{const c=document.createElement('canvas');c.width=c.height=1;const x=c.getContext('2d');x.drawImage(e,0,0,1,1);const d=x.getImageData(0,0,1,1).data;bgAvg=`rgb(${Math.min(255,d[0]*1.5+40)|0},${Math.min(255,d[1]*1.5+40)|0},${Math.min(255,d[2]*1.5+40)|0})`}catch(_){}applyFilters();if(S.thm==='bg')commit()};e.src=img}else bgAvg=null}}
 const R=document.documentElement.style;
+const HS={a:[],i:-1,t:0,lock:0};
+function hisUi(){const u=$('his_u'),r=$('his_r');if(u)u.disabled=HS.i<=0;if(r)r.disabled=HS.i>=HS.a.length-1}
+function hisPush(){if(HS.lock)return;const j=JSON.stringify(S);if(HS.a[HS.i]===j)return;HS.a=HS.a.slice(0,HS.i+1);HS.a.push(j);if(HS.a.length>60)HS.a.shift();HS.i=HS.a.length-1;hisUi()}
+function hisGo(d){const n=HS.i+d;if(n<0||n>=HS.a.length)return;clearTimeout(HS.t);HS.i=n;HS.lock=1;const pw=S.pn.w;S=merge(JSON.parse(HS.a[n]));S.pn.w=pw;bindS();buildFl();buildLy();syncBn();fillEd();fillFr();commit();render();HS.a[n]=JSON.stringify(S);HS.lock=0;hisUi()}
+function qsideSync(){const q=S.lay==='quad',qs=$('qside'),a=$('addwrap'),r=$('arch');if(q){if(a.parentElement!==qs)qs.append(a);if(r.parentElement!==qs)qs.append(r)}else{if(a.parentElement!==$('dl'))$('dl').append(a);if(r.parentElement!==$('right'))$('right').append(r)}}
 function commit(){
  light=!S.pn.dk;TX=light?'#111111':'#f2f2f4';GY=light?'#666666':'#9a9aa8';
  R.setProperty('--ac',S.ac);R.setProperty('--card',S.card);R.setProperty('--op',S.op/100);R.setProperty('--blur',S.blur+'px');R.setProperty('--sat',S.sat+'%');
@@ -1218,7 +1266,7 @@ function commit(){
  R.setProperty('--ln',light?'rgba(0,0,0,.15)':'rgba(255,255,255,.18)');R.setProperty('--pbg',light?'rgba(255,255,255,.9)':'rgba(16,16,26,.88)');
  syncBlocks();applyFilters();
  R.setProperty('--lf',S.colw+'fr');R.setProperty('--rf',(100-S.colw)+'fr');R.setProperty('--hj',S.hj);
- R.setProperty('--hmin',S.hmode==='screen'?'calc(100vh - 120px)':S.hmode==='fixed'?S.hpx+'px':(S.lay==='split'?'0px':'50vh'));$('main').dataset.lay=S.lay;$('main').dataset.fill=S.fill?'on':'off';
+ R.setProperty('--hmin',S.hmode==='screen'?'calc(100vh - 120px)':S.hmode==='fixed'?S.hpx+'px':(S.lay==='split'?'0px':'120px'));qsideSync();$('main').dataset.lay=S.lay;$('main').dataset.qsw=S.qsw?'on':'off';$('sitefoot').dataset.c=(S.lay==='full'||S.lay==='stack')?'1':'0';$('pbt').dataset.o=S.tgo||'v';$('main').dataset.fill=S.fill?'on':'off';
  $('main').classList.toggle('nodiv',!S.dv);
  const m=S.fr.main,d=S.fr.dl,h=$('hero'),L=$('lists'),D=$('dl'),gk=(m.gk/100)*((m.fo??100)/100);
  const sty=(el,f,k)=>{el.style.setProperty('--rad',f.rad+'px');el.style.setProperty('--bw',f.bw+'px');el.style.setProperty('--bc2',`color-mix(in srgb,${f.bc} ${f.ba}%,transparent)`);el.style.setProperty('--fsh',fshE(f,k)||'0 0 0 0 transparent')};
@@ -1230,7 +1278,7 @@ function commit(){
  L.dataset.al=d.al;D.classList.toggle('holo',d.ho>0);D.dataset.hod=d.hod||'h';D.style.setProperty('--hon',(d.hon||4)+'px');D.style.setProperty('--hoa',(d.hoa??115)+'deg');D.style.setProperty('--hoo',d.ho/100);
  D.classList.toggle('fe',d.fe>0);D.style.setProperty('--fe',d.fe+'px');D.style.setProperty('--bm',d.bm);
  D.style.setProperty('--bgap',(d.gap??14)+'px');D.style.setProperty('--bh',(d.bh||0)+'px');h.style.gap=(m.gap??24)+'px';
- h.style.zoom=(m.sc||100)/100;D.style.zoom=(d.sc||100)/100;h.style.alignSelf=S.hmode==='fixed'?'start':'';R.setProperty('--hl',light?'#111':'#fff');
+ h.style.zoom=(m.sc||100)/100;D.style.zoom=(d.sc||100)/100;h.style.alignSelf=S.hmode==='fixed'?'start':'';h.style.setProperty('--hqa',S.hj==='flex-start'?'flex-start':S.hj==='center'?'center':'flex-end');R.setProperty('--hl',light?'#111':'#fff');
  applyIcon();
  const a=(S.gs/100*.35).toFixed(3),w=S.gw;
  const lay=[];
@@ -1249,14 +1297,15 @@ function commit(){
    }
   pa.dataset.cols='0';pa.style.setProperty('--pcol',pn.c);
   {const L=S.lqv;const am=(L.amt??100)/100,lb=(L.bl*am)+'px',ls=(100+(L.sat-100)*am)+'%';pa.style.setProperty('--lqb',lb);pa.style.setProperty('--lqs',ls);pa.style.setProperty('--lqh',L.hl/100*am);pa.style.setProperty('--lqo',0);R.setProperty('--lqb',lb);R.setProperty('--lqs',ls);if($('lq_rf')&&document.activeElement!==$('lq_rf'))$('lq_rf').value=Math.round(L.r/1.2);pa.style.setProperty('--lqd',L.dim/100);LQK.forEach(k=>{const e=$('lq_'+k);if(e&&document.activeElement!==e)e.value=L[k]})}
-  $('dl').dataset.ap=S.lay==='stack'?S.ap3:S.ap2;$('ap3r').style.display=S.lay==='stack'?'':'none';$('ap2r').style.display=S.lay==='stack'?'none':'';
+  $('dl').dataset.ap=S.lay==='stack'?S.ap3:S.ap2;$('ap3r').style.display=S.lay==='stack'?'':'none';$('ap2r').style.display=(S.lay==='split'||S.lay==='full')?'':'none';$('qr').style.display=S.lay==='quad'?'':'none';
   pa.style.setProperty('--psc',1);pa.style.setProperty('--pw',(pn.w||860)+'px');if(isOpen()&&pa.dataset.rt){pa.style.left=(+pa.dataset.rt-pa.offsetWidth)+'px';movePanel(0,0)}
-  pa.style.setProperty('--br',(pn.br??10)+'px');pa.classList.toggle('lq',lqP());document.documentElement.classList.toggle('lqg',lqF());document.documentElement.classList.toggle('nomica',!S.mOn);if(typeof fpsApply==='function')fpsApply();if(typeof logoApply==='function')logoApply();if(typeof feQ==='function')feQ();$('lq_on').checked=!!S.lqv.on;$('lq_tg').value=S.lqv.tg;$('lq_fr').checked=S.lqv.tg==='both';$('pb_lq').hidden=false;if(isOpen())buildLq();
+  pa.style.setProperty('--br',pn.rad+'px');pa.classList.toggle('lq',lqP());document.documentElement.classList.toggle('lqg',lqF());document.documentElement.classList.toggle('nomica',!S.mOn);if(typeof fpsApply==='function')fpsApply();if(typeof logoApply==='function')logoApply();if(typeof feQ==='function')feQ();$('lq_on').checked=!!S.lqv.on;$('lq_tg').value=S.lqv.tg;$('lq_fr').checked=S.lqv.tg==='both';$('pb_lq').hidden=false;if(isOpen())buildLq();
   $('addwrap').style.setProperty('--tx',adaptC(S.t.bt.c1));
   PNK.forEach(k=>{const e=$('pn_'+k);if(e&&document.activeElement!==e){e.type==='checkbox'?e.checked=!!pn[k]:e.value=pn[k]}});pkMark();
   $('lay_radd').value=S.fr.dl.rad;if(document.activeElement!==$('fr_rad'))$('fr_rad').value=S.fr[curFr].rad}
  $('fcur').textContent=fcurT();pcAll();
- dyn();paintBg();fit();try{localStorage.setItem(SK,JSON.stringify(S))}catch(e){}}
+ dyn();paintBg();fit();try{localStorage.setItem(SK,JSON.stringify(S))}catch(e){}
+ if(!HS.lock){clearTimeout(HS.t);HS.t=setTimeout(hisPush,500)}}
 
 const PNK=['bl','op','rad','gl','c','glc','auto','rl','lo','lr','lm','lc','br','sc','cols','lov','lsz','lwt','lls','lup'];
 const LQK=['bl','sat','hl','dim','ior','disp','sph','amt'];
@@ -1285,7 +1334,7 @@ const ROAM=['float','dvd','wander','balloon'],still=()=>matchMedia('(prefers-red
 const mv={x:0,y:0,vx:0,vy:0,th:0,w:0,t:0,sx:0,sy:0,wx:0,wy:0,ready:false,px:0,py:0,pv:0,pvx:0,pvy:0,pt:0};
 const spd=()=>(40+S.ico.speed*24)*(+S.ico.hyper||1),bnd=()=>({W:Math.max(0,innerWidth-fs()),H:Math.max(0,innerHeight-fs())});
 function applyIcon(){const c=S.ico;fab.dataset.shape=c.shape;R.setProperty('--fabr',(c.rad??18)+'%');R.setProperty('--fs',c.size+'px');R.setProperty('--fbd',(c.bd||0)+'px');
- fabi.style.backgroundImage=fimg?`url("${fimg}")`:'';fabi.textContent=fimg?'':(c.sym||'🎨');$('balopts').hidden=c.mode!=='balloon'}
+ const sy=!fimg&&c.symImg;fabi.style.backgroundImage=fimg?`url("${fimg}")`:sy?`url("${c.symImg}")`:'';fabi.style.backgroundSize=sy?'62%':'';fabi.style.backgroundRepeat=sy?'no-repeat':'';fabi.style.backgroundPosition=sy?'center':'';fabi.textContent=(fimg||sy)?'':(c.sym||'🎨');$('balopts').hidden=c.mode!=='balloon'}
 function dock(){const p=$('panel');if(!isOpen())return;updClips();const z=fs(),l=parseFloat(p.style.left)||0,t=parseFloat(p.style.top)||0;p.dataset.rt=l+p.offsetWidth;mv.x=l+12;mv.y=t+12;fab.style.left=mv.x+'px';fab.style.top=mv.y+'px'}
 function movePanel(dx,dy){const p=$('panel');p.style.left=Math.max(4,Math.min((parseFloat(p.style.left)||0)+dx,innerWidth-p.offsetWidth-4))+'px';p.style.top=Math.max(4,Math.min((parseFloat(p.style.top)||0)+dy,innerHeight-p.offsetHeight-4))+'px';dock()}
 function placePanel(init,r0){const p=$('panel');if(!isOpen())return;if(init){const r=r0||fab.getBoundingClientRect();p.style.left=(r.left-12)+'px';p.style.top=(r.top-12)+'px'}movePanel(0,0)}
@@ -1407,9 +1456,13 @@ const TG=[{k:'lay',n:'Bố cục',h:1},{k:'main',n:'Main',h:1},{k:'dl',n:'Deadli
 $('pl').innerHTML=TG.map(e=>e==='-'?'<hr>':`<button type="button" data-k="${e.k}" class="${e.s?'sub':'head'}">${e.n}</button>`).join('');
 $('pl').insertAdjacentHTML('beforeend','<div id="pbt"><div class="tgw"><button type="button" id="pfps" class="tgl" title="FPS"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/></svg></button><span>FPS</span></div><div class="tgw"><button type="button" id="pdk" class="tgl" title="Dark mode"></button><span>Dark mode</span></div><button type="button" id="pdt" title="Chữ tối (T đặc = bật)"></button></div>');
 var fpsRun=0,fpsF=0,fpsT=0;
-function logoApply(){const e=$('ft_logo');if(!e)return;e.style.setProperty('--lgh',(S.lgs||18)+'px');const k=LG?'i'+LG.length:'d';if(e.dataset.k!==k){e.dataset.k=k;e.innerHTML=LG?'<img alt="" src="'+LG+'">':'<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 3l9 9-9 9-9-9z"/></svg>'}}
+const DIA='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3l9 9-9 9-9-9z"/></svg>');
+function logoApply(){const e=$('ft_logo');if(!e)return;e.style.setProperty('--lgh',(S.lgs||18)+'px');e.dataset.o=S.lgo?'1':'0';e.dataset.c=S.lgc?'1':'0';const k=(LG?'i'+LG.length:'d')+(S.lgc?'c':'');if(e.dataset.k!==k){e.dataset.k=k;const src=LG||DIA;e.innerHTML=(S.lgc||!LG)?'<span class="lgm" style="--lgu:url('+src+')"><img alt="" src="'+src+'"></span>':'<img alt="" src="'+LG+'">'}}
 $('lg_up').onclick=()=>$('lg_f').click();
-$('lg_f').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const m=Math.min(1,256/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.max(1,im.width*m|0);c.height=Math.max(1,im.height*m|0);c.getContext('2d').drawImage(im,0,0,c.width,c.height);LG=c.toDataURL('image/png');st('countdown_logo_v1',LG);logoApply()};im.src=r.result};r.readAsDataURL(f);e.target.value=''};
+$('s_lgc').addEventListener('input',()=>logoApply());$('lg_f').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const m=Math.min(1,256/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.max(1,im.width*m|0);c.height=Math.max(1,im.height*m|0);c.getContext('2d').drawImage(im,0,0,c.width,c.height);LG=c.toDataURL('image/png');st('countdown_logo_v1',LG);logoApply()};im.src=r.result};r.readAsDataURL(f);e.target.value=''};
+$('i_symb').onclick=()=>$('i_symf').click();
+$('i_symf').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const m=Math.min(1,160/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.max(1,im.width*m|0);c.height=Math.max(1,im.height*m|0);c.getContext('2d').drawImage(im,0,0,c.width,c.height);S.ico.symImg=c.toDataURL('image/png');commit()};im.src=r.result};r.readAsDataURL(f);e.target.value=''};
+$('i_symx').onclick=()=>{delete S.ico.symImg;commit()};
 $('lg_rm').onclick=()=>{LG='';st('countdown_logo_v1','');logoApply()};
 function fpsLoop(t){if(!S.fps){fpsRun=0;return}fpsF++;if(!fpsT)fpsT=t;if(t-fpsT>=500){$('ft_fps').textContent=Math.round(fpsF*1000/(t-fpsT))+' FPS';fpsF=0;fpsT=t}requestAnimationFrame(fpsLoop)}
 function fpsApply(){$('pfps').classList.toggle('on',!!S.fps);if(!S.fps){$('ft_fps').textContent='';return}if(!fpsRun){fpsRun=1;fpsT=0;fpsF=0;$('ft_fps').textContent='… FPS';requestAnimationFrame(fpsLoop)}}
@@ -1419,7 +1472,7 @@ function darkFlip(){const was=light;S.pn.dk=!S.pn.dk;const nl=!S.pn.dk,D=l=>({g1
  S.pn.c=S.pn.dk?'#10101a':'#ffffff';bindS();commit();const t=$('pdt');if(S.pn.dk&&t.animate&&!matchMedia('(prefers-reduced-motion:reduce)').matches){t.animate([{transform:'translateX(-34px) scaleX(.3)',opacity:0},{transform:'none',opacity:1}],{duration:320,easing:'cubic-bezier(.2,.9,.25,1.15)'})}}
 function hvSwitch(id,flip){const b=$(id);let fl=0,lock=0;b.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse'||lock||fl)return;fl=1;flip()});b.addEventListener('pointerleave',()=>{fl=0;lock=0});b.addEventListener('click',()=>{if(fl){fl=0;lock=1}flip()})}
 hvSwitch('pfps',()=>{S.fps=!S.fps;fpsApply();commit()});hvSwitch('pdk',darkFlip);
-$('pdt').onclick=()=>{S.pn.dtx=!S.pn.dtx;commit()};
+$('his_u').onclick=()=>hisGo(-1);$('his_r').onclick=()=>hisGo(1);$('pdt').onclick=()=>{S.pn.dtx=!S.pn.dtx;commit()};
 const TN=Object.fromEntries(TG.filter(x=>x!=='-').map(x=>[x.k,x.n]));
 $('pl').onclick=e=>{const b=e.target.closest('[data-k]');if(b)selTab(b.dataset.k==='lay'?'pnl':b.dataset.k)};
 let cur='ht',curFr='main',tmp=null;
@@ -1430,10 +1483,10 @@ function selTab(k){if(k==='pt'||k==='pn')k='pnl';const isT=EL.some(e=>e.k===k),i
  const show=isT?'text':isF?'frame':k;['text','frame','fx','ico','data','lay','layers','pnl','xp'].forEach(p=>$('p_'+p).hidden=p!==show);
  const g=GRP.main.includes(k)?'main':GRP.dl.includes(k)?'dl':GRP.lay.includes(k)?'lay':null;$('stabs').hidden=!g;if(g)$('stabs').innerHTML=GRP[g].map(x=>`<button type="button" data-k="${x}" class="${x===k?'on':''}">${SUBN[x]}</button>`).join('');else if(k==='layers'||k==='data')$('stabs').innerHTML=`<button type="button" data-k="${k}" class="on">${k==='layers'?'Layer':'Preset'}</button>`;
  document.querySelectorAll('#pl button[data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k===(g||k)));
- if(isT)$('p_lay').before($('p_text'));if(k==='pnl'){$('pntbox').appendChild($('p_text'));const o=$('pntd').open;$('p_text').hidden=!o;if(o)openPn()}
+ if(isT)$('p_lay').before($('p_text'));if(k==='pnl'){$('pntbox').appendChild($('p_text'));const o=$('pntd').classList.contains('open');$('p_text').hidden=!o;if(o)openPn()}
  $('ptt').textContent=TN[g||k]||'';if(k==='layers')buildLy();pcAll()}
 function openPn(){cur='pl';tmp=null;FT.clear();FT.add('pl');fillEd()}
-$('pntd').addEventListener('toggle',()=>{const o=$('pntd').open;$('p_text').hidden=!o;if(o){$('pntbox').appendChild($('p_text'));openPn();pcAll()}});
+
 
 // chữ
 const ED={e_s:'s',e_w:'w',e_ls:'ls',e_m:'m',e_c1:'c1',e_c2:'c2',e_i:'i',e_u:'u',e_up:'up',e_cap:'cap',e_eo:'eo',e_en:'en',e_eop:'eop',e_ea:'ea',e_ef:'ef',e_gl:'gl',e_ho:'ho',e_hg:'hg',e_glc:'glc',e_al:'al',e_glm:'glm',e_glc2:'glc2',e_gan:'gan',e_nz:'nz',e_nzs:'nzs',e_pe:'pe',e_ir:'ir',e_ta:'ta'};
@@ -1765,7 +1818,7 @@ function pkInit(){document.querySelectorAll('.pk').forEach(box=>{const hid=$(box
  box.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;orig=null;set(b.dataset.v)});
  PG.push(mark)})}
 const pkMark=()=>PG.forEach(f=>f());
-const setRad=v=>{v=+v;S.fr.dl.rad=v;S.fr.main.rad=v;S.pn.rad=v;S.pn.br=Math.round(v/2);S.ico.rad=Math.round(v/40*50);try{$('i_rad').value=S.ico.rad}catch(_){}commit()};
+const setRad=v=>{v=+v;S.fr.dl.rad=v;S.fr.main.rad=v;S.pn.rad=v;S.pn.br=v;S.ico.rad=Math.round(v/40*50);try{$('i_rad').value=S.ico.rad}catch(_){}commit()};
 ['lay_radd','pn_rad','fr_rad'].forEach(id=>$(id).addEventListener('input',()=>{if(id==='fr_rad'&&curFr!=='dl')return;setRad($(id).value)}));
 LQK.forEach(k=>$('lq_'+k).addEventListener('input',()=>{S.lqv[k]=+$('lq_'+k).value;commit()}));
 $('lq_rf').addEventListener('input',()=>{const v=+$('lq_rf').value;S.lqv.w=Math.round(8+v*1.12);S.lqv.r=Math.round(v*1.2);commit()});
@@ -1781,9 +1834,9 @@ let SL;try{SL=JSON.parse(localStorage.getItem(SLK)||'null')}catch(e){}
 if(!Array.isArray(SL)||!SL.length)SL=[{},{},{}];
 let DF=null;try{DF=JSON.parse(localStorage.getItem(DK)||'null')}catch(e){}
 let cs=-1,sprev=null;
-const cstate=()=>({s:JSON.stringify(S),img,gmap,fimg});
-if(!DF){try{DF=cstate();localStorage.setItem(DK,JSON.stringify(DF))}catch(e){}}
-function sset(o){const pw=S.pn.w;S=merge(JSON.parse(o.s));S.pn.w=pw;img=o.img||null;gmap=o.gmap||'';fimg=o.fimg||'';if(!S.bgm)S.bgm=img?'image':'gradient';bindS();buildFl();buildLy();syncBn();fillEd();fillFr();commit();render();placeFab()}
+const cstate=()=>({s:JSON.stringify(S),img,gmap,fimg,lg:LG});
+if(!DF||!localStorage.getItem('countdown_df51')){try{S.fr.dl.rad=S.fr.main.rad=S.pn.rad=14;S.ico.rad=18;S.pn.br=14;DF=cstate();localStorage.setItem(DK,JSON.stringify(DF));localStorage.setItem('countdown_df51','1')}catch(e){}}
+function sset(o){const pw=S.pn.w;S=merge(JSON.parse(o.s));S.pn.w=pw;img=o.img||null;gmap=o.gmap||'';fimg=o.fimg||'';if(o.lg!==undefined){LG=o.lg||'';st('countdown_logo_v1',LG)}if(!S.bgm)S.bgm=img?'image':'gradient';bindS();buildFl();buildLy();syncBn();fillEd();fillFr();commit();render();placeFab()}
 const stamp=i=>{const d=new Date();return (i+1)+' · '+pad(d.getDate())+'/'+pad(d.getMonth()+1)+' '+pad(d.getHours())+':'+pad(d.getMinutes())};
 const svS=()=>{try{localStorage.setItem(SLK,JSON.stringify(SL))}catch(e){toast('Hết dung lượng lưu trữ: preset chỉ giữ trong phiên này')}};
 const slKB=s=>((s.s||'').length+(s.img||'').length+(s.fimg||'').length+(s.gmap||'').length)/1024,fmtKB=k=>k>=1024?(k/1024).toFixed(1)+' MB':Math.round(k)+' KB';
@@ -1824,18 +1877,23 @@ const EN={"Thử nghiệm": "Experimental", "Click icon để thu nhỏ": "Click
 (function(){const p=n=>String(n).padStart(2,'0'),tz=(()=>{try{const o=-new Date().getTimezoneOffset(),a=Math.abs(o);return (Intl.DateTimeFormat().resolvedOptions().timeZone||'')+' · UTC'+(o<0?'-':'+')+p(a/60|0)+':'+p(a%60)}catch(e){return''}})();
  const u=()=>{const d=new Date(),a=$('ft_clk');if(a)a.textContent=p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+'  '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());const t=$('ft_tz');if(t&&!t.textContent)t.textContent=tz};u();setInterval(u,1000)})();
 var ptrDn=0;addEventListener("pointerdown",()=>ptrDn=1,true);addEventListener("pointerup",()=>ptrDn=0,true);
+var PD=0;addEventListener('pointerdown',()=>{PD=1},true);addEventListener('pointerup',()=>{PD=0},true);
 function hvify(d){const sm=d.querySelector(':scope>summary'),v=document.createElement('div');v.className=d.className.replace('hv','').trim()+' hvx';if(d.id)v.id=d.id;if(d.hidden)v.hidden=true;
  const h=document.createElement('div');h.className='hvh';h.innerHTML=sm.innerHTML;const b=document.createElement('div'),bi=document.createElement('div');b.className='hvb';bi.className='hvi';
  [...d.childNodes].forEach(n=>{if(n!==sm)bi.appendChild(n)});b.appendChild(bi);v.append(h,b);d.replaceWith(v);
- let shut=0;
- h.addEventListener('click',()=>{if(v.classList.contains('open')){v.classList.remove('open');shut=1}else{v.classList.add('open');shut=0}});
- v.addEventListener('mouseenter',()=>{if(!shut)v.classList.add('open')});v.addEventListener('mouseleave',()=>{shut=0})}
-document.querySelectorAll('#p_frame details.hv,#p_text details.hv,#p_lay details.hv,#gfl').forEach(hvify);
+ let tm=0,pt='mouse';
+ const tryClose=()=>{const a=document.activeElement;if(v.matches(':hover')||PD||(a&&v.contains(a)&&(a.tagName==='SELECT'||a.type==='color'))){tm=setTimeout(tryClose,300);return}v.classList.remove('open')};
+ h.addEventListener('pointerdown',e=>{pt=e.pointerType});
+ h.addEventListener('click',()=>{clearTimeout(tm);if(pt==='touch'&&v.classList.contains('open'))v.classList.remove('open');else v.classList.add('open')});
+ v.addEventListener('mouseenter',()=>{clearTimeout(tm);v.classList.add('open')});
+ v.addEventListener('mouseleave',()=>{clearTimeout(tm);tm=setTimeout(tryClose,1000)})}
+document.querySelectorAll('#p_frame details.hv,#p_text details.hv,#p_lay details.hv,#p_pnl details.hv,#gfl').forEach(hvify);
+new MutationObserver(()=>{const o=$('pntd').classList.contains('open');$('p_text').hidden=!o;if(o){$('pntbox').appendChild($('p_text'));openPn();pcAll()}}).observe($('pntd'),{attributes:true,attributeFilter:['class']});
 Object.assign(EN,{"Màu dot lớn":"Dot colour","Màu dot nhỏ":"Sub-dot colour","Dot nhỏ (px, theo scale grid)":"Sub-dot (px, scales with grid)","1 · Thứ tự layer": "1 · Layer order", "2 · Effect áp dụng cho từng layer": "2 · Apply effects per layer", "Chữ tối (T đặc = bật)": "Dark text (solid T = on)", "Khôi phục": "Restore", "Kéo để đổi chiều rộng": "Drag to resize", "Mở fonts.google.com": "Open fonts.google.com", "Symbol tuỳ chọn": "Custom symbol", "Thêm Task": "Add task", "Bấm tên effect để bật/tắt nhanh trong preset này, không cần mở lại từng tab. Dùng × để bỏ ảnh cho preset nhẹ hơn.": "Click an effect name to quickly toggle it inside this preset, no need to reopen each tab. Use × to drop images for a lighter preset.", "Bật Mica": "Enable Mica", "Bật/tắt từng hiệu ứng. Scan bật sẵn; mục nào bật mới hiện trong tab Hiệu ứng, tắt thì ẩn đi (và tắt luôn hiệu ứng).": "Turn each effect on/off. Scan is on by default; only enabled ones show in the Effects tab, disabled ones are hidden (and switched off).", "Chia grid nhỏ": "Sub-grid", "Chu kỳ (giây)": "Cycle (s)", "Chọn một preset để xem chi tiết.": "Select a preset to see details.", "Cường độ méo": "Distortion strength", "Dispersion (tách màu RGB)": "Dispersion (RGB split)", "Dot lớn (px)": "Large dot (px)", "Dot nhỏ (px)": "Small dot (px)", "Dưới 3 ô": "Below 3 boxes", "Trên 3 ô": "Above 3 boxes", "Font cột trái (font, màu, weight…)": "Left column font (font, color, weight…)", "Font cột trái · đầu mục": "Left column font · headings", "Font của bạn": "Your fonts", "Hoàn thành lúc": "Completed at", "Khúc xạ (độ rộng + cường độ viền)": "Refraction (width + edge strength)", "Khúc xạ · IOR (1.00–5.00)": "Refraction · IOR (1.00–5.00)", "Kiểu deform": "Deform type", "Kích thước ô (px)": "Cell size (px)", "Lan toả (spread)": "Spread", "Mica dùng chung màu/blur/kính ở mục Hiệu ứng. Feather sẽ cắt phần echo/glow ngoài khung.": "Mica shares color/blur/glass from the Effects section. Feather clips echo/glow outside the frame.", "Màu kính": "Glass color", "Màu nhấn": "Accent color", "Mật độ vòng (Tròn)": "Ring density (Circular)", "Mặc định chỉ Custom panel + Deadlines. \"Toàn trang\" áp dụng tất cả; \"Background\" chỉ dùng cho nền.": "By default only Custom panel + Deadlines. \"Whole page\" applies to everything; \"Background\" is for the background only.", "Mọi kiểu": "Any weights", "Mức glass hóa tổng thể": "Overall glass amount", "Nhóm": "Group", "Nhập preset": "Import preset", "Noise scale · mật độ": "Noise scale · density", "Phải": "Right", "Trái": "Left", "Rê chuột để xem thử · bấm × để xoá": "Hover to preview · click × to remove", "Save preset: lưu toàn bộ thiết lập hiện tại (nền, font, effect, icon…) thành một preset mới. Đặt làm mặc định: giao diện Reset sẽ quay về.": "Save preset: saves the whole current setup (background, fonts, effects, icon…) as a new preset. Set as default: the look that Reset returns to.", "Share preset: copy preset hiện tại để dán sang trình duyệt/thiết bị khác. Nhập preset: dán mã đã copy.": "Share preset: copies the current preset so you can paste it on another browser/device. Import preset: paste a copied code.", "Sphere distortion (méo cầu)": "Sphere distortion", "Tất cả": "All", "Tần số sóng": "Wave frequency", "Viền": "Border", "Vuông": "Square", "Vị trí ô thêm deadline": "Add-deadline box position", "Xuất Excel (.csv)": "Export Excel (.csv)", "trống": "empty", "Áp dụng cho khung Deadlines": "Apply to Deadlines frames", "Đường lưới (opacity)": "Grid lines (opacity)", "Đặt làm mặc định": "Set as default", "Độ sáng viền": "Edge brightness", "Độ tối": "Darkness", "Độ đậm màu (saturate %)": "Color depth (saturate %)", "Độ đặc màu theme": "Theme tint opacity", "Độ đặc nền cột trái": "Left column opacity", "Màu": "Color", "Gradient light anim": "Gradient light anim", "Kích thước ô": "Cell size"});
 const _tv=new WeakMap();
 const VI={"Align":"Căn lề","All day":"Cả ngày","Amount":"Mức độ","Apply":"Áp dụng","Archive":"Lưu trữ","Audio visualizer":"Sóng âm","Background":"Nền","Background ambient":"Nền động (ambient)","Blur":"Độ mờ","Blur (px)":"Độ mờ (px)","Box height (px)":"Chiều cao khối (px)","Capitalize":"Hoa đầu từ","Center":"Giữa","Chromatic aberration (px)":"Sắc sai màu (px)","Color":"Màu","Color style":"Kiểu màu","Content position":"Vị trí nội dung","Corner radius (overall)":"Bo góc (toàn bộ)","Countdown":"Đếm ngược","Custom":"Tuỳ chỉnh","Custom font":"Font tuỳ chọn","Custom logo icon":"Logo tuỳ chỉnh","Customize":"Tuỳ chỉnh","Dark mode":"Chế độ tối","Deadline":"Hạn chót","Delete":"Xoá","Display":"Hiển thị","Distance":"Khoảng cách","Distort strength":"Độ méo","Echo — Custom panel":"Echo — Bảng tuỳ chỉnh","Echo: angle":"Echo: góc","Echo: distance":"Echo: khoảng cách","Echo: fade":"Echo: độ nhạt dần","Echo: layers":"Echo: số lớp","Echo: opacity":"Echo: độ đục","Edge feather (px)":"Làm mờ viền (px)","Effect management":"Quản lý effect","Fade":"Nhạt dần","Format":"Định dạng","Frame":"Khung","Frost":"Sương giá","Glow":"Phát sáng","Glow color":"Màu phát sáng","Glow color 2":"Màu phát sáng 2","Glow opacity":"Độ đậm phát sáng","Glow size":"Cỡ phát sáng","Glow size (px)":"Cỡ phát sáng (px)","Glow style":"Kiểu phát sáng","Gradient":"Chuyển sắc","Gradient angle":"Góc chuyển sắc","Handwriting":"Viết tay","Header = Footer":"Đầu trang = Chân trang","Height":"Chiều cao","Holo glow":"Phát sáng holo","Holo glow opacity":"Độ đậm phát sáng holo","Hyper speed":"Tốc độ siêu nhanh","Icon":"Biểu tượng","Icon animation presets":"Mẫu chuyển động biểu tượng","Image":"Ảnh","Italic":"In nghiêng","Justify":"Căn đều","Layer":"Lớp","Layers":"Số lớp","Left":"Trái","Letter spacing":"Giãn chữ","Liquid glass":"Kính lỏng","Mono":"Đơn cách","Multiply":"Nhân (Multiply)","Noise":"Nhiễu","Noise size (px)":"Cỡ nhiễu (px)","Normal":"Bình thường","Off":"Tắt","Offset X":"Lệch X","Offset Y":"Lệch Y","Opacity":"Độ đục","Opacity frame":"Độ đục khung","Overlay":"Chồng (Overlay)","Overwrite":"Ghi đè","PANEL":"BẢNG","Rename":"Đổi tên","Reset":"Đặt lại","Reset Mica":"Đặt lại Mica","Right":"Phải","Rotation":"Xoay","Save preset":"Lưu preset","Scale (%)":"Tỉ lệ (%)","Scan":"Quét","Shadow":"Đổ bóng","Shadow color":"Màu bóng","Shadow opacity":"Độ đậm bóng","Shape & stroke":"Hình dạng & viền","Shape · Symbol":"Hình dạng · Biểu tượng","Share preset":"Chia sẻ preset","Size":"Cỡ","Solid":"Đơn sắc","Spacing":"Khoảng cách","Speed":"Tốc độ","Stroke blur (px)":"Độ mờ viền (px)","Stroke color":"Màu viền","Stroke echo":"Echo viền","Stroke opacity":"Độ đậm viền","Stroke width (px)":"Độ dày viền (px)","Task":"Việc","Theme":"Màu theme","Title":"Tiêu đề","Today":"Hôm nay","Tomorrow":"Ngày mai","Underline":"Gạch chân","Uppercase":"VIẾT HOA","Variable (8+)":"Biến thiên (8+)","WHOLE PAGE":"TOÀN TRANG","Water":"Nước","Weight":"Độ đậm","Width (%)":"Chiều rộng (%)","≥5 weight":"≥5 độ đậm","Holographic":"Holographic","Dark":"Tối","Light":"Sáng"};
 const WVI={Thin:'Mảnh',ExtraLight:'Rất nhẹ',Light:'Nhẹ',Regular:'Thường',Medium:'Vừa',SemiBold:'Nửa đậm',Bold:'Đậm',ExtraBold:'Rất đậm',Black:'Đen'};
-Object.assign(EN,{"Mỗi khu vực có bộ chỉnh riêng — chỉnh ở khu này không ảnh hưởng khu khác.":"Each area has its own settings — changes here do not affect other areas.","thông số dùng chung":"shared settings","Chỉnh":"Edit","Dưới":"Below","Trên":"Above","Đặt lại theo tab Hiệu ứng":"Reset to Effects tab","Hierarchy (dưới → trên)":"Hierarchy (bottom → top)","Quản lý effect theo từng khu vực: MAIN, DEADLINEs, PANEL, Background, WHOLE PAGE (đè lên cả trang).":"Effects are managed per area: MAIN, DEADLINEs, PANEL, Background, WHOLE PAGE (overlays the entire page).","Mỗi khu chỉnh thông số riêng, không ảnh hưởng khu khác.":"Each area is tuned independently.","Tắt ở một khu không tắt effect ở các khu còn lại.":"Turning it off in one area leaves the others untouched.","Logo footer (góc dưới phải)":"Footer logo (bottom right)","Tải ảnh":"Upload image","Kích thước logo":"Logo size","Chiều cao (px)":"Height (px)","Số cột (biên độ)":"Bar count","Tốc độ":"Speed","Cường độ":"Intensity","Noise (hình dạng ngẫu nhiên)":"Noise (random shape)","Màu":"Colour","Độ mờ gradient (trên mờ → dưới nét)":"Gradient fade (faint top → crisp bottom)","Audio visualizer (sóng nhạc)":"Audio visualizer","Sóng âm":"Audio visualizer","Đặt lại":"Reset"});
+Object.assign(EN,{"Tuỳ chọn bố cục":"Layout options","Đảo bên (Chia 4)":"Swap sides (Quad)","Màu theme":"Theme colour","Logo footer (góc dưới phải)":"Footer logo (bottom right)","Nút FPS / Dark mode":"FPS / Dark mode buttons","Bố cục nút":"Button layout","Dọc":"Vertical","Ngang":"Horizontal","Scale over line (vượt lên trên đường kẻ)":"Scale over line","Import symbol (SVG / PNG)":"Import symbol (SVG / PNG)","Import":"Import","Xoá":"Remove","Mỗi khu vực có bộ chỉnh riêng — chỉnh ở khu này không ảnh hưởng khu khác.":"Each area has its own settings — changes here do not affect other areas.","thông số dùng chung":"shared settings","Chỉnh":"Edit","Dưới":"Below","Trên":"Above","Đặt lại theo tab Hiệu ứng":"Reset to Effects tab","Hierarchy (dưới → trên)":"Hierarchy (bottom → top)","Quản lý effect theo từng khu vực: MAIN, DEADLINEs, PANEL, Background, WHOLE PAGE (đè lên cả trang).":"Effects are managed per area: MAIN, DEADLINEs, PANEL, Background, WHOLE PAGE (overlays the entire page).","Mỗi khu chỉnh thông số riêng, không ảnh hưởng khu khác.":"Each area is tuned independently.","Tắt ở một khu không tắt effect ở các khu còn lại.":"Turning it off in one area leaves the others untouched.","Logo footer (góc dưới phải)":"Footer logo (bottom right)","Tải ảnh":"Upload image","Kích thước logo":"Logo size","Chiều cao (px)":"Height (px)","Số cột (biên độ)":"Bar count","Tốc độ":"Speed","Cường độ":"Intensity","Noise (hình dạng ngẫu nhiên)":"Noise (random shape)","Màu":"Colour","Độ mờ gradient (trên mờ → dưới nét)":"Gradient fade (faint top → crisp bottom)","Audio visualizer (sóng nhạc)":"Audio visualizer","Sóng âm":"Audio visualizer","Đặt lại":"Reset"});
 function LKV(t){if(lang==='en')return EN[t];const v=VI[t];if(v!==undefined)return v;const m=/^([A-Za-z]+) · (\d{3})$/.exec(t);if(m&&WVI[m[1]])return WVI[m[1]]+' · '+m[2]}
 function trText(n){const raw=n.nodeValue,t=raw.trim();if(!t)return;const e=LKV(t);if(e===undefined||e===t)return;const v=raw.replace(t,e);_tv.set(n,[raw,v]);n.nodeValue=v}
 function trAttr(el){['placeholder','title'].forEach(a=>{const v=el.getAttribute&&el.getAttribute(a);if(v&&LKV(v)!==undefined){const w=LKV(v);(el._a=el._a||{})[a]=[v,w];el.setAttribute(a,w)}})}
@@ -1860,7 +1918,7 @@ PG.push(gbUpd);['e_c1','e_c2','e_glc','e_glc2','e_gan','e_ea','s_g1','s_g2','s_a
 document.querySelectorAll('.dial[data-in]').forEach(d=>{let dr=0;const g=$(d.dataset.in),ang=e=>{const r=d.getBoundingClientRect(),a=Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))*180/Math.PI;return Math.round((a+360)%360)};
  const up=e=>{g.value=ang(e);g.dispatchEvent(new Event('input',{bubbles:true}))};
  d.addEventListener('pointerdown',e=>{dr=1;d.setPointerCapture(e.pointerId);up(e)});d.addEventListener('pointermove',e=>{if(dr&&e.buttons)up(e);else dr=0});['pointerup','pointercancel','lostpointercapture'].forEach(t=>d.addEventListener(t,()=>{dr=0}))})
-if(!S.bgm)S.bgm=img?'image':'gradient';pkInit();bindS();buildFonts();buildFl();buildLy();buildSlots();syncBn();selTab('ht');commit();render();
+if(!S.bgm)S.bgm=img?'image':'gradient';pkInit();$('s_lay').addEventListener('input',()=>{if($('s_lay').value!=='split'){S.hmode='match';$('s_hmode').value='match';commit()}});bindS();buildFonts();buildFl();buildLy();buildSlots();syncBn();selTab('ht');commit();render();
 document.querySelectorAll('#pr input[type=range]').forEach(enh);
 placeFab();setLang(lang);
 setInterval(tick,1000);

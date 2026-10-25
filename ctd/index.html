@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Countdown</title>
+<style>html,body{margin:0;background:#0b0d12;color:#e8eaee;font:14px system-ui,sans-serif}#ld{position:fixed;inset:0;display:grid;place-items:center;opacity:.7}</style>
+</head>
+<body>
+<div id="ld">Đang tải Countdown…</div>
+<script>
+/* CTD loader: lấy bản Countdown đã chốt (pin theo commit) rồi gắn thêm module D-Work.
+   Đổi COMMIT khi muốn đưa bản mới từ D-LAB sang CTD. */
+(function(){
+  var COMMIT='1347cffd304e3cf84851247f162f0d7bd994482a';
+  var SRC='https://cdn.jsdelivr.net/gh/zuilopez/countdown@'+COMMIT+'/index.html';
+  fetch(SRC).then(function(r){if(!r.ok)throw new Error(r.status);return r.text();}).then(function(html){
+    html=html.replace(/<\/body>/i,'<script src="/dwork-ui.js"><\/script></body>');
+    document.open();document.write(html);document.close();
+  }).catch(function(e){
+    document.getElementById('ld').textContent='Không tải được Countdown ('+e.message+'). Thử tải lại trang.';
+  });
+})();
+</script>
+</body>
+</html>

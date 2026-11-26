@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Z-LAB · Modules</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400;62..125,600;62..125,800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a quiet lab bench — precise, terse, black on white.
+   IDEA: a parts catalogue / specimen drawer: every module is a labelled part with a code.
+   PICTURE: the working registry itself — tree, part cards, editor, kit tray.
+   COLOUR and TYPE: white field, black ink, one signal pink (Luiz's optional pink); Archivo wide 800 + Archivo, codes in Plex Mono.
+   LAYOUT: thick top rule, title row, toolbar, three columns (tree / parts / editor) stacking on phones, kit tray docked at the bottom. */
+:root{color-scheme:light dark;--bg:light-dark(#fff,#0e0e0e);--ink:light-dark(#0b0b0b,#f2f2f2);--mut:light-dark(#6b6b6b,#9a9a9a);--line:light-dark(#e3e3e3,#262626);--soft:light-dark(#f5f5f5,#171717);--pk:#ff2e88;--pkt:light-dark(#d4005f,#ff5aa3)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Archivo,system-ui,sans-serif;overflow-x:clip;padding-bottom:120px}
+.band{padding:clamp(20px,3vw,40px) max(4vw,16px)}
+header{border-top:10px solid var(--ink)}
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 28px;justify-content:space-between}
+h1{margin:0;font-weight:800;font-stretch:125%;font-size:clamp(40px,7vw,72px);line-height:1;letter-spacing:-.02em}
+h1 small{font-size:15px;font-stretch:100%;font-weight:600;color:var(--pkt);vertical-align:top;margin-left:6px;letter-spacing:0}
+.sub{color:var(--mut);margin:6px 0 0;max-width:60ch}
+.stats{display:flex;gap:22px}.stats b{display:block;font-size:30px;font-weight:800;font-stretch:112%;line-height:1}.stats span{font-size:13px;color:var(--mut)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-top:0}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{background:var(--bg);border:1.5px solid var(--line);border-radius:6px;padding:10px 12px;font-size:16px;min-height:44px}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--pk);outline-offset:1px}
+#q{flex:1 1 220px}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden}
+.seg button{border:0;background:none;padding:0 14px;min-height:41px;cursor:pointer;font-weight:600}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.btn{border:1.5px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:6px;padding:0 16px;min-height:44px;font-weight:600;cursor:pointer}
+.btn.o{background:none;color:var(--ink)}.btn.pk{background:var(--pk);border-color:var(--pk);color:#fff}
+.btn.dl{background:none;color:var(--pkt);border-color:var(--pkt)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;padding:0 max(4vw,16px) 14px}
+.chip{border:1px solid var(--line);background:var(--soft);border-radius:99px;padding:4px 11px;font-size:13px;cursor:pointer;min-height:30px}
+.chip[aria-pressed=true]{background:var(--pk);border-color:var(--pk);color:#fff}
+main{display:grid;grid-template-columns:220px minmax(0,1fr) 380px;gap:0;border-top:1.5px solid var(--ink);margin:0 max(4vw,16px)}
+main>section{padding:18px 0}
+#tree{padding-right:16px;border-right:1px solid var(--line)}
+#list{padding:18px 18px}
+#detail{padding-left:18px;border-left:1px solid var(--line)}
+.tl{font-weight:800;font-stretch:112%;font-size:13px;margin:16px 0 6px;color:var(--mut)}
+.tl:first-child{margin-top:0}
+.tg{display:flex;justify-content:space-between;width:100%;border:0;background:none;text-align:left;padding:7px 8px;border-radius:5px;cursor:pointer;font-size:15px;min-height:36px}
+.tg:hover{background:var(--soft)}.tg[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.tg i{font-style:normal;color:inherit;opacity:.6;font-size:13px}
+.grp{margin-bottom:22px}
+.grp h3{margin:0 0 8px;font-size:15px;font-weight:800;font-stretch:112%;display:flex;gap:8px;align-items:baseline}
+.grp h3 span{color:var(--mut);font-weight:400;font-size:13px;font-stretch:100%}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.card{position:relative;text-align:left;border:1.5px solid var(--line);background:var(--bg);border-radius:8px;padding:12px 12px 10px;cursor:pointer;display:flex;flex-direction:column;gap:4px;min-height:96px}
+.card:hover{border-color:var(--ink)}.card.on{border-color:var(--pk);box-shadow:0 0 0 1.5px var(--pk)}
+.code{font:500 12px "IBM Plex Mono",monospace;color:var(--mut)}
+.card b{font-weight:600;font-size:15px;line-height:1.25}
+.card p{margin:0;font-size:13px;color:var(--mut);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.st{position:absolute;top:10px;right:10px;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink)}
+.st.stable{background:var(--ink)}.st.beta{background:none}.st.idea{border-style:dashed;border-color:var(--mut)}
+.add{position:absolute;bottom:8px;right:8px;border:1px solid var(--line);background:var(--bg);border-radius:5px;font-size:12px;padding:2px 7px;cursor:pointer}
+.add.in{background:var(--pk);border-color:var(--pk);color:#fff}
+.empty{border:1.5px dashed var(--line);border-radius:8px;padding:28px;color:var(--mut);text-align:center}
+#detail h2{margin:0 0 4px;font-size:26px;font-weight:800;font-stretch:112%;line-height:1.1}
+.kv{display:grid;grid-template-columns:90px minmax(0,1fr);gap:6px 10px;font-size:14px;margin:14px 0}
+.kv dt{color:var(--mut)}.kv dd{margin:0}
+.pre{white-space:pre-wrap;background:var(--soft);border-radius:6px;padding:10px 12px;font:13px/1.55 "IBM Plex Mono",monospace;margin:0}
+form{display:grid;gap:10px}
+label{display:grid;gap:4px;font-size:13px;color:var(--mut)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.legend{display:flex;gap:14px;font-size:13px;color:var(--mut);margin-top:10px;flex-wrap:wrap}
+.legend span{display:inline-flex;gap:6px;align-items:center}.legend .st{position:static}
+#tray{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--bg);padding:12px max(4vw,16px);display:flex;flex-wrap:wrap;gap:10px;align-items:center;z-index:5}
+#tray .k{font-weight:800;font-stretch:125%}
+#tray .pill{background:var(--bg);color:var(--ink);border-radius:99px;padding:3px 10px;font:500 12px "IBM Plex Mono",monospace;cursor:pointer;border:0}
+#tray input{background:transparent;color:var(--bg);border-color:#555;min-height:40px;width:150px}
+#tray .btn{min-height:40px}#tray .btn.o{color:var(--bg);border-color:var(--bg)}
+.kit{border:1.5px solid var(--line);border-radius:8px;padding:14px;margin-bottom:10px}
+.kit h3{margin:0;font-size:18px;font-weight:800;font-stretch:112%}
+.kit .pills{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.kit .pills span{background:var(--soft);border-radius:99px;padding:3px 9px;font:500 12px "IBM Plex Mono",monospace}
+.note{font-size:13px;color:var(--mut)}
+.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--pk);color:#fff;padding:8px 16px;border-radius:6px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+.toast.on{opacity:1}
+@media(max-width:1080px){main{grid-template-columns:200px minmax(0,1fr)}#detail{grid-column:1/-1;border-left:0;border-top:1.5px solid var(--ink);padding-left:0}}
+@media(max-width:640px){main{grid-template-columns:minmax(0,1fr)}#tree{border-right:0;padding-right:0;border-bottom:1px solid var(--line)}#tree .tgs{display:flex;flex-wrap:wrap;gap:4px}#tree .tg{width:auto;gap:8px}#list{padding:18px 0}.row2{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.toast{transition:none}}
+.src{font-size:13px;color:var(--mut)}.src b{color:var(--ink);font-weight:600}
+a.btn{display:inline-flex;align-items:center;text-decoration:none}
+.home{color:var(--mut);text-decoration:none;font-size:14px}.home:hover{color:var(--pkt)}
+.fxp .pills span{cursor:default}
+</style>
+</head>
+<body>
+<header class="band">
+  <a class="home" href="../">← LAB</a>
+  <div class="top">
+    <div>
+      <h1>Z-LAB<small id="ver">v.01</small></h1>
+      <p class="sub">Kho khối dùng chung cho mọi site. Tra cứu theo lớp, nhóm, tag — gom thành Kit để lắp vào dự án.</p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+<div class="band bar">
+  <input id="q" type="search" placeholder="Tìm khối, mã, tag, nguồn…" aria-label="Tìm">
+  <div class="seg" id="tab" role="group" aria-label="Chế độ">
+    <button data-v="modules" aria-pressed="true">Modules</button>
+    <button data-v="fxp" aria-pressed="false">FX Presets</button>
+    <button data-v="kits" aria-pressed="false">Kits</button>
+  </div>
+  <select id="fs" aria-label="Trạng thái">
+    <option value="all">Mọi trạng thái</option><option value="stable">Stable</option><option value="beta">Beta</option><option value="idea">Idea</option>
+  </select>
+  <button class="btn pk" id="new">+ Khối mới</button>
+</div>
+<div class="tags" id="tags"></div>
+<main>
+  <section id="tree" aria-label="Phân cấp"></section>
+  <section id="list" aria-live="polite"></section>
+  <section id="detail"></section>
+</main>
+<div id="tray"></div>
+<div class="toast" id="toast"></div>
+<script>
+{
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const GH='https://github.com/zuilopez/Z-LAB/edit/main/modules/modules.json';
+const LK='zlab_kits_v1';
+const S={mods:[],fxp:[],kits:[],local:[],q:'',status:'all',tag:null,node:null,sel:null,edit:null,view:'modules',tray:[],kitName:'',confirm:null,loaded:false,note:'Đang tải…'};
+const LAYERS=['UI','DATA'];
+const toast=t=>{const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),1800)};
+const tagsOf=m=>Array.isArray(m.tags)?m.tags.map(String):[];
+const srcOf=m=>Array.isArray(m.src)?m.src:[];
+try{S.local=JSON.parse(localStorage.getItem(LK)||'[]')}catch(e){S.local=[]}
+const saveLocal=()=>{try{localStorage.setItem(LK,JSON.stringify(S.local))}catch(e){}};
+const allKits=()=>[...S.kits.map(k=>({...k,repo:true})),...S.local];
+function filtered(){
+  const q=S.q.trim().toLowerCase();
+  return S.mods.filter(m=>{
+    if(S.status!=='all'&&m.status!==S.status)return false;
+    if(S.tag&&!tagsOf(m).includes(S.tag))return false;
+    if(S.node){const [l,g]=S.node.split('|');if(m.layer!==l)return false;if(g&&m.group!==g)return false}
+    if(q){const h=[m.code,m.name,m.desc,m.group,m.layer,m.params,...tagsOf(m),...srcOf(m)].join(' ').toLowerCase();if(!h.includes(q))return false}
+    return true}).sort((a,b)=>(a.layer+a.group+a.code).localeCompare(b.layer+b.group+b.code))}
+function groups(list){const o={};list.forEach(m=>{const k=(m.layer||'UI')+'|'+(m.group||'Khác');(o[k]=o[k]||[]).push(m)});return o}
+function renderStats(){
+  const st=S.mods.filter(m=>m.status==='stable').length,fx=S.mods.filter(m=>m.group==='Effect').length;
+  $('#stats').innerHTML=`<div><b>${S.mods.length}</b><span>khối</span></div><div><b>${fx}</b><span>effect</span></div><div><b>${st}</b><span>stable</span></div><div><b>${allKits().length}</b><span>kit</span></div>`}
+function renderTags(){
+  const cnt={};S.mods.flatMap(tagsOf).forEach(t=>cnt[t]=(cnt[t]||0)+1);
+  let all=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a]||a.localeCompare(b));
+  const more=all.length>16;if(!S.allTags&&more)all=all.slice(0,16).concat(S.tag&&!all.slice(0,16).includes(S.tag)?[S.tag]:[]);
+  $('#tags').innerHTML=all.map(t=>`<button class="chip" data-t="${esc(t)}" aria-pressed="${S.tag===t}">#${esc(t)} <span style="opacity:.55">${cnt[t]}</span></button>`).join('')+(more?`<button class="chip" id="tmore">${S.allTags?'Thu gọn':'+ '+(Object.keys(cnt).length-16)+' tag'}</button>`:'')}
+function renderTree(){
+  const g=groups(S.mods);let h=`<div class="tgs"><button class="tg" data-n="" aria-pressed="${!S.node}">Tất cả <i>${S.mods.length}</i></button></div>`;
+  LAYERS.forEach(L=>{const keys=Object.keys(g).filter(k=>k.startsWith(L+'|')).sort();const n=keys.reduce((a,k)=>a+g[k].length,0);
+    h+=`<div class="tl">${L==='UI'?'Giao diện':'Data'}</div><div class="tgs"><button class="tg" data-n="${L}" aria-pressed="${S.node===L}">${L} — tất cả <i>${n}</i></button>`;
+    keys.forEach(k=>{h+=`<button class="tg" data-n="${esc(k)}" aria-pressed="${S.node===k}">${esc(k.split('|')[1])} <i>${g[k].length}</i></button>`});h+='</div>'});
+  $('#tree').innerHTML=h}
+function card(m){const inT=S.tray.includes(m.code);
+  return `<div class="card${S.sel===m.code?' on':''}" data-id="${esc(m.code)}" role="button" tabindex="0"><span class="st ${esc(m.status)}" title="${esc(m.status)}"></span><span class="code">${esc(m.code)}${srcOf(m).length?' · '+esc(srcOf(m).join(' ')):''}</span><b>${esc(m.name)}</b><p>${esc(m.desc)}</p><button class="add${inT?' in':''}" data-add="${esc(m.code)}">${inT?'✓ Kit':'+ Kit'}</button></div>`}
+const byCode=()=>Object.fromEntries(S.mods.map(m=>[m.code,m]));
+function renderList(){
+  if(!S.loaded){$('#list').innerHTML=`<div class="empty">${esc(S.note)}</div>`;return}
+  if(S.view==='kits')return renderKits();
+  if(S.view==='fxp')return renderFxp();
+  const f=filtered();
+  if(!f.length){$('#list').innerHTML=`<div class="empty">Không có khối khớp bộ lọc.</div>`;return}
+  const g=groups(f);
+  $('#list').innerHTML=Object.keys(g).sort((a,b)=>(a.startsWith('UI')?0:1)-(b.startsWith('UI')?0:1)||a.localeCompare(b)).map(k=>{const [l,n]=k.split('|');return `<div class="grp"><h3>${esc(n)} <span>${esc(l)} · ${g[k].length}</span></h3><div class="cards">${g[k].map(card).join('')}</div></div>`}).join('')}
+function pills(ids){const b=byCode();return `<div class="pills">${ids.map(i=>`<span title="${esc(b[i]?.name||'')}">${esc(i)}${b[i]?' '+esc(b[i].name):''}</span>`).join('')}</div>`}
+function renderFxp(){
+  if(!S.fxp.length){$('#list').innerHTML='<div class="empty">Chưa có FX preset.</div>';return}
+  $('#list').innerHTML='<p class="note">Các tổ hợp effect gợi ý — đưa vào Kit rồi chỉnh cường độ theo dự án.</p>'+S.fxp.map((p,i)=>`<div class="kit fxp"><h3>${esc(p.name)}</h3>${pills(p.mods||[])}<p class="note">${esc(p.note)}</p><div class="acts"><button class="btn o" data-fxadd="${i}">Đưa vào Kit</button></div></div>`).join('')}
+function renderKits(){
+  const ks=allKits();
+  if(!ks.length){$('#list').innerHTML=`<div class="empty">Chưa có Kit. Bấm “+ Kit” trên các khối, đặt tên dự án ở thanh dưới rồi Lưu.</div>`;return}
+  $('#list').innerHTML=ks.map((k,i)=>`<div class="kit"><h3>${esc(k.name)}</h3><p class="note">${k.repo?'Đã lưu trong repo':'Nháp trên máy này — gửi C để lưu vào repo'}</p>${pills(Array.isArray(k.mods)?k.mods:[])}${k.note?`<p class="note">${esc(k.note)}</p>`:''}<div class="acts"><button class="btn o" data-kcopy="${i}">Copy spec</button><button class="btn o" data-kload="${i}">Mở vào tray</button>${k.repo?'':`<button class="btn dl" data-kdel="${i}">${S.confirm==='k'+i?'Chắc chắn xoá?':'Xoá nháp'}</button>`}</div></div>`).join('')}
+function renderDetail(){
+  const d=$('#detail');
+  if(S.edit){const m=S.edit;const grs=[...new Set(S.mods.map(x=>x.group))].sort();
+    d.innerHTML=`<h2>${m.code?'Sửa khối':'Khối mới'}</h2><p class="note">Điền rồi bấm Copy — gửi cho C để đưa vào repo, hoặc tự dán vào modules.json.</p><form id="ef">
+    <div class="row2"><label>Mã<input name="code" required value="${esc(m.code)}" placeholder="UI-FX-23"></label><label>Lớp<select name="layer">${LAYERS.map(L=>`<option${m.layer===L?' selected':''}>${L}</option>`).join('')}</select></label></div>
+    <label>Tên<input name="name" required value="${esc(m.name)}"></label>
+    <div class="row2"><label>Nhóm<input name="group" list="grs" required value="${esc(m.group)}"><datalist id="grs">${grs.map(x=>`<option value="${esc(x)}">`).join('')}</datalist></label><label>Trạng thái<select name="status">${['stable','beta','idea'].map(s=>`<option${m.status===s?' selected':''}>${s}</option>`).join('')}</select></label></div>
+    <label>Mô tả<textarea name="desc" rows="3">${esc(m.desc)}</textarea></label>
+    <label>Tham số / cách dùng<textarea name="params" rows="4">${esc(m.params)}</textarea></label>
+    <div class="row2"><label>Tag (dấu phẩy)<input name="tags" value="${esc(tagsOf(m).join(', '))}"></label><label>Nguồn (dấu phẩy)<input name="src" value="${esc(srcOf(m).join(', '))}"></label></div>
+    <div class="acts"><button class="btn" type="submit">Copy cho C</button><a class="btn o" href="${GH}" target="_blank" rel="noopener">Sửa trên GitHub</a><button class="btn o" type="button" id="cancel">Huỷ</button></div></form>`;return}
+  const m=S.mods.find(x=>x.code===S.sel);
+  if(!m){d.innerHTML=`<p class="note">Chọn một khối để xem chi tiết.</p><div class="legend"><span><i class="st stable"></i>stable — dùng được ngay</span><span><i class="st beta"></i>beta — đang thử</span><span><i class="st idea"></i>idea — mới là ý tưởng</span></div><p class="note" style="margin-top:18px">Dữ liệu: <a href="modules.json">modules.json</a></p>`;return}
+  d.innerHTML=`<span class="code">${esc(m.code)} · ${esc(m.layer)} / ${esc(m.group)}</span><h2>${esc(m.name)}</h2><p>${esc(m.desc)}</p>
+  ${m.params?`<pre class="pre">${esc(m.params)}</pre>`:''}
+  <dl class="kv"><dt>Trạng thái</dt><dd>${esc(m.status)}</dd><dt>Nguồn</dt><dd>${srcOf(m).map(esc).join(' · ')||'—'}</dd><dt>Tag</dt><dd>${tagsOf(m).map(t=>'#'+esc(t)).join(' ')||'—'}</dd></dl>
+  <div class="acts"><button class="btn" id="ed">Sửa</button><button class="btn o" id="dup">Nhân bản</button><button class="btn o" data-add="${esc(m.code)}">${S.tray.includes(m.code)?'Bỏ khỏi Kit':'+ Kit'}</button><button class="btn dl" id="del">Bỏ khối</button></div>`}
+function renderTray(){
+  $('#tray').innerHTML=`<span class="k">KIT</span>${S.tray.length?S.tray.map(i=>`<button class="pill" data-rm="${esc(i)}" title="Bỏ">${esc(i)} ×</button>`).join(''):'<span class="note" style="color:inherit;opacity:.7">Chưa chọn khối</span>'}
+  <input id="kn" placeholder="Tên dự án" value="${esc(S.kitName)}" aria-label="Tên kit"><button class="btn pk" id="ks">Lưu Kit</button><button class="btn o" id="kc">Copy</button>${S.tray.length?'<button class="btn o" id="kx">Xoá tray</button>':''}`}
+function render(){renderStats();renderTags();renderTree();renderList();renderDetail();renderTray();
+  document.querySelectorAll('#tab button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.view))}
+function spec(name,ids){const b=byCode();
+  return `C, Z-LAB KIT — ${name||'(chưa đặt tên)'}\n`+ids.map(i=>{const m=b[i];return m?`- ${m.code} ${m.name} [${m.layer}/${m.group}]`:`- ${i}`}).join('\n')}
+async function copy(t,msg){try{await navigator.clipboard.writeText(t);toast(msg||'Đã copy')}catch(e){toast('Không copy được')}}
+function submitMod(f){const fd=new FormData(f),sp=s=>String(s).split(',').map(x=>x.trim()).filter(Boolean);
+  const m={code:fd.get('code').trim(),name:fd.get('name').trim(),layer:fd.get('layer'),group:fd.get('group').trim(),status:fd.get('status'),desc:fd.get('desc').trim(),params:fd.get('params').trim(),tags:sp(fd.get('tags')).map(x=>x.toLowerCase()),src:sp(fd.get('src'))};
+  const old=S.edit.code&&S.edit._orig;
+  copy(`C, Z-LAB ${old?'sửa khối '+S.edit._orig:'thêm khối'}:\n`+JSON.stringify(m,null,1),'Đã copy — gửi cho C')}
+document.addEventListener('click',e=>{const t=e.target.closest('button,.card');if(!t)return;const D=t.dataset;
+  if(D.add!==undefined){e.stopPropagation();const i=D.add;S.tray=S.tray.includes(i)?S.tray.filter(x=>x!==i):[...S.tray,i];render();return}
+  if(D.rm!==undefined){S.tray=S.tray.filter(x=>x!==D.rm);render();return}
+  if(D.t!==undefined){S.tag=S.tag===D.t?null:D.t;S.view='modules';render();return}
+  if(D.n!==undefined){S.node=D.n||null;S.view='modules';render();return}
+  if(D.v){S.view=D.v;render();return}
+  if(D.fxadd!==undefined){const p=S.fxp[+D.fxadd];S.tray=[...new Set([...S.tray,...(p.mods||[])])];toast('Đã thêm '+p.name+' vào Kit');render();return}
+  if(t.classList.contains('card')){S.sel=t.dataset.id;S.edit=null;render();if(innerWidth<1080)$('#detail').scrollIntoView({behavior:'smooth'});return}
+  if(t.id==='new'){S.edit={code:'',name:'',layer:(S.node||'UI').split('|')[0],group:(S.node||'').split('|')[1]||'',status:'idea',desc:'',params:'',tags:[],src:[]};render();if(innerWidth<1080)$('#detail').scrollIntoView({behavior:'smooth'});return}
+  if(t.id==='cancel'){S.edit=null;render();return}
+  if(t.id==='ed'){const m=S.mods.find(x=>x.code===S.sel);S.edit={...m,_orig:m.code};render();return}
+  if(t.id==='dup'){const m=S.mods.find(x=>x.code===S.sel);S.edit={...m,code:m.code+'-B',status:'idea'};render();return}
+  if(t.id==='del'){copy('C, Z-LAB bỏ khối '+S.sel,'Đã copy lệnh bỏ khối — gửi cho C');return}
+  if(t.id==='tmore'){S.allTags=!S.allTags;renderTags();return}
+  if(t.id==='kx'){S.tray=[];render();return}
+  if(t.id==='kc'){copy(spec(S.kitName,S.tray));return}
+  if(t.id==='ks'){const n=S.kitName.trim();if(!n||!S.tray.length){toast('Cần tên dự án và ít nhất 1 khối');return}
+    S.local=S.local.filter(k=>k.name!==n).concat({name:n,mods:[...S.tray]});saveLocal();copy(spec(n,S.tray),'Đã lưu nháp + copy — gửi C để lưu vào repo');S.view='kits';render();return}
+  const ks=allKits();
+  if(D.kcopy!==undefined){const k=ks[+D.kcopy];copy(spec(k.name,k.mods||[]));return}
+  if(D.kload!==undefined){const k=ks[+D.kload];S.tray=[...(k.mods||[])];S.kitName=k.name;S.view='modules';render();return}
+  if(D.kdel!==undefined){if(S.confirm!=='k'+D.kdel){S.confirm='k'+D.kdel;render();return}const k=ks[+D.kdel];S.local=S.local.filter(x=>x!==k);saveLocal();S.confirm=null;render();return}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList?.contains('card'))e.target.click()});
+document.addEventListener('submit',e=>{e.preventDefault();submitMod(e.target)});
+document.addEventListener('input',e=>{if(e.target.id==='q'){S.q=e.target.value;if(S.view!=='modules'){S.view='modules';render()}else renderList()}if(e.target.id==='kn')S.kitName=e.target.value});
+$('#fs').addEventListener('change',e=>{S.status=e.target.value;renderList()});
+render();
+fetch('modules.json',{cache:'no-store'}).then(r=>r.json()).then(j=>{S.mods=j.modules||[];S.fxp=j.fxPresets||[];S.kits=j.kits||[];if(j.version)$('#ver').textContent=j.version;S.loaded=true;render()}).catch(()=>{S.note='Không tải được modules.json.';S.loaded=true;S.mods=[];render()});
+}
+</script>
+</body>
+</html>

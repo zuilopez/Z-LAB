@@ -1,0 +1,947 @@
+{
+ "version": "v.01",
+ "updated": "2026-11-26",
+ "modules": [
+  {
+   "id": "ui-fnt-01",
+   "code": "UI-FNT-01",
+   "name": "Font Picker",
+   "layer": "UI",
+   "group": "Font",
+   "status": "stable",
+   "desc": "Chọn font từ Google Fonts hoặc font máy, xem trước trên nội dung thật.",
+   "params": "nguồn: g-font | local\npreview: text mẫu tuỳ chỉnh\nliên kết: FontP (tab Library)",
+   "tags": [
+    "font",
+    "picker",
+    "g-font",
+    "fontp",
+    "ept"
+   ],
+   "src": [
+    "FontP",
+    "EPT"
+   ]
+  },
+  {
+   "id": "ui-fnt-02",
+   "code": "UI-FNT-02",
+   "name": "Font theo vùng",
+   "layer": "UI",
+   "group": "Font",
+   "status": "stable",
+   "desc": "Gán font riêng cho từng vùng trang; mỗi vùng có family, weight, size, letter-spacing, có thể chọn \"random\".",
+   "params": "mẫu từ EPT (FXD): n = tên thật, s = slogan/tên giả, c = nhãn, d = ngày giờ\nmỗi vùng: f (family) · w (weight) · s (size %) · l (spacing) · k",
+   "tags": [
+    "font",
+    "section",
+    "random",
+    "ept",
+    "ctd"
+   ],
+   "src": [
+    "EPT",
+    "CTD"
+   ]
+  },
+  {
+   "id": "ui-fnt-03",
+   "code": "UI-FNT-03",
+   "name": "Cấp chữ A/B/C",
+   "layer": "UI",
+   "group": "Font",
+   "status": "beta",
+   "desc": "Bộ cấp chữ cố định để mọi trang có nhịp chữ giống nhau.",
+   "params": "A: tên trang, tiêu đề chính\nB: phụ đề, nội dung chính\nC: nhãn, ngày giờ, nút",
+   "tags": [
+    "font",
+    "scale",
+    "ept"
+   ],
+   "src": [
+    "EPT"
+   ]
+  },
+  {
+   "id": "ui-prs-01",
+   "code": "UI-PRS-01",
+   "name": "Lưu preset",
+   "layer": "UI",
+   "group": "Preset giao diện",
+   "status": "stable",
+   "desc": "Lưu toàn bộ cài đặt giao diện vào ô preset có tên và dấu thời gian; Overwrite để ghi đè ô.",
+   "params": "gồm: font, màu, effect, layout, nền\nhiển thị dung lượng mỗi ô (KB/MB)",
+   "tags": [
+    "preset",
+    "save",
+    "slot",
+    "ctd",
+    "zlab",
+    "vi"
+   ],
+   "src": [
+    "CTD",
+    "Z-LAB",
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-prs-02",
+   "code": "UI-PRS-02",
+   "name": "Tải mới / Reset",
+   "layer": "UI",
+   "group": "Preset giao diện",
+   "status": "stable",
+   "desc": "Nạp lại một preset đã lưu, hoặc quay về mặc định DF.",
+   "params": "load: chọn ô preset\nreset: về DF",
+   "tags": [
+    "preset",
+    "load",
+    "reset",
+    "ctd",
+    "zlab"
+   ],
+   "src": [
+    "CTD",
+    "Z-LAB"
+   ]
+  },
+  {
+   "id": "ui-prs-03",
+   "code": "UI-PRS-03",
+   "name": "Nháp",
+   "layer": "UI",
+   "group": "Preset giao diện",
+   "status": "beta",
+   "desc": "Thử thay đổi trên bản nháp mà không ảnh hưởng bản chính; xong thì áp dụng hoặc bỏ.",
+   "params": "draft → apply | discard",
+   "tags": [
+    "preset",
+    "draft"
+   ],
+   "src": []
+  },
+  {
+   "id": "ui-prs-04",
+   "code": "UI-PRS-04",
+   "name": "Đặt mặc định (DF)",
+   "layer": "UI",
+   "group": "Preset giao diện",
+   "status": "stable",
+   "desc": "Chọn một preset làm DF — giao diện người mới vào sẽ thấy.",
+   "params": "DF mặc định: light mode",
+   "tags": [
+    "preset",
+    "default",
+    "df",
+    "ctd",
+    "zlab"
+   ],
+   "src": [
+    "CTD",
+    "Z-LAB"
+   ]
+  },
+  {
+   "id": "ui-prs-05",
+   "code": "UI-PRS-05",
+   "name": "Update + Version",
+   "layer": "UI",
+   "group": "Preset giao diện",
+   "status": "stable",
+   "desc": "Đánh số version mỗi lần cập nhật giao diện, có danh sách lịch sử kèm ngày và ghi chú.",
+   "params": "quy tắc: v.10 = nâng lớn, v.10a = sửa nhỏ (<5 task)\nmẫu: versions.json của EPT (id, label, date, note)",
+   "tags": [
+    "preset",
+    "version",
+    "update",
+    "changelog",
+    "ept",
+    "ctd",
+    "fontp"
+   ],
+   "src": [
+    "EPT",
+    "CTD",
+    "FontP"
+   ]
+  },
+  {
+   "id": "ui-shl-01",
+   "code": "UI-SHL-01",
+   "name": "Khung trang",
+   "layer": "UI",
+   "group": "Khung & Theme",
+   "status": "beta",
+   "desc": "Khung chung Header / Body / Footer; nội dung bên trong tuỳ dự án.",
+   "params": "vùng: H1 | Body | F\nngôn ngữ: EN/VI",
+   "tags": [
+    "layout",
+    "shell",
+    "i18n",
+    "ept",
+    "ctd",
+    "vi"
+   ],
+   "src": [
+    "EPT",
+    "CTD",
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-shl-02",
+   "code": "UI-SHL-02",
+   "name": "Theme màu",
+   "layer": "UI",
+   "group": "Khung & Theme",
+   "status": "beta",
+   "desc": "Bộ màu light / dark / tuỳ chọn, bảng màu riêng, màu nền theo vùng.",
+   "params": "light mặc định",
+   "tags": [
+    "theme",
+    "color",
+    "palette",
+    "ctd",
+    "ept"
+   ],
+   "src": [
+    "CTD",
+    "EPT"
+   ]
+  },
+  {
+   "id": "ui-shl-03",
+   "code": "UI-SHL-03",
+   "name": "Nền (gradient / ảnh / slide)",
+   "layer": "UI",
+   "group": "Khung & Theme",
+   "status": "beta",
+   "desc": "Nền trang dạng gradient, ảnh hoặc slideshow, có blur ảnh nền.",
+   "params": "chế độ: gradient | image | slides\nimgBlur",
+   "tags": [
+    "background",
+    "slides",
+    "ctd",
+    "zlab",
+    "vi"
+   ],
+   "src": [
+    "CTD",
+    "Z-LAB",
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-00",
+   "code": "UI-FX-00",
+   "name": "Effect Preset Stack",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "idea",
+   "desc": "Chọn và xếp chồng các effect như một preset, bật/tắt từng lớp, chỉnh cường độ.",
+   "params": "stack: [effect, intensity, target]\nmẫu bật/tắt: FXC của Z-LAB\nlưu kèm UI-PRS-01",
+   "tags": [
+    "effect",
+    "preset",
+    "stack",
+    "zlab",
+    "vi"
+   ],
+   "src": [
+    "Z-LAB",
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-01",
+   "code": "UI-FX-01",
+   "name": "Mica / Glass",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "stable",
+   "desc": "Kính mờ cho panel/thẻ: blur nền phía sau + tăng bão hoà.",
+   "params": "backdrop-filter: blur(--mb) saturate(--ms)\nbiến: độ mờ, độ bão hoà, độ sáng",
+   "tags": [
+    "effect",
+    "glass",
+    "blur",
+    "ctd",
+    "zlab",
+    "vi"
+   ],
+   "src": [
+    "CTD",
+    "Z-LAB",
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-02",
+   "code": "UI-FX-02",
+   "name": "Liquid Glass",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "beta",
+   "desc": "Kính lỏng: méo khúc xạ nhẹ kèm blur, kiểu Apple Liquid Glass.",
+   "params": "--lqf (filter SVG), --lqb (blur)",
+   "tags": [
+    "effect",
+    "glass",
+    "refraction",
+    "zlab",
+    "vi"
+   ],
+   "src": [
+    "Z-LAB",
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-03",
+   "code": "UI-FX-03",
+   "name": "Scan grid + Wave rings",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "stable",
+   "desc": "Lưới quét kèm vòng sóng lan ra theo nhịp.",
+   "params": "scanI: cường độ lưới · scanSw: vòng sóng · scanSp: thời gian sóng · scanC: màu\nCTD: click bật/tắt, giữ 1s mở cài đặt",
+   "tags": [
+    "effect",
+    "scan",
+    "grid",
+    "ring",
+    "ctd",
+    "zlab",
+    "vi"
+   ],
+   "src": [
+    "CTD",
+    "Z-LAB",
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-04",
+   "code": "UI-FX-04",
+   "name": "Tilt-shift",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "beta",
+   "desc": "Mờ hai đầu, nét ở giữa — cảm giác mô hình thu nhỏ.",
+   "params": "vị trí dải nét, độ rộng, độ mờ",
+   "tags": [
+    "effect",
+    "blur",
+    "tilt",
+    "zlab",
+    "vi"
+   ],
+   "src": [
+    "Z-LAB",
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-05",
+   "code": "UI-FX-05",
+   "name": "Heat haze / Wave",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "beta",
+   "desc": "Méo sóng như hơi nóng bốc lên.",
+   "params": "biên độ, tần số, tốc độ",
+   "tags": [
+    "effect",
+    "wave",
+    "distort",
+    "zlab",
+    "vi"
+   ],
+   "src": [
+    "Z-LAB",
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-06",
+   "code": "UI-FX-06",
+   "name": "Blur thường",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "stable",
+   "desc": "Gaussian blur cho ảnh/lớp, dùng cả cho chuyển cảnh vào/ra (blur + scale).",
+   "params": "radius\nchuyển cảnh EPT: scale 1.45 + blur 14px → 0",
+   "tags": [
+    "effect",
+    "blur",
+    "transition",
+    "vi",
+    "ept"
+   ],
+   "src": [
+    "VI",
+    "EPT"
+   ]
+  },
+  {
+   "id": "ui-fx-07",
+   "code": "UI-FX-07",
+   "name": "Zoom / Radial blur",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "beta",
+   "desc": "Mờ toả tâm hoặc xoáy quanh tâm, giữ nét ở giữa.",
+   "params": "amount, tâm nét\nEPT: zoom blur logo đội (canvas)",
+   "tags": [
+    "effect",
+    "blur",
+    "radial",
+    "zoom",
+    "vi",
+    "ept"
+   ],
+   "src": [
+    "VI",
+    "EPT"
+   ]
+  },
+  {
+   "id": "ui-fx-08",
+   "code": "UI-FX-08",
+   "name": "Iris blur",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "idea",
+   "desc": "Vùng nét hình elip, mờ dần ra ngoài.",
+   "params": "tâm, bán kính, độ chuyển",
+   "tags": [
+    "effect",
+    "blur",
+    "iris",
+    "vi"
+   ],
+   "src": [
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-09",
+   "code": "UI-FX-09",
+   "name": "Path / Motion blur",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "idea",
+   "desc": "Nhoè theo hướng chuyển động hoặc theo đường vẽ.",
+   "params": "hướng, độ dài",
+   "tags": [
+    "effect",
+    "blur",
+    "motion",
+    "vi"
+   ],
+   "src": [
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-10",
+   "code": "UI-FX-10",
+   "name": "Spotlight reveal",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "beta",
+   "desc": "Lớp mờ có lỗ tròn theo chuột — rê để lộ nội dung (dùng cho intro “lau mờ”).",
+   "params": "mask radial-gradient tại (--mx, --my)\nkích thước elip, độ mờ",
+   "tags": [
+    "effect",
+    "blur",
+    "mask",
+    "cursor",
+    "intro",
+    "ept"
+   ],
+   "src": [
+    "EPT"
+   ]
+  },
+  {
+   "id": "ui-fx-11",
+   "code": "UI-FX-11",
+   "name": "Pixel stretch",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "idea",
+   "desc": "Kéo giãn một hàng/cột pixel thành dải màu.",
+   "params": "vị trí, hướng, độ dài",
+   "tags": [
+    "effect",
+    "pixel",
+    "glitch",
+    "vi"
+   ],
+   "src": [
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-12",
+   "code": "UI-FX-12",
+   "name": "Pixelize",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "idea",
+   "desc": "Vỡ ảnh thành khối pixel.",
+   "params": "kích thước khối",
+   "tags": [
+    "effect",
+    "pixel",
+    "vi"
+   ],
+   "src": [
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-13",
+   "code": "UI-FX-13",
+   "name": "Glow",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "stable",
+   "desc": "Phát sáng quanh chữ/số bằng drop-shadow.",
+   "params": "cdGlow, cdBr: độ sáng\ndrop-shadow theo màu theme",
+   "tags": [
+    "effect",
+    "glow",
+    "text",
+    "ctd"
+   ],
+   "src": [
+    "CTD"
+   ]
+  },
+  {
+   "id": "ui-fx-14",
+   "code": "UI-FX-14",
+   "name": "Ring echo / Ripple",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "stable",
+   "desc": "Vòng tròn lan ra từ một điểm (echo, ripple).",
+   "params": "ringC màu · ringW độ dày · ringB blur · ringF fade · khoảng cách vòng",
+   "tags": [
+    "effect",
+    "ring",
+    "ripple",
+    "ept",
+    "ctd"
+   ],
+   "src": [
+    "EPT",
+    "CTD"
+   ]
+  },
+  {
+   "id": "ui-fx-15",
+   "code": "UI-FX-15",
+   "name": "Grain / Drift nền",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "beta",
+   "desc": "Hạt film và chuyển động trôi chậm của nền.",
+   "params": "keyframes bgGrain, bgDrift",
+   "tags": [
+    "effect",
+    "grain",
+    "background",
+    "zlab"
+   ],
+   "src": [
+    "Z-LAB"
+   ]
+  },
+  {
+   "id": "ui-fx-16",
+   "code": "UI-FX-16",
+   "name": "Bokeh",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "idea",
+   "desc": "Đốm sáng nhoè trôi ở nền.",
+   "params": "số đốm, kích thước, tốc độ",
+   "tags": [
+    "effect",
+    "bokeh",
+    "background",
+    "zlab"
+   ],
+   "src": [
+    "Z-LAB"
+   ]
+  },
+  {
+   "id": "ui-fx-17",
+   "code": "UI-FX-17",
+   "name": "Holo / Sheen / Sweep",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "beta",
+   "desc": "Vệt sáng quét qua bề mặt, ánh hologram.",
+   "params": "keyframes holo, sheen, sweep, sweepv (Z-LAB) · sweepR, sweepY (VI)",
+   "tags": [
+    "effect",
+    "sheen",
+    "holo",
+    "zlab",
+    "vi"
+   ],
+   "src": [
+    "Z-LAB",
+    "VI"
+   ]
+  },
+  {
+   "id": "ui-fx-18",
+   "code": "UI-FX-18",
+   "name": "Neon run / Flicker",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "idea",
+   "desc": "Viền neon chạy quanh và nhấp nháy.",
+   "params": "keyframes neonRun, flick",
+   "tags": [
+    "effect",
+    "neon",
+    "flicker",
+    "zlab"
+   ],
+   "src": [
+    "Z-LAB"
+   ]
+  },
+  {
+   "id": "ui-fx-19",
+   "code": "UI-FX-19",
+   "name": "Split / Glitch transition",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "beta",
+   "desc": "Chuyển cảnh tách đôi trang khi tải, kèm glitch.",
+   "params": "CTD: loader tách trang (ldSuck), pnGlitch",
+   "tags": [
+    "effect",
+    "transition",
+    "glitch",
+    "loader",
+    "ctd"
+   ],
+   "src": [
+    "CTD"
+   ]
+  },
+  {
+   "id": "ui-fx-20",
+   "code": "UI-FX-20",
+   "name": "Fan-in list",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "stable",
+   "desc": "Các dòng trượt vào lần lượt từ hai phía.",
+   "params": "keyframes fanA/fanB, delay theo thứ tự --i",
+   "tags": [
+    "effect",
+    "motion",
+    "list",
+    "ept"
+   ],
+   "src": [
+    "EPT"
+   ]
+  },
+  {
+   "id": "ui-fx-21",
+   "code": "UI-FX-21",
+   "name": "Audio visualizer",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "idea",
+   "desc": "Thanh/sóng nhảy theo âm thanh.",
+   "params": "nguồn âm, kiểu hiển thị",
+   "tags": [
+    "effect",
+    "audio",
+    "zlab"
+   ],
+   "src": [
+    "Z-LAB"
+   ]
+  },
+  {
+   "id": "ui-fx-22",
+   "code": "UI-FX-22",
+   "name": "Hover lift",
+   "layer": "UI",
+   "group": "Effect",
+   "status": "idea",
+   "desc": "Vật thể nhấc lên kèm bóng khi rê chuột.",
+   "params": "độ cao, bóng",
+   "tags": [
+    "effect",
+    "hover"
+   ],
+   "src": []
+  },
+  {
+   "id": "dt-in-01",
+   "code": "DT-IN-01",
+   "name": "Form nhập tay",
+   "layer": "DATA",
+   "group": "Nạp",
+   "status": "stable",
+   "desc": "Ô nhập/biểu mẫu để thêm hoặc sửa dữ liệu trực tiếp trên trang.",
+   "params": "",
+   "tags": [
+    "input",
+    "form",
+    "ctd",
+    "ept"
+   ],
+   "src": [
+    "CTD",
+    "EPT"
+   ]
+  },
+  {
+   "id": "dt-in-02",
+   "code": "DT-IN-02",
+   "name": "Upload / Kéo thả",
+   "layer": "DATA",
+   "group": "Nạp",
+   "status": "beta",
+   "desc": "Nạp file: ảnh, font, CSV, model.",
+   "params": "loại file cho phép theo dự án",
+   "tags": [
+    "input",
+    "upload",
+    "ctd",
+    "fontp"
+   ],
+   "src": [
+    "CTD",
+    "FontP"
+   ]
+  },
+  {
+   "id": "dt-in-03",
+   "code": "DT-IN-03",
+   "name": "Dán / Import JSON",
+   "layer": "DATA",
+   "group": "Nạp",
+   "status": "idea",
+   "desc": "Dán danh sách hoặc JSON để nạp nhanh nhiều mục.",
+   "params": "",
+   "tags": [
+    "input",
+    "import"
+   ],
+   "src": []
+  },
+  {
+   "id": "dt-st-01",
+   "code": "DT-ST-01",
+   "name": "Lưu trên trình duyệt",
+   "layer": "DATA",
+   "group": "Lưu",
+   "status": "stable",
+   "desc": "Nhớ lựa chọn cá nhân và preset trên một máy (localStorage).",
+   "params": "không đồng bộ giữa máy · báo khi hết dung lượng",
+   "tags": [
+    "store",
+    "local",
+    "ctd",
+    "zlab",
+    "ept"
+   ],
+   "src": [
+    "CTD",
+    "Z-LAB",
+    "EPT"
+   ]
+  },
+  {
+   "id": "dt-st-02",
+   "code": "DT-ST-02",
+   "name": "Cloud sync",
+   "layer": "DATA",
+   "group": "Lưu",
+   "status": "beta",
+   "desc": "Lưu dữ liệu/preset trên mây, đồng bộ mọi máy.",
+   "params": "CTD: Google Drive/Sheets qua đăng nhập Google · api/presets.js",
+   "tags": [
+    "store",
+    "cloud",
+    "sync",
+    "ctd"
+   ],
+   "src": [
+    "CTD"
+   ]
+  },
+  {
+   "id": "dt-st-03",
+   "code": "DT-ST-03",
+   "name": "Xuất / Copy",
+   "layer": "DATA",
+   "group": "Lưu",
+   "status": "beta",
+   "desc": "Xuất dữ liệu ra text/JSON/CSV hoặc nút Copy.",
+   "params": "",
+   "tags": [
+    "store",
+    "export"
+   ],
+   "src": []
+  },
+  {
+   "id": "dt-ft-01",
+   "code": "DT-FT-01",
+   "name": "Google Sheet",
+   "layer": "DATA",
+   "group": "Lấy từ ngoài",
+   "status": "beta",
+   "desc": "Đọc/ghi bảng Google Sheet.",
+   "params": "vd: Finance, CTD presets",
+   "tags": [
+    "fetch",
+    "sheets",
+    "ctd"
+   ],
+   "src": [
+    "CTD"
+   ]
+  },
+  {
+   "id": "dt-ft-02",
+   "code": "DT-FT-02",
+   "name": "Trello",
+   "layer": "DATA",
+   "group": "Lấy từ ngoài",
+   "status": "beta",
+   "desc": "Đọc board/list/card Trello qua connector.",
+   "params": "vd: Manga",
+   "tags": [
+    "fetch",
+    "trello"
+   ],
+   "src": []
+  },
+  {
+   "id": "dt-ft-03",
+   "code": "DT-FT-03",
+   "name": "Notion",
+   "layer": "DATA",
+   "group": "Lấy từ ngoài",
+   "status": "stable",
+   "desc": "Đọc/ghi database Notion qua API serverless.",
+   "params": "CTD: api/dwork.js (D-Work)",
+   "tags": [
+    "fetch",
+    "notion",
+    "ctd"
+   ],
+   "src": [
+    "CTD"
+   ]
+  },
+  {
+   "id": "dt-ft-04",
+   "code": "DT-FT-04",
+   "name": "Tin tức / Web",
+   "layer": "DATA",
+   "group": "Lấy từ ngoài",
+   "status": "beta",
+   "desc": "Gom tin theo chủ đề vào file JSON để trang hiển thị.",
+   "params": "VI: news.json, critics.json",
+   "tags": [
+    "fetch",
+    "news",
+    "web",
+    "vi"
+   ],
+   "src": [
+    "VI"
+   ]
+  },
+  {
+   "id": "dt-ft-05",
+   "code": "DT-FT-05",
+   "name": "JSON tĩnh trong repo",
+   "layer": "DATA",
+   "group": "Lấy từ ngoài",
+   "status": "stable",
+   "desc": "Dữ liệu cố định để cạnh trang (danh sách, logo, cấu hình, slide).",
+   "params": "EPT: versions.json · VI: presets.json, default.json, slides/list.json",
+   "tags": [
+    "fetch",
+    "static",
+    "repo",
+    "ept",
+    "vi",
+    "zlab"
+   ],
+   "src": [
+    "EPT",
+    "VI",
+    "Z-LAB"
+   ]
+  }
+ ],
+ "fxPresets": [
+  {
+   "name": "Glass Calm",
+   "mods": [
+    "UI-FX-01",
+    "UI-FX-15"
+   ],
+   "note": "Panel kính + hạt nền nhẹ. Hợp trang công cụ, dashboard."
+  },
+  {
+   "name": "Retro Scan",
+   "mods": [
+    "UI-FX-03",
+    "UI-FX-18",
+    "UI-FX-05"
+   ],
+   "note": "Lưới quét + neon nhấp nháy + sóng nhiệt. Hợp VI/GTA."
+  },
+  {
+   "name": "Cinematic",
+   "mods": [
+    "UI-FX-04",
+    "UI-FX-16",
+    "UI-FX-17"
+   ],
+   "note": "Tilt-shift + bokeh + vệt sáng. Hợp showroom, portfolio."
+  },
+  {
+   "name": "Arena",
+   "mods": [
+    "UI-FX-07",
+    "UI-FX-14",
+    "UI-FX-13"
+   ],
+   "note": "Zoom blur + ripple + glow. Hợp EPT, trang đếm ngược."
+  },
+  {
+   "name": "Intro Reveal",
+   "mods": [
+    "UI-FX-10",
+    "UI-FX-06",
+    "UI-FX-19"
+   ],
+   "note": "Rê để lộ + blur chuyển cảnh + tách trang. Hợp màn vào trang."
+  }
+ ],
+ "kits": []
+}
